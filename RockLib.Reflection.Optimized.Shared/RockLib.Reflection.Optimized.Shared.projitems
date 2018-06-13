@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>1f65cbb1-529e-407c-b7d6-8be5a59ebe14</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>RockLib.Reflection.Optimized</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)PropertyInfoExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertyGetter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySetter.cs" />
+  </ItemGroup>
+</Project>

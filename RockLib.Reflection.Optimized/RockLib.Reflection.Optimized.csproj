@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>RockLib.Reflection.Optimized</PackageId>
+    <PackageVersion>1.0.0-alpha01</PackageVersion>
+    <Authors>Quicken Loans</Authors>
+    <Description>Extension methods to improve reflection performance.</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <Copyright>Copyright 2018 (c) Quicken Loans Corporation. All rights reserved.</Copyright>
+    <PackageTags>RockLib Reflection</PackageTags>
+    <Version>1.0.0-alpha01</Version>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;ROCKLIB_REFLECTION_OPTIMIZED</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;ROCKLIB_REFLECTION_OPTIMIZED</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DocumentationFile>bin\$(Configuration)\$(Platform)\RockLib.Reflection.Optimized.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <Import Project="..\RockLib.Reflection.Optimized.Shared\RockLib.Reflection.Optimized.Shared.projitems" Label="Shared" />
+
+</Project>
