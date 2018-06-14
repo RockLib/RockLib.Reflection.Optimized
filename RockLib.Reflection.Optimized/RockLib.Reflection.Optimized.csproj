@@ -11,6 +11,8 @@
     <Description>Extension methods to improve reflection performance.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/RockLib/RockLib.Reflection.Optimized</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/RockLib/RockLib.Reflection.Optimized/blob/master/LICENSE.md</PackageLicenseUrl>
     <Copyright>Copyright 2018 (c) Quicken Loans Corporation. All rights reserved.</Copyright>
     <PackageTags>RockLib Reflection</PackageTags>
     <Version>1.0.0-alpha01</Version>
