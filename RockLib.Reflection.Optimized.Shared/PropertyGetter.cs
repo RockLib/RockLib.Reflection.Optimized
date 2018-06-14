@@ -4,7 +4,12 @@ using System.Reflection;
 
 namespace RockLib.Reflection.Optimized
 {
+#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class PropertyGetter
+#else
+    partial class PropertyInfoExtensions {
+    private class PropertyGetter
+#endif
     {
         internal const string GetValueOptimized = "GetValueOptimized";
 
@@ -37,7 +42,11 @@ namespace RockLib.Reflection.Optimized
         internal Func<object, object> Func => _func;
     }
 
+#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class PropertyGetter<TPropertyType>
+#else
+    private class PropertyGetter<TPropertyType>
+#endif
     {
         private readonly PropertyInfo _property;
         private Func<object, TPropertyType> _func;
@@ -71,7 +80,11 @@ namespace RockLib.Reflection.Optimized
         internal Func<object, TPropertyType> Func => _func;
     }
 
+#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class PropertyGetter<TDeclaringType, TPropertyType>
+#else
+    private class PropertyGetter<TDeclaringType, TPropertyType>
+#endif
     {
         private readonly PropertyInfo _property;
         private Func<TDeclaringType, TPropertyType> _func;
@@ -102,4 +115,7 @@ namespace RockLib.Reflection.Optimized
 
         internal Func<TDeclaringType, TPropertyType> Func => _func;
     }
+#if !ROCKLIB_REFLECTION_OPTIMIZED
+    }
+#endif
 }

@@ -11,9 +11,10 @@ namespace RockLib.Reflection.Optimized
     /// that get or set a property value of an object. These delegates provide much faster access than using reflection.
     /// </summary>
 #if ROCKLIB_REFLECTION_OPTIMIZED
-    public
+    public static class PropertyInfoExtensions
+#else
+    internal static partial class PropertyInfoExtensions
 #endif
-    static class PropertyInfoExtensions
     {
         /// <summary>
         /// Creates a function that gets the value of the specified property. The parameter of the
