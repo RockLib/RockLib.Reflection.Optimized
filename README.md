@@ -12,7 +12,7 @@ PM> Install-Package RockLib.Reflection.Optimized
 
 ### Git submodule / shared project
 
-Or add this repository as a submodule to an existing git project. Then add the shared project found at `` to the solution. Finally, add a shared project reference to the project that needs optimized reflection. Consuming this project in this manner is intended for use by other libraries - it eliminates a nuget dependency and the optimized reflection extension methods are not exposed publicly.
+Or add this repository as a submodule to an existing git project. Then add the shared project found in the submodule at `/RockLib.Reflection.Optimized.Shared/RockLib.Reflection.Optimized.Shared.shproj` to the solution. Finally, add a shared project reference to the project that needs optimized reflection. Consuming this project in this manner is intended for use by other libraries - it eliminates a nuget dependency and the optimized reflection extension methods are not exposed publicly.
 
 ## Quick start
 
