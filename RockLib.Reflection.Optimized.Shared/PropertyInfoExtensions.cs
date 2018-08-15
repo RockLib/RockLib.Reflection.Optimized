@@ -171,14 +171,14 @@ namespace RockLib.Reflection.Optimized
             _queueUserWorkItem.Invoke(s => callback((TState)s), state);
 
 #if ROCKLIB_REFLECTION_OPTIMIZED
-        internal static void SetQueueUserWorkItemAction(Action<Action<object>, object> queueUserWorkItemAction) =>
+        internal static void SetQueueUserWorkItemAction(Action<WaitCallback, object> queueUserWorkItemAction) =>
             _queueUserWorkItem = queueUserWorkItemAction ?? ThreadPoolQueueUserWorkItem;
 #endif
 
-        private static Action<Action<object>, object> _queueUserWorkItem = ThreadPoolQueueUserWorkItem;
+        private static Action<WaitCallback, object> _queueUserWorkItem = ThreadPoolQueueUserWorkItem;
 
-        private static void ThreadPoolQueueUserWorkItem(Action<object> callback, object state) =>
-            ThreadPool.QueueUserWorkItem(s => callback(s), state);
+        private static void ThreadPoolQueueUserWorkItem(WaitCallback callback, object state) =>
+            ThreadPool.QueueUserWorkItem(callback, state);
 
         #endregion
     }

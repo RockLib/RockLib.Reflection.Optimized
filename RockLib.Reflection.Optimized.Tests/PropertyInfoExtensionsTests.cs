@@ -202,9 +202,9 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetterWorks()
         {
             Func<object, object> getter;
-            var queued = (Callback: (Action<object>)null, PropertyGetter: (PropertyGetter)null);
+            var queued = (Callback: (WaitCallback)null, PropertyGetter: (PropertyGetter)null);
 
-            void queueUserWorkItem(Action<object> callback, object state) => queued = (callback, (PropertyGetter)state);
+            void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (PropertyGetter)state);
 
             PropertyInfoExtensions.SetQueueUserWorkItemAction(queueUserWorkItem);
 
@@ -239,9 +239,9 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetter1Works()
         {
             Func<object, int> getter;
-            var queued = (Callback: (Action<object>)null, PropertyGetter: (PropertyGetter<int>)null);
+            var queued = (Callback: (WaitCallback)null, PropertyGetter: (PropertyGetter<int>)null);
 
-            void queueUserWorkItem(Action<object> callback, object state) => queued = (callback, (PropertyGetter<int>)state);
+            void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (PropertyGetter<int>)state);
 
             PropertyInfoExtensions.SetQueueUserWorkItemAction(queueUserWorkItem);
 
@@ -276,9 +276,9 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetter2Works()
         {
             Func<Foo, int> getter;
-            var queued = (Callback: (Action<object>)null, PropertyGetter: (PropertyGetter<Foo, int>)null);
+            var queued = (Callback: (WaitCallback)null, PropertyGetter: (PropertyGetter<Foo, int>)null);
 
-            void queueUserWorkItem(Action<object> callback, object state) => queued = (callback, (PropertyGetter<Foo, int>)state);
+            void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (PropertyGetter<Foo, int>)state);
 
             PropertyInfoExtensions.SetQueueUserWorkItemAction(queueUserWorkItem);
 
@@ -313,9 +313,9 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetterWorks()
         {
             Action<object, object> setter;
-            var queued = (Callback: (Action<object>)null, PropertySetter: (PropertySetter)null);
+            var queued = (Callback: (WaitCallback)null, PropertySetter: (PropertySetter)null);
 
-            void queueUserWorkItem(Action<object> callback, object state) => queued = (callback, (PropertySetter)state);
+            void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (PropertySetter)state);
 
             PropertyInfoExtensions.SetQueueUserWorkItemAction(queueUserWorkItem);
 
@@ -350,9 +350,9 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter1Works()
         {
             Action<object, int> setter;
-            var queued = (Callback: (Action<object>)null, PropertySetter: (PropertySetter<int>)null);
+            var queued = (Callback: (WaitCallback)null, PropertySetter: (PropertySetter<int>)null);
 
-            void queueUserWorkItem(Action<object> callback, object state) => queued = (callback, (PropertySetter<int>)state);
+            void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (PropertySetter<int>)state);
 
             PropertyInfoExtensions.SetQueueUserWorkItemAction(queueUserWorkItem);
 
@@ -387,9 +387,9 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter2Works()
         {
             Action<Foo, int> setter;
-            var queued = (Callback: (Action<object>)null, PropertySetter: (PropertySetter<Foo, int>)null);
+            var queued = (Callback: (WaitCallback)null, PropertySetter: (PropertySetter<Foo, int>)null);
 
-            void queueUserWorkItem(Action<object> callback, object state) => queued = (callback, (PropertySetter<Foo, int>)state);
+            void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (PropertySetter<Foo, int>)state);
 
             PropertyInfoExtensions.SetQueueUserWorkItemAction(queueUserWorkItem);
 
