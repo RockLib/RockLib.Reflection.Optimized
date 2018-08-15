@@ -18,7 +18,8 @@ namespace RockLib.Reflection.Optimized
     {
         /// <summary>
         /// Creates a function that gets the value of the specified property. The parameter of the
-        /// resulting function takes the object whose property value is to be accessed.
+        /// resulting function takes the object whose property value is to be accessed. If the
+        /// specified property is static, the parameter of the resulting function is ignored.
         /// </summary>
         /// <param name="property">The property to create the getter function for.</param>
         /// <returns>A function that gets the property value.</returns>
@@ -36,7 +37,8 @@ namespace RockLib.Reflection.Optimized
 
         /// <summary>
         /// Creates a function that gets the value of the specified property. The parameter of the
-        /// resulting function takes the object whose property value is to be accessed.
+        /// resulting function takes the object whose property value is to be accessed. If the
+        /// specified property is static, the parameter of the resulting function is ignored.
         /// </summary>
         /// <typeparam name="TPropertyType">
         /// The return type of the resulting function. This type must be compatible with the
@@ -60,7 +62,8 @@ namespace RockLib.Reflection.Optimized
 
         /// <summary>
         /// Creates a function that gets the value of the specified property. The parameter of the
-        /// resulting function takes the object whose property value is to be accessed.
+        /// resulting function takes the object whose property value is to be accessed. If the
+        /// specified property is static, the parameter of the resulting function is ignored.
         /// </summary>
         /// <typeparam name="TDeclaringType">
         /// The type of the parameter of the resulting function. This type must be compatible
@@ -91,8 +94,9 @@ namespace RockLib.Reflection.Optimized
 
         /// <summary>
         /// Creates an action that sets the value of the specified property. The first parameter
-        /// of the resulting function takes the object whose property value is to be set. The
-        /// second parameter of the resulting function takes the new value of the property.
+        /// of the resulting function takes the object whose property value is to be set. If the
+        /// specified property is static, the first parameter of the resulting function is ignored.
+        /// The second parameter of the resulting function takes the new value of the property.
         /// </summary>
         /// <param name="property">The property to create the setter action for.</param>
         /// <returns>An action that sets the property value.</returns>
@@ -110,8 +114,9 @@ namespace RockLib.Reflection.Optimized
 
         /// <summary>
         /// Creates an action that sets the value of the specified property. The first parameter
-        /// of the resulting function takes the object whose property value is to be set. The
-        /// second parameter of the resulting function takes the new value of the property.
+        /// of the resulting function takes the object whose property value is to be set. If the
+        /// specified property is static, the first parameter of the resulting function is ignored.
+        /// The second parameter of the resulting function takes the new value of the property.
         /// </summary>
         /// <typeparam name="TPropertyType">
         /// The type of the second parameter of the resulting action. This type must be compatible with
@@ -135,8 +140,9 @@ namespace RockLib.Reflection.Optimized
 
         /// <summary>
         /// Creates an action that sets the value of the specified property. The first parameter
-        /// of the resulting function takes the object whose property value is to be set. The
-        /// second parameter of the resulting function takes the new value of the property.
+        /// of the resulting function takes the object whose property value is to be set. If the
+        /// specified property is static, the first parameter of the resulting function is ignored.
+        /// The second parameter of the resulting function takes the new value of the property.
         /// </summary>
         /// <typeparam name="TDeclaringType">
         /// The type of the first parameter of the resulting function. This type must be compatible
