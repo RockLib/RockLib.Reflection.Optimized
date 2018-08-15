@@ -199,6 +199,146 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
         [Fact]
+        public void CreateStaticGetterThrowsIfPropertyParameterIsNull()
+        {
+            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateStaticGetter(null));
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
+        public void CreateStaticGetterThrowsIfPropertyParameterHasNoGetter()
+        {
+            var property = typeof(Corge).GetProperty(nameof(Corge.Baz));
+            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticGetter());
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
+        public void CreateStaticGetterThrowsIfPropertyParameterHasNonPublicGetter()
+        {
+            var property = typeof(Corge).GetProperty(nameof(Corge.Qux));
+            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticGetter());
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
+        public void CreateStaticGetterThrowsIfPropertyParameterIsNotStatic()
+        {
+            var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
+            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticGetter());
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
+        public void CreateStaticGetter1ThrowsIfPropertyParameterIsNull()
+        {
+            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateStaticGetter<int>(null));
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
+        public void CreateStaticGetter1ThrowsIfTheTypeArgumentIsNotCompatibleWithThePropertyType()
+        {
+            var property = typeof(Corge).GetProperty(nameof(Corge.Bar));
+            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticGetter<string>());
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
+        public void CreateStaticGetter1ThrowsIfPropertyParameterHasNoGetter()
+        {
+            var property = typeof(Corge).GetProperty(nameof(Corge.Baz));
+            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticGetter<int>());
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
+        public void CreateStaticGetter1ThrowsIfPropertyParameterHasNonPublicGetter()
+        {
+            var property = typeof(Corge).GetProperty(nameof(Corge.Qux));
+            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticGetter<int>());
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
+        public void CreateStaticGetter1ThrowsIfPropertyParameterIsNotStatic()
+        {
+            var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
+            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticGetter<int>());
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
+        public void CreateStaticSetterThrowsIfPropertyParameterIsNull()
+        {
+            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateStaticSetter(null));
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
+        public void CreateStaticSetterThrowsIfPropertyParameterHasNoSetter()
+        {
+            var property = typeof(Corge).GetProperty(nameof(Corge.Grault));
+            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticSetter());
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
+        public void CreateStaticSetterThrowsIfPropertyParameterHasNonPublicSetter()
+        {
+            var property = typeof(Corge).GetProperty(nameof(Corge.Garply));
+            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticSetter());
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
+        public void CreateStaticSetterThrowsIfPropertyParameterIsNotStatic()
+        {
+            var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
+            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticSetter());
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
+        public void CreateStaticSetter1ThrowsIfPropertyParameterIsNull()
+        {
+            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateStaticSetter<int>(null));
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
+        public void CreateStaticSetter1ThrowsIfTheTypeArgumentIsNotCompatibleWithThePropertyType()
+        {
+            var property = typeof(Corge).GetProperty(nameof(Corge.Bar));
+            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticSetter<string>());
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
+        public void CreateStaticSetter1ThrowsIfPropertyParameterHasNoSetter()
+        {
+            var property = typeof(Corge).GetProperty(nameof(Corge.Grault));
+            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticSetter<int>());
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
+        public void CreateStaticSetter1ThrowsIfPropertyParameterHasNonPublicSetter()
+        {
+            var property = typeof(Corge).GetProperty(nameof(Corge.Garply));
+            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticSetter<int>());
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
+        public void CreateStaticSetter1ThrowsIfPropertyParameterIsNotStatic()
+        {
+            var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
+            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticSetter<int>());
+            exception.ParamName.Should().Be("property");
+        }
+
+        [Fact]
         public void CreateGetterWorks()
         {
             Func<object, object> getter;
@@ -420,6 +560,162 @@ namespace RockLib.Reflection.Optimized.Tests
             beforeAction.Should().NotBeSameAs(afterAction);
         }
 
+        [Fact]
+        public void CreateStaticGetterWorks()
+        {
+            var property = typeof(Corge).GetProperty(nameof(Corge.Bar));
+
+            Func<object> getter;
+            var queued = (Callback: (WaitCallback)null, PropertyGetter: (StaticPropertyGetter)null);
+
+            void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (StaticPropertyGetter)state);
+
+            PropertyInfoExtensions.SetQueueUserWorkItemAction(queueUserWorkItem);
+
+            try
+            {
+                getter = property.CreateStaticGetter();
+            }
+            finally
+            {
+                PropertyInfoExtensions.SetQueueUserWorkItemAction(null);
+            }
+
+            // Verify that a work item was queued
+            queued.PropertyGetter.Should().NotBeNull();
+            queued.Callback.Should().NotBeNull();
+
+            // Verify that the return delegate is correct
+            getter.Target.Should().BeSameAs(queued.PropertyGetter);
+            getter.Method.Name.Should().Be(nameof(StaticPropertyGetter.GetValue));
+            getter.Method.DeclaringType.Should().Be(typeof(StaticPropertyGetter));
+
+            // Verify that the queued Callback calls the SetOptimizedFunc
+            // method of the queued PropertyGetter.
+            var beforeFunc = queued.PropertyGetter.Func;
+            queued.Callback.Invoke(queued.PropertyGetter);
+            var afterFunc = queued.PropertyGetter.Func;
+
+            beforeFunc.Should().NotBeSameAs(afterFunc);
+        }
+
+        [Fact]
+        public void CreateStaticGetter1Works()
+        {
+            var property = typeof(Corge).GetProperty(nameof(Corge.Bar));
+
+            Func<int> getter;
+            var queued = (Callback: (WaitCallback)null, PropertyGetter: (StaticPropertyGetter<int>)null);
+
+            void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (StaticPropertyGetter<int>)state);
+
+            PropertyInfoExtensions.SetQueueUserWorkItemAction(queueUserWorkItem);
+
+            try
+            {
+                getter = property.CreateStaticGetter<int>();
+            }
+            finally
+            {
+                PropertyInfoExtensions.SetQueueUserWorkItemAction(null);
+            }
+
+            // Verify that a work item was queued
+            queued.PropertyGetter.Should().NotBeNull();
+            queued.Callback.Should().NotBeNull();
+
+            // Verify that the return delegate is correct
+            getter.Target.Should().BeSameAs(queued.PropertyGetter);
+            getter.Method.Name.Should().Be(nameof(StaticPropertyGetter<int>.GetValue));
+            getter.Method.DeclaringType.Should().Be(typeof(StaticPropertyGetter<int>));
+
+            // Verify that the queued Callback calls the SetOptimizedFunc
+            // method of the queued PropertyGetter.
+            var beforeFunc = queued.PropertyGetter.Func;
+            queued.Callback.Invoke(queued.PropertyGetter);
+            var afterFunc = queued.PropertyGetter.Func;
+
+            beforeFunc.Should().NotBeSameAs(afterFunc);
+        }
+
+        [Fact]
+        public void CreateStaticSetterWorks()
+        {
+            var property = typeof(Corge).GetProperty(nameof(Corge.Bar));
+
+            Action<object> setter;
+            var queued = (Callback: (WaitCallback)null, PropertySetter: (StaticPropertySetter)null);
+
+            void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (StaticPropertySetter)state);
+
+            PropertyInfoExtensions.SetQueueUserWorkItemAction(queueUserWorkItem);
+
+            try
+            {
+                setter = property.CreateStaticSetter();
+            }
+            finally
+            {
+                PropertyInfoExtensions.SetQueueUserWorkItemAction(null);
+            }
+
+            // Verify that a work item was queued
+            queued.PropertySetter.Should().NotBeNull();
+            queued.Callback.Should().NotBeNull();
+
+            // Verify that the return delegate is correct
+            setter.Target.Should().BeSameAs(queued.PropertySetter);
+            setter.Method.Name.Should().Be(nameof(StaticPropertySetter.SetValue));
+            setter.Method.DeclaringType.Should().Be(typeof(StaticPropertySetter));
+
+            // Verify that the queued Callback calls the SetOptimizedFunc
+            // method of the queued PropertySetter.
+            var beforeAction = queued.PropertySetter.Action;
+            queued.Callback.Invoke(queued.PropertySetter);
+            var afterAction = queued.PropertySetter.Action;
+
+            beforeAction.Should().NotBeSameAs(afterAction);
+        }
+
+        [Fact]
+        public void CreateStaticSetter1Works()
+        {
+            var property = typeof(Corge).GetProperty(nameof(Corge.Bar));
+
+            Action<int> setter;
+            var queued = (Callback: (WaitCallback)null, PropertySetter: (StaticPropertySetter<int>)null);
+
+            void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (StaticPropertySetter<int>)state);
+
+            PropertyInfoExtensions.SetQueueUserWorkItemAction(queueUserWorkItem);
+
+            try
+            {
+                setter = property.CreateStaticSetter<int>();
+            }
+            finally
+            {
+                PropertyInfoExtensions.SetQueueUserWorkItemAction(null);
+            }
+
+            // Verify that a work item was queued
+            queued.PropertySetter.Should().NotBeNull();
+            queued.Callback.Should().NotBeNull();
+
+            // Verify that the return delegate is correct
+            setter.Target.Should().BeSameAs(queued.PropertySetter);
+            setter.Method.Name.Should().Be(nameof(StaticPropertySetter<int>.SetValue));
+            setter.Method.DeclaringType.Should().Be(typeof(StaticPropertySetter<int>));
+
+            // Verify that the queued Callback calls the SetOptimizedFunc
+            // method of the queued PropertySetter.
+            var beforeAction = queued.PropertySetter.Action;
+            queued.Callback.Invoke(queued.PropertySetter);
+            var afterAction = queued.PropertySetter.Action;
+
+            beforeAction.Should().NotBeSameAs(afterAction);
+        }
+
         public class Foo
         {
             public int Bar { get; set; }
@@ -431,6 +727,15 @@ namespace RockLib.Reflection.Optimized.Tests
 
         public class Fred
         {
+        }
+
+        public class Corge
+        {
+            public static int Bar { get; set; }
+            public static int Baz { set { } }
+            public static int Qux { private get; set; }
+            public static int Grault => 0;
+            public static int Garply { get; private set; }
         }
     }
 }

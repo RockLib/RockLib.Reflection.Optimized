@@ -171,6 +171,96 @@ namespace RockLib.Reflection.Optimized
             return setter.SetValue;
         }
 
+        /// <summary>
+        /// Creates a function that gets the value of the specified static property.
+        /// </summary>
+        /// <param name="property">The static property to create the getter function for.</param>
+        /// <returns>A function that gets the static property value.</returns>
+        public static Func<object> CreateStaticGetter(this PropertyInfo property)
+        {
+            if (property == null)
+                throw new ArgumentNullException(nameof(property));
+            if (!property.CanRead || !property.GetMethod.IsPublic)
+                throw new ArgumentException("Property must have public getter.", nameof(property));
+            if (!property.GetMethod.IsStatic)
+                throw new ArgumentException("Property must be static.", nameof(property));
+
+            var getter = new StaticPropertyGetter(property);
+            QueueUserWorkItem(getter, g => g.SetOptimizedFunc());
+            return getter.GetValue;
+        }
+
+        /// <summary>
+        /// Creates a function that gets the value of the specified static property.
+        /// </summary>
+        /// <typeparam name="TPropertyType">
+        /// The return type of the resulting function. This type must be compatible with the
+        /// <see cref="PropertyInfo.PropertyType"/> of the <paramref name="property"/> parameter.
+        /// </typeparam>
+        /// <param name="property">The static property to create the getter function for.</param>
+        /// <returns>A function that gets the static property value.</returns>
+        public static Func<TPropertyType> CreateStaticGetter<TPropertyType>(this PropertyInfo property)
+        {
+            if (property == null)
+                throw new ArgumentNullException(nameof(property));
+            if (!typeof(TPropertyType).IsAssignableFrom(property.PropertyType))
+                throw new ArgumentException("TPropertyType must be assignable from property.PropertyType", nameof(property));
+            if (!property.CanRead || !property.GetMethod.IsPublic)
+                throw new ArgumentException("property must have public getter", nameof(property));
+            if (!property.GetMethod.IsStatic)
+                throw new ArgumentException("Property must be static.", nameof(property));
+
+            var getter = new StaticPropertyGetter<TPropertyType>(property);
+            QueueUserWorkItem(getter, g => g.SetOptimizedFunc());
+            return getter.GetValue;
+        }
+
+        /// <summary>
+        /// Creates an action that sets the value of the specified static property. The
+        /// parameter of the resulting function takes the new value of the static property.
+        /// </summary>
+        /// <param name="property">The static property to create the setter action for.</param>
+        /// <returns>An action that sets the static property value.</returns>
+        public static Action<object> CreateStaticSetter(this PropertyInfo property)
+        {
+            if (property == null)
+                throw new ArgumentNullException(nameof(property));
+            if (!property.CanWrite || !property.SetMethod.IsPublic)
+                throw new ArgumentException("property must have public setter", nameof(property));
+            if (!property.SetMethod.IsStatic)
+                throw new ArgumentException("Property must be static.", nameof(property));
+
+            var setter = new StaticPropertySetter(property);
+            QueueUserWorkItem(setter, s => s.SetOptimizedAction());
+            return setter.SetValue;
+        }
+
+        /// <summary>
+        /// Creates an action that sets the value of the specified static property. The
+        /// parameter of the resulting function takes the new value of the static property.
+        /// </summary>
+        /// <typeparam name="TPropertyType">
+        /// The type of the parameter of the resulting action. This type must be compatible with
+        /// the <see cref="PropertyInfo.PropertyType"/> of the <paramref name="property"/> parameter.
+        /// </typeparam>
+        /// <param name="property">The static property to create the setter action for.</param>
+        /// <returns>An action that sets the static property value.</returns>
+        public static Action<TPropertyType> CreateStaticSetter<TPropertyType>(this PropertyInfo property)
+        {
+            if (property == null)
+                throw new ArgumentNullException(nameof(property));
+            if (!property.PropertyType.IsAssignableFrom(typeof(TPropertyType)))
+                throw new ArgumentException("property.PropertyType must be assignable from TPropertyType", nameof(property));
+            if (!property.CanWrite || !property.SetMethod.IsPublic)
+                throw new ArgumentException("property must have public setter", nameof(property));
+            if (!property.SetMethod.IsStatic)
+                throw new ArgumentException("Property must be static.", nameof(property));
+
+            var setter = new StaticPropertySetter<TPropertyType>(property);
+            QueueUserWorkItem(setter, s => s.SetOptimizedAction());
+            return setter.SetValue;
+        }
+
         #region Members for testing
 
         private static void QueueUserWorkItem<TState>(TState state, Action<TState> callback) =>
