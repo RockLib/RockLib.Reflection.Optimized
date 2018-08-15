@@ -209,6 +209,74 @@ namespace RockLib.Reflection.Optimized.Tests
             optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
         }
 
+        [Fact]
+        public void StaticPropertySetterWorks()
+        {
+            Baz.Qux = -1;
+
+            var property = typeof(Baz).GetProperty(nameof(Baz.Qux));
+
+            var setter = new StaticPropertySetter(property);
+
+            setter.Action.Target.Should().BeSameAs(setter);
+            setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));
+            setter.Action.Method.DeclaringType.Should().Be(typeof(StaticPropertySetter));
+
+            var reflectionTimer = Stopwatch.StartNew();
+            setter.SetValue(123);
+            reflectionTimer.Stop();
+
+            Baz.Qux.Should().Be(123);
+
+            setter.SetOptimizedAction();
+
+            setter.Action.Target.Should().NotBeSameAs(setter);
+            setter.Action.Method.Name.Should().Be(StaticPropertySetter.SetStaticValueOptimized);
+            setter.Action.Method.DeclaringType.Should().NotBe(typeof(StaticPropertySetter));
+
+            var optimizedTimer = Stopwatch.StartNew();
+            setter.SetValue(456);
+            optimizedTimer.Stop();
+
+            Baz.Qux.Should().Be(456);
+
+            optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
+        }
+
+        [Fact]
+        public void StaticPropertySetter1Works()
+        {
+            Baz.Qux = -1;
+
+            var property = typeof(Baz).GetProperty(nameof(Baz.Qux));
+
+            var setter = new StaticPropertySetter<int>(property);
+
+            setter.Action.Target.Should().BeSameAs(setter);
+            setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));
+            setter.Action.Method.DeclaringType.Should().Be(typeof(StaticPropertySetter<int>));
+
+            var reflectionTimer = Stopwatch.StartNew();
+            setter.SetValue(123);
+            reflectionTimer.Stop();
+
+            Baz.Qux.Should().Be(123);
+
+            setter.SetOptimizedAction();
+
+            setter.Action.Target.Should().NotBeSameAs(setter);
+            setter.Action.Method.Name.Should().Be(StaticPropertySetter.SetStaticValueOptimized);
+            setter.Action.Method.DeclaringType.Should().NotBe(typeof(StaticPropertySetter<int>));
+
+            var optimizedTimer = Stopwatch.StartNew();
+            setter.SetValue(456);
+            optimizedTimer.Stop();
+
+            Baz.Qux.Should().Be(456);
+
+            optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
+        }
+
         public class Foo
         {
             public int Bar { get; set; }

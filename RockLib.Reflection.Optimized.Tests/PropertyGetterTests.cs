@@ -142,17 +142,17 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyGetter<IBaz>));
 
             var reflectionTimer = Stopwatch.StartNew();
-            object reflectionValue = getter.GetValue(bar);
+            IBaz reflectionValue = getter.GetValue(bar);
             reflectionTimer.Stop();
 
             getter.SetOptimizedFunc();
 
-            getter.Func.Target.Should().NotBeSameAs(property);
+            getter.Func.Target.Should().NotBeSameAs(getter);
             getter.Func.Method.Name.Should().Be(PropertyGetter.GetValueOptimized);
-            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyInfo));
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyGetter<IBaz>));
 
             var optimizedTimer = Stopwatch.StartNew();
-            object optimizedValue = getter.GetValue(bar);
+            IBaz optimizedValue = getter.GetValue(bar);
             optimizedTimer.Stop();
 
             optimizedValue.Should().Be(reflectionValue);
@@ -172,17 +172,17 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyGetter<Bar, IBaz>));
 
             var reflectionTimer = Stopwatch.StartNew();
-            object reflectionValue = getter.GetValue(bar);
+            IBaz reflectionValue = getter.GetValue(bar);
             reflectionTimer.Stop();
 
             getter.SetOptimizedFunc();
 
-            getter.Func.Target.Should().NotBeSameAs(property);
+            getter.Func.Target.Should().NotBeSameAs(getter);
             getter.Func.Method.Name.Should().Be(PropertyGetter.GetValueOptimized);
-            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyInfo));
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyGetter<Bar, IBaz>));
 
             var optimizedTimer = Stopwatch.StartNew();
-            object optimizedValue = getter.GetValue(bar);
+            IBaz optimizedValue = getter.GetValue(bar);
             optimizedTimer.Stop();
 
             optimizedValue.Should().Be(reflectionValue);
@@ -192,7 +192,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void PropertyGetterWorksWithStatic()
         {
-            var property = typeof(Garply).GetProperty(nameof(Garply.Grault));
+            var property = typeof(Garply).GetProperty(nameof(Garply.Bar));
 
             var getter = new PropertyGetter(property);
 
@@ -221,26 +221,26 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void PropertyGetter1WorksWithStatic()
         {
-            var property = typeof(Garply).GetProperty(nameof(Garply.Grault));
+            var property = typeof(Garply).GetProperty(nameof(Garply.Bar));
 
-            var getter = new PropertyGetter<int>(property);
+            var getter = new PropertyGetter<string>(property);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
-            getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyGetter<int>));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyGetter<string>));
 
             var reflectionTimer = Stopwatch.StartNew();
-            object reflectionValue = getter.GetValue(null);
+            string reflectionValue = getter.GetValue(null);
             reflectionTimer.Stop();
 
             getter.SetOptimizedFunc();
 
-            getter.Func.Target.Should().NotBeSameAs(property);
+            getter.Func.Target.Should().NotBeSameAs(getter);
             getter.Func.Method.Name.Should().Be(PropertyGetter.GetValueOptimized);
-            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyInfo));
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyGetter<string>));
 
             var optimizedTimer = Stopwatch.StartNew();
-            object optimizedValue = getter.GetValue(null);
+            string optimizedValue = getter.GetValue(null);
             optimizedTimer.Stop();
 
             optimizedValue.Should().Be(reflectionValue);
@@ -250,26 +250,142 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void PropertyGetter2WorksWithStatic()
         {
-            var property = typeof(Garply).GetProperty(nameof(Garply.Grault));
+            var property = typeof(Garply).GetProperty(nameof(Garply.Bar));
 
-            var getter = new PropertyGetter<Garply, int>(property);
+            var getter = new PropertyGetter<Garply, string>(property);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
-            getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyGetter<Garply, int>));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyGetter<Garply, string>));
 
             var reflectionTimer = Stopwatch.StartNew();
-            object reflectionValue = getter.GetValue(null);
+            string reflectionValue = getter.GetValue(null);
             reflectionTimer.Stop();
 
             getter.SetOptimizedFunc();
 
-            getter.Func.Target.Should().NotBeSameAs(property);
+            getter.Func.Target.Should().NotBeSameAs(getter);
             getter.Func.Method.Name.Should().Be(PropertyGetter.GetValueOptimized);
-            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyInfo));
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyGetter<Garply, string>));
 
             var optimizedTimer = Stopwatch.StartNew();
-            object optimizedValue = getter.GetValue(null);
+            string optimizedValue = getter.GetValue(null);
+            optimizedTimer.Stop();
+
+            optimizedValue.Should().Be(reflectionValue);
+            optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
+        }
+
+        [Fact]
+        public void StaticPropertyGetterWorks()
+        {
+            var property = typeof(Garply).GetProperty(nameof(Garply.Bar));
+
+            var getter = new StaticPropertyGetter(property);
+
+            getter.Func.Target.Should().BeSameAs(getter);
+            getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(StaticPropertyGetter));
+
+            var reflectionTimer = Stopwatch.StartNew();
+            object reflectionValue = getter.GetValue();
+            reflectionTimer.Stop();
+
+            getter.SetOptimizedFunc();
+
+            getter.Func.Target.Should().NotBeSameAs(getter);
+            getter.Func.Method.Name.Should().Be(StaticPropertyGetter.GetStaticValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(StaticPropertyGetter));
+
+            var optimizedTimer = Stopwatch.StartNew();
+            object optimizedValue = getter.GetValue();
+            optimizedTimer.Stop();
+
+            optimizedValue.Should().Be(reflectionValue);
+            optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
+        }
+
+        [Fact]
+        public void StaticPropertyGetter1Works()
+        {
+            var property = typeof(Garply).GetProperty(nameof(Garply.Bar));
+
+            var getter = new StaticPropertyGetter<string>(property);
+
+            getter.Func.Target.Should().BeSameAs(getter);
+            getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(StaticPropertyGetter<string>));
+
+            var reflectionTimer = Stopwatch.StartNew();
+            string reflectionValue = getter.GetValue();
+            reflectionTimer.Stop();
+
+            getter.SetOptimizedFunc();
+
+            getter.Func.Target.Should().NotBeSameAs(getter);
+            getter.Func.Method.Name.Should().Be(StaticPropertyGetter.GetStaticValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(StaticPropertyGetter<string>));
+
+            var optimizedTimer = Stopwatch.StartNew();
+            string optimizedValue = getter.GetValue();
+            optimizedTimer.Stop();
+
+            optimizedValue.Should().Be(reflectionValue);
+            optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
+        }
+
+        [Fact]
+        public void StaticPropertyGetterWorksWithBoxing()
+        {
+            var property = typeof(Garply).GetProperty(nameof(Garply.Baz));
+
+            var getter = new StaticPropertyGetter(property);
+
+            getter.Func.Target.Should().BeSameAs(getter);
+            getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(StaticPropertyGetter));
+
+            var reflectionTimer = Stopwatch.StartNew();
+            object reflectionValue = getter.GetValue();
+            reflectionTimer.Stop();
+
+            getter.SetOptimizedFunc();
+
+            getter.Func.Target.Should().NotBeSameAs(getter);
+            getter.Func.Method.Name.Should().Be(StaticPropertyGetter.GetStaticValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(StaticPropertyGetter));
+
+            var optimizedTimer = Stopwatch.StartNew();
+            object optimizedValue = getter.GetValue();
+            optimizedTimer.Stop();
+
+            optimizedValue.Should().Be(reflectionValue);
+            optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
+        }
+
+        [Fact]
+        public void StaticPropertyGetter1WorksWithBoxing()
+        {
+            var property = typeof(Garply).GetProperty(nameof(Garply.Baz));
+
+            var getter = new StaticPropertyGetter<IBaz>(property);
+
+            getter.Func.Target.Should().BeSameAs(getter);
+            getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(StaticPropertyGetter<IBaz>));
+
+            var reflectionTimer = Stopwatch.StartNew();
+            IBaz reflectionValue = getter.GetValue();
+            reflectionTimer.Stop();
+
+            getter.SetOptimizedFunc();
+
+            getter.Func.Target.Should().NotBeSameAs(getter);
+            getter.Func.Method.Name.Should().Be(StaticPropertyGetter.GetStaticValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(StaticPropertyGetter<IBaz>));
+
+            var optimizedTimer = Stopwatch.StartNew();
+            IBaz optimizedValue = getter.GetValue();
             optimizedTimer.Stop();
 
             optimizedValue.Should().Be(reflectionValue);
@@ -301,7 +417,8 @@ namespace RockLib.Reflection.Optimized.Tests
         public class Garply
         {
             private Garply() {}
-            public static int Grault => 123;
+            public static string Bar => "abc";
+            public static Baz Baz { get; } = new Baz(456);
         }
     }
 }
