@@ -29,10 +29,17 @@ namespace RockLib.Reflection.Optimized
             var objParameter = Expression.Parameter(typeof(object), "obj");
             var valueParameter = Expression.Parameter(typeof(object), "value");
 
-            Expression body = Expression.Call(
-                Expression.Convert(objParameter, _property.DeclaringType),
-                _property.SetMethod,
-                Expression.Convert(valueParameter, _property.PropertyType));
+            Expression body;
+
+            if (_property.SetMethod.IsStatic)
+                body = Expression.Call(
+                    _property.SetMethod,
+                    Expression.Convert(valueParameter, _property.PropertyType));
+            else
+                body = Expression.Call(
+                    Expression.Convert(objParameter, _property.DeclaringType),
+                    _property.SetMethod,
+                    Expression.Convert(valueParameter, _property.PropertyType));
 
             var lambda = Expression.Lambda<Action<object, object>>(body, SetValueOptimized, new[] { objParameter, valueParameter });
             _action = lambda.Compile();
@@ -63,10 +70,17 @@ namespace RockLib.Reflection.Optimized
             var objParameter = Expression.Parameter(typeof(object), "obj");
             var valueParameter = Expression.Parameter(typeof(TPropertyType), "value");
 
-            Expression body = Expression.Call(
-                Expression.Convert(objParameter, _property.DeclaringType),
-                _property.SetMethod,
-                valueParameter);
+            Expression body;
+
+            if (_property.SetMethod.IsStatic)
+                body = Expression.Call(
+                    _property.SetMethod,
+                    valueParameter);
+            else
+                body = Expression.Call(
+                    Expression.Convert(objParameter, _property.DeclaringType),
+                    _property.SetMethod,
+                    valueParameter);
 
             var lambda = Expression.Lambda<Action<object, TPropertyType>>(body, PropertySetter.SetValueOptimized, new[] { objParameter, valueParameter });
             _action = lambda.Compile();
@@ -100,10 +114,17 @@ namespace RockLib.Reflection.Optimized
             var objParameter = Expression.Parameter(typeof(TDeclaringType), "obj");
             var valueParameter = Expression.Parameter(typeof(TPropertyType), "value");
 
-            Expression body = Expression.Call(
-                objParameter,
-                _property.SetMethod,
-                valueParameter);
+            Expression body;
+
+            if (_property.SetMethod.IsStatic)
+                body = Expression.Call(
+                    _property.SetMethod,
+                    valueParameter);
+            else
+                body = Expression.Call(
+                    objParameter,
+                    _property.SetMethod,
+                    valueParameter);
 
             var lambda = Expression.Lambda<Action<TDeclaringType, TPropertyType>>(body, PropertySetter.SetValueOptimized, new[] { objParameter, valueParameter });
             _action = lambda.Compile();

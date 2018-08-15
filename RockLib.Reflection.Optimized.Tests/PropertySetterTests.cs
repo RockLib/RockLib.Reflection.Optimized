@@ -107,9 +107,116 @@ namespace RockLib.Reflection.Optimized.Tests
             optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
         }
 
+        [Fact]
+        public void PropertySetterWorksWithStatic()
+        {
+            Baz.Qux = -1;
+
+            var property = typeof(Baz).GetProperty(nameof(Baz.Qux));
+
+            var setter = new PropertySetter(property);
+
+            setter.Action.Target.Should().BeSameAs(property);
+            setter.Action.Method.Name.Should().Be(nameof(property.SetValue));
+            setter.Action.Method.DeclaringType.Should().Be(typeof(PropertyInfo));
+
+            var reflectionTimer = Stopwatch.StartNew();
+            setter.SetValue(null, 123);
+            reflectionTimer.Stop();
+
+            Baz.Qux.Should().Be(123);
+
+            setter.SetOptimizedAction();
+
+            setter.Action.Target.Should().NotBeSameAs(property);
+            setter.Action.Method.Name.Should().Be(PropertySetter.SetValueOptimized);
+            setter.Action.Method.DeclaringType.Should().NotBe(typeof(PropertyInfo));
+
+            var optimizedTimer = Stopwatch.StartNew();
+            setter.SetValue(null, 456);
+            optimizedTimer.Stop();
+
+            Baz.Qux.Should().Be(456);
+
+            optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
+        }
+
+        [Fact]
+        public void PropertySetter1WorksWithStatic()
+        {
+            Baz.Qux = -1;
+
+            var property = typeof(Baz).GetProperty(nameof(Baz.Qux));
+
+            var setter = new PropertySetter<int>(property);
+
+            setter.Action.Target.Should().BeSameAs(setter);
+            setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));
+            setter.Action.Method.DeclaringType.Should().Be(typeof(PropertySetter<int>));
+
+            var reflectionTimer = Stopwatch.StartNew();
+            setter.SetValue(null, 123);
+            reflectionTimer.Stop();
+
+            Baz.Qux.Should().Be(123);
+
+            setter.SetOptimizedAction();
+
+            setter.Action.Target.Should().NotBeSameAs(setter);
+            setter.Action.Method.Name.Should().Be(PropertySetter.SetValueOptimized);
+            setter.Action.Method.DeclaringType.Should().NotBe(typeof(PropertySetter<int>));
+
+            var optimizedTimer = Stopwatch.StartNew();
+            setter.SetValue(null, 456);
+            optimizedTimer.Stop();
+
+            Baz.Qux.Should().Be(456);
+
+            optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
+        }
+
+        [Fact]
+        public void PropertySetter2WorksWithStatic()
+        {
+            Baz.Qux = -1;
+
+            var property = typeof(Baz).GetProperty(nameof(Baz.Qux));
+
+            var setter = new PropertySetter<Foo, int>(property);
+
+            setter.Action.Target.Should().BeSameAs(setter);
+            setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));
+            setter.Action.Method.DeclaringType.Should().Be(typeof(PropertySetter<Foo, int>));
+
+            var reflectionTimer = Stopwatch.StartNew();
+            setter.SetValue(null, 123);
+            reflectionTimer.Stop();
+
+            Baz.Qux.Should().Be(123);
+
+            setter.SetOptimizedAction();
+
+            setter.Action.Target.Should().NotBeSameAs(setter);
+            setter.Action.Method.Name.Should().Be(PropertySetter.SetValueOptimized);
+            setter.Action.Method.DeclaringType.Should().NotBe(typeof(PropertySetter<Foo, int>));
+
+            var optimizedTimer = Stopwatch.StartNew();
+            setter.SetValue(null, 456);
+            optimizedTimer.Stop();
+
+            Baz.Qux.Should().Be(456);
+
+            optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
+        }
+
         public class Foo
         {
             public int Bar { get; set; }
+        }
+
+        public class Baz
+        {
+            public static int Qux { get; set; } = -1;
         }
     }
 }

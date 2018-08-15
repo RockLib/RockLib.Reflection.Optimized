@@ -189,6 +189,93 @@ namespace RockLib.Reflection.Optimized.Tests
             optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
         }
 
+        [Fact]
+        public void PropertyGetterWorksWithStatic()
+        {
+            var property = typeof(Garply).GetProperty(nameof(Garply.Grault));
+
+            var getter = new PropertyGetter(property);
+
+            getter.Func.Target.Should().BeSameAs(property);
+            getter.Func.Method.Name.Should().Be(nameof(property.GetValue));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyInfo));
+
+            var reflectionTimer = Stopwatch.StartNew();
+            object reflectionValue = getter.GetValue(null);
+            reflectionTimer.Stop();
+
+            getter.SetOptimizedFunc();
+
+            getter.Func.Target.Should().NotBeSameAs(property);
+            getter.Func.Method.Name.Should().Be(PropertyGetter.GetValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyInfo));
+
+            var optimizedTimer = Stopwatch.StartNew();
+            object optimizedValue = getter.GetValue(null);
+            optimizedTimer.Stop();
+
+            optimizedValue.Should().Be(reflectionValue);
+            optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
+        }
+
+        [Fact]
+        public void PropertyGetter1WorksWithStatic()
+        {
+            var property = typeof(Garply).GetProperty(nameof(Garply.Grault));
+
+            var getter = new PropertyGetter<int>(property);
+
+            getter.Func.Target.Should().BeSameAs(getter);
+            getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyGetter<int>));
+
+            var reflectionTimer = Stopwatch.StartNew();
+            object reflectionValue = getter.GetValue(null);
+            reflectionTimer.Stop();
+
+            getter.SetOptimizedFunc();
+
+            getter.Func.Target.Should().NotBeSameAs(property);
+            getter.Func.Method.Name.Should().Be(PropertyGetter.GetValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyInfo));
+
+            var optimizedTimer = Stopwatch.StartNew();
+            object optimizedValue = getter.GetValue(null);
+            optimizedTimer.Stop();
+
+            optimizedValue.Should().Be(reflectionValue);
+            optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
+        }
+
+        [Fact]
+        public void PropertyGetter2WorksWithStatic()
+        {
+            var property = typeof(Garply).GetProperty(nameof(Garply.Grault));
+
+            var getter = new PropertyGetter<Garply, int>(property);
+
+            getter.Func.Target.Should().BeSameAs(getter);
+            getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyGetter<Garply, int>));
+
+            var reflectionTimer = Stopwatch.StartNew();
+            object reflectionValue = getter.GetValue(null);
+            reflectionTimer.Stop();
+
+            getter.SetOptimizedFunc();
+
+            getter.Func.Target.Should().NotBeSameAs(property);
+            getter.Func.Method.Name.Should().Be(PropertyGetter.GetValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyInfo));
+
+            var optimizedTimer = Stopwatch.StartNew();
+            object optimizedValue = getter.GetValue(null);
+            optimizedTimer.Stop();
+
+            optimizedValue.Should().Be(reflectionValue);
+            optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
+        }
+
         public class Foo
         {
             public Foo(string bar) => Bar = bar;
@@ -209,6 +296,12 @@ namespace RockLib.Reflection.Optimized.Tests
         {
             public Baz(int qux) => Qux = qux;
             public int Qux { get; }
+        }
+
+        public class Garply
+        {
+            private Garply() {}
+            public static int Grault => 123;
         }
     }
 }

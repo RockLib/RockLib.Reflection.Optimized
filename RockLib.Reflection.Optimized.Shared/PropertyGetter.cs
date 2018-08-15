@@ -28,9 +28,14 @@ namespace RockLib.Reflection.Optimized
         {
             var objParameter = Expression.Parameter(typeof(object), "obj");
 
-            Expression body = Expression.Call(
-                Expression.Convert(objParameter, _property.DeclaringType),
-                _property.GetMethod);
+            Expression body;
+
+            if (_property.GetMethod.IsStatic)
+                body = Expression.Call(_property.GetMethod);
+            else
+                body = Expression.Call(
+                    Expression.Convert(objParameter, _property.DeclaringType),
+                    _property.GetMethod);
 
             if (_property.PropertyType.IsValueType)
                 body = Expression.Convert(body, typeof(object));
@@ -63,9 +68,14 @@ namespace RockLib.Reflection.Optimized
         {
             var objParameter = Expression.Parameter(typeof(object), "obj");
 
-            Expression body = Expression.Call(
-                Expression.Convert(objParameter, _property.DeclaringType),
-                _property.GetMethod);
+            Expression body;
+
+            if (_property.GetMethod.IsStatic)
+                body = Expression.Call(_property.GetMethod);
+            else
+                body = Expression.Call(
+                    Expression.Convert(objParameter, _property.DeclaringType),
+                    _property.GetMethod);
 
             if (_property.PropertyType.IsValueType && !typeof(TPropertyType).IsValueType)
                 body = Expression.Convert(body, typeof(TPropertyType));
@@ -101,7 +111,12 @@ namespace RockLib.Reflection.Optimized
         {
             var objParameter = Expression.Parameter(typeof(TDeclaringType), "obj");
 
-            Expression body = Expression.Call(objParameter, _property.GetMethod);
+            Expression body;
+
+            if (_property.GetMethod.IsStatic)
+                body = Expression.Call(_property.GetMethod);
+            else
+                body = Expression.Call(objParameter, _property.GetMethod);
 
             if (_property.PropertyType.IsValueType && !typeof(TPropertyType).IsValueType)
                 body = Expression.Convert(body, typeof(TPropertyType));
