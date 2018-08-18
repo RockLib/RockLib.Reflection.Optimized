@@ -2,6 +2,19 @@
 
 *Extension methods to improve reflection performance.*
 
+##### Table of Contents
+- [Installation](#installation)
+  - [Nuget](#nuget)
+  - [Git submodule / shared project](#git-submodule--shared-project)
+- [PropertyInfo extension methods](#propertyinfo-extension-methods)
+  - [CreateGetter / CreateSetter](#creategetter--createsetter)
+    - [Overloads](#overloads)
+    - [Static properties](#static-properties)
+  - [CreateStaticGetter / CreateStaticSetter](#createstaticgetter--createstaticsetter)
+    - [Overloads](#overloads-1)
+
+------
+
 ## Installation
 
 ### Nuget
