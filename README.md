@@ -1,4 +1,4 @@
-# RockLib.Reflection.Optimized [![Build status](https://ci.appveyor.com/api/projects/status/ct39pex76eahqw2q?svg=true)](https://ci.appveyor.com/project/bfriesen/rocklib-reflection-optimized)
+# RockLib.Reflection.Optimized [![Build status](https://ci.appveyor.com/api/projects/status/p3ovl21n6hoih61f?svg=true)](https://ci.appveyor.com/project/RockLib/rocklib-reflection-optimized)
 
 *Extension methods to improve reflection performance.*
 
