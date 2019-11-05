@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <PackageId>RockLib.Reflection.Optimized</PackageId>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.0.1</PackageVersion>
     <Authors>Brian Friesen</Authors>
     <Description>Extension methods to improve reflection performance.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
