@@ -6,14 +6,14 @@
 
   <PropertyGroup>
     <PackageId>RockLib.Reflection.Optimized</PackageId>
-    <PackageVersion>1.0.1</PackageVersion>
+    <PackageVersion>1.1.0</PackageVersion>
     <Authors>Brian Friesen</Authors>
     <Description>Extension methods to improve reflection performance.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes></PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/RockLib/RockLib.Reflection.Optimized</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/RockLib/RockLib.Reflection.Optimized/blob/master/LICENSE.md</PackageLicenseUrl>
-    <Copyright>Copyright 2018-2019 (c) Quicken Loans Corporation. All rights reserved.</Copyright>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <Copyright>Copyright 2018-2020 (c) Quicken Loans Corporation. All rights reserved.</Copyright>
     <PackageTags>RockLib Reflection</PackageTags>
     <Version>1.0.0</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -30,6 +30,10 @@
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(Platform)\RockLib.Reflection.Optimized.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE.md" Pack="true" PackagePath="" />
+  </ItemGroup>
 
   <Import Project="..\RockLib.Reflection.Optimized.Shared\RockLib.Reflection.Optimized.Shared.projitems" Label="Shared" />
 
