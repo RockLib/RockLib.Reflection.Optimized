@@ -9,8 +9,11 @@
     <Import_RootNamespace>RockLib.Reflection.Optimized</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)FieldInfoExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FieldGetter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PropertyInfoExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PropertyGetter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FieldSetter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PropertySetter.cs" />
   </ItemGroup>
 </Project>
