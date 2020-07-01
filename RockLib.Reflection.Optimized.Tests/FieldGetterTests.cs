@@ -5,19 +5,19 @@ using Xunit;
 
 namespace RockLib.Reflection.Optimized.Tests
 {
-    public class PropertyGetterTests
+    public class FieldGetterTests
     {
         [Fact]
-        public void PropertyGetterWorks()
+        public void FieldGetterWorks()
         {
             var foo = new Foo("abc");
-            var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
+            var field = typeof(Foo).GetField(nameof(Foo.Bar));
 
-            var getter = new PropertyGetter(property);
+            var getter = new FieldGetter(field);
 
-            getter.Func.Target.Should().BeSameAs(property);
-            getter.Func.Method.Name.Should().Be(nameof(property.GetValue));
-            getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyInfo));
+            getter.Func.Target.Should().BeSameAs(field);
+            getter.Func.Method.Name.Should().Be(nameof(field.GetValue));
+            getter.Func.Method.DeclaringType.Should().BeAssignableTo(typeof(FieldInfo));
 
             var reflectionTimer = Stopwatch.StartNew();
             object reflectionValue = getter.GetValue(foo);
@@ -25,9 +25,9 @@ namespace RockLib.Reflection.Optimized.Tests
 
             getter.SetOptimizedFunc();
 
-            getter.Func.Target.Should().NotBeSameAs(property);
-            getter.Func.Method.Name.Should().Be(PropertyGetter.GetValueOptimized);
-            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyInfo));
+            getter.Func.Target.Should().NotBeSameAs(field);
+            getter.Func.Method.Name.Should().Be(FieldGetter.GetValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBeAssignableTo(typeof(FieldInfo));
 
             var optimizedTimer = Stopwatch.StartNew();
             object optimizedValue = getter.GetValue(foo);
@@ -38,16 +38,16 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
         [Fact]
-        public void PropertyGetter1Works()
+        public void FieldGetter1Works()
         {
             var foo = new Foo("abc");
-            var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
+            var field = typeof(Foo).GetField(nameof(Foo.Bar));
 
-            var getter = new PropertyGetter<string>(property);
+            var getter = new FieldGetter<string>(field);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
-            getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyGetter<string>));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(FieldGetter<string>));
 
             var reflectionTimer = Stopwatch.StartNew();
             string reflectionValue = getter.GetValue(foo);
@@ -56,8 +56,8 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.SetOptimizedFunc();
 
             getter.Func.Target.Should().NotBeSameAs(getter);
-            getter.Func.Method.Name.Should().Be(PropertyGetter.GetValueOptimized);
-            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyGetter<string>));
+            getter.Func.Method.Name.Should().Be(FieldGetter.GetValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(FieldGetter<string>));
 
             var optimizedTimer = Stopwatch.StartNew();
             string optimizedValue = getter.GetValue(foo);
@@ -68,16 +68,16 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
         [Fact]
-        public void PropertyGetter2Works()
+        public void FieldGetter2Works()
         {
             var foo = new Foo("abc");
-            var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
+            var field = typeof(Foo).GetField(nameof(Foo.Bar));
 
-            var getter = new PropertyGetter<Foo, string>(property);
+            var getter = new FieldGetter<Foo, string>(field);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
-            getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyGetter<Foo, string>));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(FieldGetter<Foo, string>));
 
             var reflectionTimer = Stopwatch.StartNew();
             string reflectionValue = getter.GetValue(foo);
@@ -86,8 +86,8 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.SetOptimizedFunc();
 
             getter.Func.Target.Should().NotBeSameAs(getter);
-            getter.Func.Method.Name.Should().Be(PropertyGetter.GetValueOptimized);
-            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyGetter<Foo, string>));
+            getter.Func.Method.Name.Should().Be(FieldGetter.GetValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(FieldGetter<Foo, string>));
 
             var optimizedTimer = Stopwatch.StartNew();
             string optimizedValue = getter.GetValue(foo);
@@ -98,16 +98,16 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
         [Fact]
-        public void PropertyGetterWorksWithBoxing()
+        public void FieldGetterWorksWithBoxing()
         {
             var bar = new Bar { Baz = new Baz(123) };
-            var property = typeof(Bar).GetProperty(nameof(Bar.Baz));
+            var field = typeof(Bar).GetField(nameof(Bar.Baz));
 
-            var getter = new PropertyGetter(property);
+            var getter = new FieldGetter(field);
 
-            getter.Func.Target.Should().BeSameAs(property);
-            getter.Func.Method.Name.Should().Be(nameof(property.GetValue));
-            getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyInfo));
+            getter.Func.Target.Should().BeSameAs(field);
+            getter.Func.Method.Name.Should().Be(nameof(field.GetValue));
+            getter.Func.Method.DeclaringType.Should().BeAssignableTo(typeof(FieldInfo));
 
             var reflectionTimer = Stopwatch.StartNew();
             object reflectionValue = getter.GetValue(bar);
@@ -115,9 +115,9 @@ namespace RockLib.Reflection.Optimized.Tests
 
             getter.SetOptimizedFunc();
 
-            getter.Func.Target.Should().NotBeSameAs(property);
-            getter.Func.Method.Name.Should().Be(PropertyGetter.GetValueOptimized);
-            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyInfo));
+            getter.Func.Target.Should().NotBeSameAs(field);
+            getter.Func.Method.Name.Should().Be(FieldGetter.GetValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBeAssignableTo(typeof(FieldInfo));
 
             var optimizedTimer = Stopwatch.StartNew();
             object optimizedValue = getter.GetValue(bar);
@@ -128,16 +128,16 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
         [Fact]
-        public void PropertyGetter1WorksWithBoxing()
+        public void FieldGetter1WorksWithBoxing()
         {
             var bar = new Bar { Baz = new Baz(123) };
-            var property = typeof(Bar).GetProperty(nameof(Bar.Baz));
+            var field = typeof(Bar).GetField(nameof(Bar.Baz));
 
-            var getter = new PropertyGetter<IBaz>(property);
+            var getter = new FieldGetter<IBaz>(field);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
-            getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyGetter<IBaz>));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(FieldGetter<IBaz>));
 
             var reflectionTimer = Stopwatch.StartNew();
             IBaz reflectionValue = getter.GetValue(bar);
@@ -146,8 +146,8 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.SetOptimizedFunc();
 
             getter.Func.Target.Should().NotBeSameAs(getter);
-            getter.Func.Method.Name.Should().Be(PropertyGetter.GetValueOptimized);
-            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyGetter<IBaz>));
+            getter.Func.Method.Name.Should().Be(FieldGetter.GetValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(FieldGetter<IBaz>));
 
             var optimizedTimer = Stopwatch.StartNew();
             IBaz optimizedValue = getter.GetValue(bar);
@@ -158,16 +158,16 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
         [Fact]
-        public void PropertyGetter2WorksWithBoxing()
+        public void FieldGetter2WorksWithBoxing()
         {
             var bar = new Bar { Baz = new Baz(123) };
-            var property = typeof(Bar).GetProperty(nameof(Bar.Baz));
+            var field = typeof(Bar).GetField(nameof(Bar.Baz));
 
-            var getter = new PropertyGetter<Bar, IBaz>(property);
+            var getter = new FieldGetter<Bar, IBaz>(field);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
-            getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyGetter<Bar, IBaz>));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(FieldGetter<Bar, IBaz>));
 
             var reflectionTimer = Stopwatch.StartNew();
             IBaz reflectionValue = getter.GetValue(bar);
@@ -176,8 +176,8 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.SetOptimizedFunc();
 
             getter.Func.Target.Should().NotBeSameAs(getter);
-            getter.Func.Method.Name.Should().Be(PropertyGetter.GetValueOptimized);
-            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyGetter<Bar, IBaz>));
+            getter.Func.Method.Name.Should().Be(FieldGetter.GetValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(FieldGetter<Bar, IBaz>));
 
             var optimizedTimer = Stopwatch.StartNew();
             IBaz optimizedValue = getter.GetValue(bar);
@@ -188,15 +188,15 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
         [Fact]
-        public void PropertyGetterWorksWithStatic()
+        public void FieldGetterWorksWithStatic()
         {
-            var property = typeof(Garply).GetProperty(nameof(Garply.Bar));
+            var field = typeof(Garply).GetField(nameof(Garply.Bar));
 
-            var getter = new PropertyGetter(property);
+            var getter = new FieldGetter(field);
 
-            getter.Func.Target.Should().BeSameAs(property);
-            getter.Func.Method.Name.Should().Be(nameof(property.GetValue));
-            getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyInfo));
+            getter.Func.Target.Should().BeSameAs(field);
+            getter.Func.Method.Name.Should().Be(nameof(field.GetValue));
+            getter.Func.Method.DeclaringType.Should().BeAssignableTo(typeof(FieldInfo));
 
             var reflectionTimer = Stopwatch.StartNew();
             object reflectionValue = getter.GetValue(null);
@@ -204,9 +204,9 @@ namespace RockLib.Reflection.Optimized.Tests
 
             getter.SetOptimizedFunc();
 
-            getter.Func.Target.Should().NotBeSameAs(property);
-            getter.Func.Method.Name.Should().Be(PropertyGetter.GetValueOptimized);
-            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyInfo));
+            getter.Func.Target.Should().NotBeSameAs(field);
+            getter.Func.Method.Name.Should().Be(FieldGetter.GetValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBeAssignableTo(typeof(FieldInfo));
 
             var optimizedTimer = Stopwatch.StartNew();
             object optimizedValue = getter.GetValue(null);
@@ -217,15 +217,15 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
         [Fact]
-        public void PropertyGetter1WorksWithStatic()
+        public void FieldGetter1WorksWithStatic()
         {
-            var property = typeof(Garply).GetProperty(nameof(Garply.Bar));
+            var field = typeof(Garply).GetField(nameof(Garply.Bar));
 
-            var getter = new PropertyGetter<string>(property);
+            var getter = new FieldGetter<string>(field);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
-            getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyGetter<string>));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(FieldGetter<string>));
 
             var reflectionTimer = Stopwatch.StartNew();
             string reflectionValue = getter.GetValue(null);
@@ -234,8 +234,8 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.SetOptimizedFunc();
 
             getter.Func.Target.Should().NotBeSameAs(getter);
-            getter.Func.Method.Name.Should().Be(PropertyGetter.GetValueOptimized);
-            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyGetter<string>));
+            getter.Func.Method.Name.Should().Be(FieldGetter.GetValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(FieldGetter<string>));
 
             var optimizedTimer = Stopwatch.StartNew();
             string optimizedValue = getter.GetValue(null);
@@ -246,15 +246,15 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
         [Fact]
-        public void PropertyGetter2WorksWithStatic()
+        public void FieldGetter2WorksWithStatic()
         {
-            var property = typeof(Garply).GetProperty(nameof(Garply.Bar));
+            var field = typeof(Garply).GetField(nameof(Garply.Bar));
 
-            var getter = new PropertyGetter<Garply, string>(property);
+            var getter = new FieldGetter<Garply, string>(field);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
-            getter.Func.Method.DeclaringType.Should().Be(typeof(PropertyGetter<Garply, string>));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(FieldGetter<Garply, string>));
 
             var reflectionTimer = Stopwatch.StartNew();
             string reflectionValue = getter.GetValue(null);
@@ -263,8 +263,8 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.SetOptimizedFunc();
 
             getter.Func.Target.Should().NotBeSameAs(getter);
-            getter.Func.Method.Name.Should().Be(PropertyGetter.GetValueOptimized);
-            getter.Func.Method.DeclaringType.Should().NotBe(typeof(PropertyGetter<Garply, string>));
+            getter.Func.Method.Name.Should().Be(FieldGetter.GetValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(FieldGetter<Garply, string>));
 
             var optimizedTimer = Stopwatch.StartNew();
             string optimizedValue = getter.GetValue(null);
@@ -275,15 +275,15 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
         [Fact]
-        public void StaticPropertyGetterWorks()
+        public void StaticFieldGetterWorks()
         {
-            var property = typeof(Garply).GetProperty(nameof(Garply.Bar));
+            var field = typeof(Garply).GetField(nameof(Garply.Bar));
 
-            var getter = new StaticPropertyGetter(property);
+            var getter = new StaticFieldGetter(field);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
-            getter.Func.Method.DeclaringType.Should().Be(typeof(StaticPropertyGetter));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(StaticFieldGetter));
 
             var reflectionTimer = Stopwatch.StartNew();
             object reflectionValue = getter.GetValue();
@@ -292,8 +292,8 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.SetOptimizedFunc();
 
             getter.Func.Target.Should().NotBeSameAs(getter);
-            getter.Func.Method.Name.Should().Be(StaticPropertyGetter.GetStaticValueOptimized);
-            getter.Func.Method.DeclaringType.Should().NotBe(typeof(StaticPropertyGetter));
+            getter.Func.Method.Name.Should().Be(StaticFieldGetter.GetStaticValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(StaticFieldGetter));
 
             var optimizedTimer = Stopwatch.StartNew();
             object optimizedValue = getter.GetValue();
@@ -304,15 +304,15 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
         [Fact]
-        public void StaticPropertyGetter1Works()
+        public void StaticFieldGetter1Works()
         {
-            var property = typeof(Garply).GetProperty(nameof(Garply.Bar));
+            var field = typeof(Garply).GetField(nameof(Garply.Bar));
 
-            var getter = new StaticPropertyGetter<string>(property);
+            var getter = new StaticFieldGetter<string>(field);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
-            getter.Func.Method.DeclaringType.Should().Be(typeof(StaticPropertyGetter<string>));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(StaticFieldGetter<string>));
 
             var reflectionTimer = Stopwatch.StartNew();
             string reflectionValue = getter.GetValue();
@@ -321,8 +321,8 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.SetOptimizedFunc();
 
             getter.Func.Target.Should().NotBeSameAs(getter);
-            getter.Func.Method.Name.Should().Be(StaticPropertyGetter.GetStaticValueOptimized);
-            getter.Func.Method.DeclaringType.Should().NotBe(typeof(StaticPropertyGetter<string>));
+            getter.Func.Method.Name.Should().Be(StaticFieldGetter.GetStaticValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(StaticFieldGetter<string>));
 
             var optimizedTimer = Stopwatch.StartNew();
             string optimizedValue = getter.GetValue();
@@ -333,15 +333,15 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
         [Fact]
-        public void StaticPropertyGetterWorksWithBoxing()
+        public void StaticFieldGetterWorksWithBoxing()
         {
-            var property = typeof(Garply).GetProperty(nameof(Garply.Baz));
+            var field = typeof(Garply).GetField(nameof(Garply.Baz));
 
-            var getter = new StaticPropertyGetter(property);
+            var getter = new StaticFieldGetter(field);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
-            getter.Func.Method.DeclaringType.Should().Be(typeof(StaticPropertyGetter));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(StaticFieldGetter));
 
             var reflectionTimer = Stopwatch.StartNew();
             object reflectionValue = getter.GetValue();
@@ -350,8 +350,8 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.SetOptimizedFunc();
 
             getter.Func.Target.Should().NotBeSameAs(getter);
-            getter.Func.Method.Name.Should().Be(StaticPropertyGetter.GetStaticValueOptimized);
-            getter.Func.Method.DeclaringType.Should().NotBe(typeof(StaticPropertyGetter));
+            getter.Func.Method.Name.Should().Be(StaticFieldGetter.GetStaticValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(StaticFieldGetter));
 
             var optimizedTimer = Stopwatch.StartNew();
             object optimizedValue = getter.GetValue();
@@ -362,15 +362,15 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
         [Fact]
-        public void StaticPropertyGetter1WorksWithBoxing()
+        public void StaticFieldGetter1WorksWithBoxing()
         {
-            var property = typeof(Garply).GetProperty(nameof(Garply.Baz));
+            var field = typeof(Garply).GetField(nameof(Garply.Baz));
 
-            var getter = new StaticPropertyGetter<IBaz>(property);
+            var getter = new StaticFieldGetter<IBaz>(field);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
-            getter.Func.Method.DeclaringType.Should().Be(typeof(StaticPropertyGetter<IBaz>));
+            getter.Func.Method.DeclaringType.Should().Be(typeof(StaticFieldGetter<IBaz>));
 
             var reflectionTimer = Stopwatch.StartNew();
             IBaz reflectionValue = getter.GetValue();
@@ -379,8 +379,8 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.SetOptimizedFunc();
 
             getter.Func.Target.Should().NotBeSameAs(getter);
-            getter.Func.Method.Name.Should().Be(StaticPropertyGetter.GetStaticValueOptimized);
-            getter.Func.Method.DeclaringType.Should().NotBe(typeof(StaticPropertyGetter<IBaz>));
+            getter.Func.Method.Name.Should().Be(StaticFieldGetter.GetStaticValueOptimized);
+            getter.Func.Method.DeclaringType.Should().NotBe(typeof(StaticFieldGetter<IBaz>));
 
             var optimizedTimer = Stopwatch.StartNew();
             IBaz optimizedValue = getter.GetValue();
@@ -393,12 +393,12 @@ namespace RockLib.Reflection.Optimized.Tests
         public class Foo
         {
             public Foo(string bar) => Bar = bar;
-            public string Bar { get; }
+            public string Bar;
         }
 
         public class Bar
         {
-            public Baz Baz { get; set; }
+            public Baz Baz;
         }
 
         public interface IBaz
@@ -415,8 +415,8 @@ namespace RockLib.Reflection.Optimized.Tests
         public class Garply
         {
             private Garply() {}
-            public static string Bar => "abc";
-            public static Baz Baz { get; } = new Baz(456);
+            public static string Bar = "abc";
+            public static Baz Baz = new Baz(456);
         }
     }
 }
