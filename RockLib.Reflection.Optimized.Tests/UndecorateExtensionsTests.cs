@@ -1,9 +1,11 @@
 ﻿using FluentAssertions;
 using System;
 using Xunit;
+using Xunit.Extensions.Ordering;
 
 namespace RockLib.Reflection.Optimized.Tests
 {
+    [Order(-1)]
     public class UndecorateExtensionsTests
     {
         [Fact]
