@@ -15,5 +15,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)PropertyGetter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FieldSetter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PropertySetter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UndecorateExtension.cs" />
   </ItemGroup>
 </Project>
