@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -23,10 +24,9 @@ namespace RockLib.Reflection.Optimized
         /// Undecorates the specified object if it is a decorator implementation of interface type <typeparamref
         /// name="T"/>, otherwise just returns the object.
         /// <para>
-        /// An object is considered to be decorated if it has an instance field of type
-        /// <typeparamref name="T"/> and either a public constructor with a parameter of type
-        /// <typeparamref name="T"/> or a public property of type <typeparamref name="T"/> that has
-        /// a public setter. To undecorate such an object, the value of its instance field is used.
+        /// A class is considered to be a decorator if it implements interface <typeparamref name=
+        /// "T"/> and has an instance field of type <typeparamref name="T"/>. To undecorate such an
+        /// object, the value of its instance field is used.
         /// </para>
         /// </summary>
         /// <typeparam name="T">The interface type to undecorate.</typeparam>
@@ -51,28 +51,22 @@ namespace RockLib.Reflection.Optimized
         private static UndecorateFunc GetUndecorateFunc(Type concreteType, Type interfaceType) =>
             _undecorateFuncs.GetOrAdd(Tuple.Create(concreteType, interfaceType), _ =>
             {
-                if (GetInterfaceField(concreteType, interfaceType) is FieldInfo field
-                    && (HasInterfaceConstructorParameter(concreteType, interfaceType)
-                        || HasInterfacePropertySetter(concreteType, interfaceType)))
-                {
+                if (GetInterfaceField(concreteType, interfaceType) is FieldInfo field)
                     return field.CreateGetter();
-                }
 
                 // Returning a null function indicates that concreteType is not a decorator class.
                 return null;
             });
 
         private static FieldInfo GetInterfaceField(Type concreteType, Type interfaceType) =>
-            concreteType.GetFields(Public | NonPublic | Instance)
-                .FirstOrDefault(f => f.FieldType == interfaceType);
+            GetAllFields(concreteType).FirstOrDefault(f => f.FieldType == interfaceType);
 
-        private static bool HasInterfaceConstructorParameter(Type concreteType, Type interfaceType) =>
-            concreteType.GetConstructors(Public | Instance)
-                .SelectMany(c => c.GetParameters())
-                .Any(p => p.ParameterType == interfaceType);
+        private static IEnumerable<FieldInfo> GetAllFields(Type type)
+        {
+            if (type is null)
+                return Enumerable.Empty<FieldInfo>();
 
-        private static bool HasInterfacePropertySetter(Type concreteType, Type interfaceType) =>
-            concreteType.GetProperties(Public | Instance)
-                .Any(p => p.PropertyType == interfaceType && p.CanWrite && p.SetMethod.IsPublic);
+            return type.GetFields(Public | NonPublic | Instance | DeclaredOnly).Concat(GetAllFields(type.BaseType));
+        }
     }
 }

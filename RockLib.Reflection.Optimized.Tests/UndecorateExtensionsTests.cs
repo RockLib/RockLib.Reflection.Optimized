@@ -9,10 +9,10 @@ namespace RockLib.Reflection.Optimized.Tests
     public class UndecorateExtensionsTests
     {
         [Fact]
-        public void CanUndecorateClassWithInterfaceFieldAndConstructorParameter()
+        public void CanUndecorateClassWithInterfaceField()
         {
             IFoo inner = new ConcreteFoo();
-            IFoo foo = new FieldAndConstructorParameter(inner);
+            IFoo foo = new DecoratorFoo1(inner);
 
             var undecorated = foo.Undecorate();
 
@@ -20,21 +20,10 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
         [Fact]
-        public void CanUndecorateClassWithInterfaceFieldAndPropertySetter()
+        public void CanUndecorateMultipleLayers()
         {
             IFoo inner = new ConcreteFoo();
-            IFoo foo = new FieldAndPropertySetter { Foo = inner };
-
-            var undecorated = foo.Undecorate();
-
-            undecorated.Should().BeSameAs(inner);
-        }
-
-        [Fact]
-        public void CanUndecorateMultiple()
-        {
-            IFoo inner = new ConcreteFoo();
-            IFoo foo = new FieldAndConstructorParameter(new FieldAndPropertySetter { Foo = new FieldAndConstructorParameter(inner) });
+            IFoo foo = new DecoratorFoo1(new DecoratorFoo2 { Foo = new DecoratorFoo1(inner) });
 
             var undecorated = foo.Undecorate();
 
@@ -44,7 +33,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CanUndecorateWithNullInnerValue()
         {
-            IFoo foo = new FieldAndConstructorParameter(new FieldAndPropertySetter { Foo = new FieldAndConstructorParameter(null) });
+            IFoo foo = new DecoratorFoo1(new DecoratorFoo2 { Foo = new DecoratorFoo1(null) });
 
             var undecorated = foo.Undecorate();
 
@@ -62,39 +51,9 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
         [Fact]
-        public void DoesNothingWithInterfaceConstructorParameterButNoInterfaceField()
+        public void ReturnsSameObjectIfNoInterfaceFieldExists()
         {
-            IFoo foo = new ConstructorParameterButNoField(new ConcreteFoo());
-
-            var undecorated = foo.Undecorate();
-
-            undecorated.Should().BeSameAs(foo);
-        }
-
-        [Fact]
-        public void DoesNothingWithInterfacePropertySetterButNoInterfaceField()
-        {
-            IFoo foo = new PropertySetterButNoField { Foo = new ConcreteFoo() };
-
-            var undecorated = foo.Undecorate();
-
-            undecorated.Should().BeSameAs(foo);
-        }
-
-        [Fact]
-        public void DoesNothingWithInterfaceFieldButNoPropertySetter()
-        {
-            IFoo foo = new FieldButNoPropertySetter();
-
-            var undecorated = foo.Undecorate();
-
-            undecorated.Should().BeSameAs(foo);
-        }
-
-        [Fact]
-        public void DoesNothingWithInterfaceFieldButNonPublicPropertySetter()
-        {
-            IFoo foo = new FieldButNonPublicPropertySetter();
+            IFoo foo = new NonDecoratorFoo();
 
             var undecorated = foo.Undecorate();
 
@@ -102,7 +61,6 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
 #pragma warning disable IDE0052 // Remove unread private members
-#pragma warning disable IDE0060 // Remove unused parameter
 
         public interface IFoo
         {
@@ -112,40 +70,20 @@ namespace RockLib.Reflection.Optimized.Tests
         {
         }
 
-        public class FieldAndConstructorParameter : IFoo
+        public class DecoratorFoo1 : IFoo
         {
             private readonly IFoo _foo;
 
-            public FieldAndConstructorParameter(IFoo foo) => _foo = foo;
+            public DecoratorFoo1(IFoo foo) => _foo = foo;
         }
 
-        public class FieldAndPropertySetter : IFoo
+        public class DecoratorFoo2 : IFoo
         {
-            private IFoo _foo;
-
-            public IFoo Foo { set => _foo = value; }
+            public IFoo Foo { get; set; }
         }
 
-        public class ConstructorParameterButNoField : IFoo
+        public class NonDecoratorFoo : IFoo
         {
-            public ConstructorParameterButNoField(IFoo foo)
-            {
-            }
-        }
-
-        public class PropertySetterButNoField : IFoo
-        {
-            public IFoo Foo { get => null; set { } }
-        }
-
-        public class FieldButNoPropertySetter : IFoo
-        {
-            public IFoo Foo { get; }
-        }
-
-        public class FieldButNonPublicPropertySetter : IFoo
-        {
-            public IFoo Foo { get; private set; }
         }
 
         public abstract class AbstractBar
@@ -156,7 +94,6 @@ namespace RockLib.Reflection.Optimized.Tests
         {
         }
 
-#pragma warning restore IDE0060 // Remove unused parameter
 #pragma warning restore IDE0052 // Remove unread private members
     }
 }
