@@ -1,12 +1,10 @@
-# RockLib.Reflection.Optimized [![Build status](https://ci.appveyor.com/api/projects/status/p3ovl21n6hoih61f?svg=true)](https://ci.appveyor.com/project/RockLib/rocklib-reflection-optimized)
+# RockLib.Reflection.Optimized [![Build status](https://ci.appveyor.com/api/projects/status/p3ovl21n6hoih61f?svg=true)](https://ci.appveyor.com/project/RockLib/rocklib-reflection-optimized) [![NuGet](https://img.shields.io/nuget/vpre/RockLib.Reflection.Optimized.svg)](https://www.nuget.org/packages/RockLib.Reflection.Optimized)
 
 *Extension methods to improve reflection performance.*
 
 ##### Table of Contents
-- [Installation](#installation)
-  - [Nuget](#nuget)
-  - [Git submodule / shared project](#git-submodule--shared-project)
-- [PropertyInfo extension methods](#propertyinfo-extension-methods)
+- [Installing as Git submodule / shared project](#installing-as-git-submodule--shared-project)
+- [PropertyInfo and FieldInfo extension methods](#propertyinfo-and-fieldinfo-extension-methods)
   - [CreateGetter / CreateSetter](#creategetter--createsetter)
     - [Overloads](#overloads)
     - [Static properties](#static-properties)
@@ -15,27 +13,19 @@
 
 ------
 
-## Installation
+## Installing as Git submodule / shared project
 
-### Nuget
-
-```powershell
-PM> Install-Package RockLib.Reflection.Optimized
-```
-
-### Git submodule / shared project
-
-Another way to consume this library is as a submodule to an existing git repository. Add the RockLib.Reflection.Optimized submodule to your git repository. Then, add the shared project found in the submodule at `/RockLib.Reflection.Optimized.Shared/RockLib.Reflection.Optimized.Shared.shproj` to your solution. Finally, add a shared project reference to the project that needs optimized reflection.
+Besides as a nuget package, another way to consume this library is as a submodule to an existing git repository. Add the RockLib.Reflection.Optimized submodule to your git repository. Then, add the shared project found in the submodule at `/RockLib.Reflection.Optimized.Shared/RockLib.Reflection.Optimized.Shared.shproj` to your solution. Finally, add a shared project reference to the project that needs optimized reflection.
 
 Consuming this library in this manner is intended for use by other libraries - it eliminates a nuget dependency and the optimized reflection extension methods are not exposed publicly.
 
-## PropertyInfo extension methods
+## PropertyInfo and FieldInfo extension methods
 
-Currently, RockLib.Reflection.Optimized has extension methods for just one type: [`System.Reflection.PropertyInfo`](https://msdn.microsoft.com/en-us/library/system.reflection.propertyinfo.aspx). These extension methods create functions at runtime that access the specified property.
+RockLib.Reflection.Optimized has extension methods for two types: [`System.Reflection.PropertyInfo`](https://msdn.microsoft.com/en-us/library/system.reflection.propertyinfo.aspx) and [`System.Reflection.FieldInfo`](https://msdn.microsoft.com/en-us/library/system.reflection.fieldinfo.aspx). These extension methods create functions at runtime that get or set the specified property or field.
 
 ### CreateGetter / CreateSetter
 
-The following code snippet demonstrates usage of the `CreateGetter` and `CreateSetter` extension methods:
+The following code snippet demonstrates usage of the `CreateGetter` and `CreateSetter` extension methods for `PropertyInfo` (usage for `FieldInfo` is identical):
 
 ```c#
 using System.Reflection;
@@ -62,7 +52,7 @@ void Main()
 
 #### Overloads
 
-The `CreateGetter` and `CreateSetter` extension methods each have three overloads, allowing the parameters of the resulting delegates to be customized.
+The `CreateGetter` and `CreateSetter` extension methods for `PropertyInfo` and `FieldInfo` each have three overloads, allowing the parameters of the resulting delegates to be customized.
 
 | Overload  | Return Type |
 | --- | --- |
@@ -75,11 +65,11 @@ The `CreateGetter` and `CreateSetter` extension methods each have three overload
 
 #### Static properties
 
-If a `PropertyInfo` represents a static property, then the first parameter of the functions returned by the `CreateGetter` and `CreateSetter` methods are ignored. When invokine functions that access static properties, the caller can safely pass `null` for the first parameter.
+If a `PropertyInfo` or `FieldInfo` represents a static property or field, then the first parameter of the functions returned by the `CreateGetter` and `CreateSetter` methods are ignored. When invokine functions that access static properties, the caller can safely pass `null` for the first parameter.
 
 ### CreateStaticGetter / CreateStaticSetter
 
-If it is known that a `PropertyInfo` is static, then the `CreateStaticGetter` and `CreateStaticSetter` extension methods can be used, as in the following example:
+If it is known that a `PropertyInfo` or `FieldInfo` is static, then the `CreateStaticGetter` and `CreateStaticSetter` extension methods can be used, as in the following `FieldInfo` example (usage for `PropertyInfo` is identical):
 
 ```c#
 using System.Reflection;
@@ -87,15 +77,15 @@ using RockLib.Reflection.Optimized;
 
 public static class Foo
 {
-    public static int Bar { get; set; }
+    public static int Bar;
 }
 
 void Main()
 {
-    PropertyInfo property = typeof(Foo).GetProperty("Bar");
+    FieldInfo field = typeof(Foo).GetField("Bar");
     
-    Action<object> setBar = property.CreateStaticSetter();
-    Func<object> getBar = property.CreateStaticGetter();
+    Action<object> setBar = field.CreateStaticSetter();
+    Func<object> getBar = field.CreateStaticGetter();
 
     Foo foo = new Foo();
 
@@ -106,7 +96,7 @@ void Main()
 
 #### Overloads
 
-Similar to their non-static counterpoints, the `CreateStaticGetter` and `CreateStaticSetter` extension methods each have two overloads, allowing the parameters of the resulting delegates to be customized.
+Similar to their non-static counterpoints, the `CreateStaticGetter` and `CreateStaticSetter` extension methods for `PropertyInfo` and `FieldInfo` each have two overloads, allowing the parameters of the resulting delegates to be customized.
 
 | Overload  | Return Type |
 | --- | --- |
