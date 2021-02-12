@@ -3,17 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RockLib.Reflection.Optimized.Shared", "RockLib.Reflection.Optimized.Shared\RockLib.Reflection.Optimized.Shared.shproj", "{1F65CBB1-529E-407C-B7D6-8BE5A59EBE14}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Reflection.Optimized", "RockLib.Reflection.Optimized\RockLib.Reflection.Optimized.csproj", "{E3E16D29-CD53-41E4-8EE7-D06E3F88904B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockLib.Reflection.Optimized.Tests", "RockLib.Reflection.Optimized.Tests\RockLib.Reflection.Optimized.Tests.csproj", "{D7D62D12-B264-4CE9-9706-95A907B46BCB}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		RockLib.Reflection.Optimized.Shared\RockLib.Reflection.Optimized.Shared.projitems*{1f65cbb1-529e-407c-b7d6-8be5a59ebe14}*SharedItemsImports = 13
-		RockLib.Reflection.Optimized.Shared\RockLib.Reflection.Optimized.Shared.projitems*{e3e16d29-cd53-41e4-8ee7-d06e3f88904b}*SharedItemsImports = 5
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

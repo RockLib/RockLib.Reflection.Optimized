@@ -21,11 +21,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <DefineConstants>TRACE;DEBUG;ROCKLIB_REFLECTION_OPTIMIZED</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <DefineConstants>TRACE;ROCKLIB_REFLECTION_OPTIMIZED</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -36,7 +36,5 @@
     <None Include="..\LICENSE.md" Pack="true" PackagePath="" />
     <None Include="..\icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
-
-  <Import Project="..\RockLib.Reflection.Optimized.Shared\RockLib.Reflection.Optimized.Shared.projitems" Label="Shared" />
 
 </Project>

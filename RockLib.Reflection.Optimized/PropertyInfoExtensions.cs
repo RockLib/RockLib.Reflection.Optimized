@@ -8,11 +8,7 @@ namespace RockLib.Reflection.Optimized
     /// Defines extension methods that return <see cref="Func{T, TResult}"/> or <see cref="Action{T1, T2}"/> delegates
     /// that get or set a property value of an object. These delegates provide much faster access than using reflection.
     /// </summary>
-#if ROCKLIB_REFLECTION_OPTIMIZED
     public static class PropertyInfoExtensions
-#else
-    internal static partial class PropertyInfoExtensions
-#endif
     {
         /// <summary>
         /// Creates a function that gets the value of the specified property. The parameter of the
@@ -264,10 +260,8 @@ namespace RockLib.Reflection.Optimized
         private static void QueueUserWorkItem<TState>(TState state, Action<TState> callback) =>
             _queueUserWorkItem.Invoke(s => callback((TState)s), state);
 
-#if ROCKLIB_REFLECTION_OPTIMIZED
         internal static void SetQueueUserWorkItemAction(Action<WaitCallback, object> queueUserWorkItemAction) =>
             _queueUserWorkItem = queueUserWorkItemAction ?? ThreadPoolQueueUserWorkItem;
-#endif
 
         private static Action<WaitCallback, object> _queueUserWorkItem = ThreadPoolQueueUserWorkItem;
 

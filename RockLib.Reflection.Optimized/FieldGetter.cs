@@ -5,12 +5,7 @@ using System.Reflection;
 
 namespace RockLib.Reflection.Optimized
 {
-#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class FieldGetter
-#else
-    partial class FieldInfoExtensions {
-    private class FieldGetter
-#endif
     {
         internal const string GetValueOptimized = nameof(GetValueOptimized);
 
@@ -48,11 +43,7 @@ namespace RockLib.Reflection.Optimized
         internal Func<object, object> Func => _func;
     }
 
-#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class FieldGetter<TFieldType>
-#else
-    private class FieldGetter<TFieldType>
-#endif
     {
         private readonly FieldInfo _field;
         private Func<object, TFieldType> _func;
@@ -91,11 +82,7 @@ namespace RockLib.Reflection.Optimized
         internal Func<object, TFieldType> Func => _func;
     }
 
-#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class FieldGetter<TDeclaringType, TFieldType>
-#else
-    private class FieldGetter<TDeclaringType, TFieldType>
-#endif
     {
         private readonly FieldInfo _field;
         private Func<TDeclaringType, TFieldType> _func;
@@ -132,11 +119,7 @@ namespace RockLib.Reflection.Optimized
         internal Func<TDeclaringType, TFieldType> Func => _func;
     }
 
-#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class StaticFieldGetter
-#else
-    private class StaticFieldGetter
-#endif
     {
         internal const string GetStaticValueOptimized = nameof(GetStaticValueOptimized);
 
@@ -168,11 +151,7 @@ namespace RockLib.Reflection.Optimized
         internal Func<object> Func => _func;
     }
 
-#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class StaticFieldGetter<TFieldType>
-#else
-    private class StaticFieldGetter<TFieldType>
-#endif
     {
         private readonly FieldInfo _field;
         private Func<TFieldType> _func;
@@ -201,7 +180,4 @@ namespace RockLib.Reflection.Optimized
 
         internal Func<TFieldType> Func => _func;
     }
-#if !ROCKLIB_REFLECTION_OPTIMIZED
-    }
-#endif
 }
