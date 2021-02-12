@@ -4,12 +4,7 @@ using System.Reflection;
 
 namespace RockLib.Reflection.Optimized
 {
-#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class PropertySetter
-#else
-    partial class PropertyInfoExtensions {
-    private class PropertySetter
-#endif
     {
         internal const string SetValueOptimized = nameof(SetValueOptimized);
 
@@ -48,11 +43,7 @@ namespace RockLib.Reflection.Optimized
         internal Action<object, object> Action => _action;
     }
 
-#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class PropertySetter<TPropertyType>
-#else
-    private class PropertySetter<TPropertyType>
-#endif
     {
         private readonly PropertyInfo _property;
         private Action<object, TPropertyType> _action;
@@ -92,11 +83,7 @@ namespace RockLib.Reflection.Optimized
         internal Action<object, TPropertyType> Action => _action;
     }
 
-#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class PropertySetter<TDeclaringType, TPropertyType>
-#else
-    private class PropertySetter<TDeclaringType, TPropertyType>
-#endif
     {
         private readonly PropertyInfo _property;
         private Action<TDeclaringType, TPropertyType> _action;
@@ -136,11 +123,7 @@ namespace RockLib.Reflection.Optimized
         internal Action<TDeclaringType, TPropertyType> Action => _action;
     }
 
-#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class StaticPropertySetter
-#else
-    private class StaticPropertySetter
-#endif
     {
         internal const string SetStaticValueOptimized = nameof(SetStaticValueOptimized);
 
@@ -173,11 +156,7 @@ namespace RockLib.Reflection.Optimized
         internal Action<object> Action => _action;
     }
 
-#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class StaticPropertySetter<TPropertyType>
-#else
-    private class StaticPropertySetter<TPropertyType>
-#endif
     {
         private readonly PropertyInfo _property;
         private Action<TPropertyType> _action;
@@ -207,7 +186,4 @@ namespace RockLib.Reflection.Optimized
 
         internal Action<TPropertyType> Action => _action;
     }
-#if !ROCKLIB_REFLECTION_OPTIMIZED
-    }
-#endif
 }

@@ -12,11 +12,7 @@ namespace RockLib.Reflection.Optimized
     /// <summary>
     /// Defines extension methods for undecorating objects.
     /// </summary>
-#if ROCKLIB_REFLECTION_OPTIMIZED
     public static class UndecorateExtension
-#else
-    internal static partial class UndecorateExtension
-#endif
     {
         private static readonly ConcurrentDictionary<Tuple<Type, Type>, UndecorateFunc> _undecorateFuncs = new ConcurrentDictionary<Tuple<Type, Type>, UndecorateFunc>();
 

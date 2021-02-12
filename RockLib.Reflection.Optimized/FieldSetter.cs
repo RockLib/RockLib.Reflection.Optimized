@@ -4,12 +4,7 @@ using System.Reflection;
 
 namespace RockLib.Reflection.Optimized
 {
-#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class FieldSetter
-#else
-    partial class FieldInfoExtensions {
-    private class FieldSetter
-#endif
     {
         internal const string SetValueOptimized = nameof(SetValueOptimized);
 
@@ -49,11 +44,7 @@ namespace RockLib.Reflection.Optimized
         internal Action<object, object> Action => _action;
     }
 
-#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class FieldSetter<TFieldType>
-#else
-    private class FieldSetter<TFieldType>
-#endif
     {
         private readonly FieldInfo _field;
         private Action<object, TFieldType> _action;
@@ -94,11 +85,7 @@ namespace RockLib.Reflection.Optimized
         internal Action<object, TFieldType> Action => _action;
     }
 
-#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class FieldSetter<TDeclaringType, TFieldType>
-#else
-    private class FieldSetter<TDeclaringType, TFieldType>
-#endif
     {
         private readonly FieldInfo _field;
         private Action<TDeclaringType, TFieldType> _action;
@@ -137,11 +124,7 @@ namespace RockLib.Reflection.Optimized
         internal Action<TDeclaringType, TFieldType> Action => _action;
     }
 
-#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class StaticFieldSetter
-#else
-    private class StaticFieldSetter
-#endif
     {
         internal const string SetStaticValueOptimized = nameof(SetStaticValueOptimized);
 
@@ -174,11 +157,7 @@ namespace RockLib.Reflection.Optimized
         internal Action<object> Action => _action;
     }
 
-#if ROCKLIB_REFLECTION_OPTIMIZED
     internal class StaticFieldSetter<TFieldType>
-#else
-    private class StaticFieldSetter<TFieldType>
-#endif
     {
         private readonly FieldInfo _field;
         private Action<TFieldType> _action;
@@ -208,7 +187,4 @@ namespace RockLib.Reflection.Optimized
 
         internal Action<TFieldType> Action => _action;
     }
-#if !ROCKLIB_REFLECTION_OPTIMIZED
-    }
-#endif
 }

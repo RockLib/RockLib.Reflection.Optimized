@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>net5.0;netcoreapp3.1;net462;</TargetFrameworks>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="Xunit.Extensions.Ordering" Version="1.4.5" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
