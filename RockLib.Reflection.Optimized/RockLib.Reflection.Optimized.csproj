@@ -20,14 +20,6 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <DefineConstants>TRACE</DefineConstants>
-  </PropertyGroup>
-
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(Platform)\RockLib.Reflection.Optimized.xml</DocumentationFile>
   </PropertyGroup>
