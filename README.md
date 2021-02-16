@@ -3,7 +3,6 @@
 *Extension methods to improve reflection performance.*
 
 ##### Table of Contents
-- [Installing as Git submodule / shared project](#installing-as-git-submodule--shared-project)
 - [PropertyInfo and FieldInfo extension methods](#propertyinfo-and-fieldinfo-extension-methods)
   - [CreateGetter / CreateSetter](#creategetter--createsetter)
     - [Overloads](#overloads)
@@ -13,12 +12,6 @@
 - [Undecorate extension method](#undecorate-extension-method)
 
 ------
-
-## Installing as Git submodule / shared project
-
-Besides as a nuget package, another way to consume this library is as a submodule to an existing git repository. Add the RockLib.Reflection.Optimized submodule to your git repository. Then, add the shared project found in the submodule at `/RockLib.Reflection.Optimized.Shared/RockLib.Reflection.Optimized.Shared.shproj` to your solution. Finally, add a shared project reference to the project that needs optimized reflection.
-
-Consuming this library in this manner is intended for use by other libraries - it eliminates a nuget dependency and the optimized reflection extension methods are not exposed publicly.
 
 ## PropertyInfo and FieldInfo extension methods
 
