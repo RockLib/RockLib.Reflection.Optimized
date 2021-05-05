@@ -10,7 +10,7 @@
     <Authors>RockLib</Authors>
     <Description>Extension methods to improve reflection performance.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageReleaseNotes>A changelog is available at https://github.com/RockLib/RockLib.Reflection.Optimized/blob/main/RockLib.Reflection.Optimized/CHANGELOG.md.</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/RockLib/RockLib.Reflection.Optimized</PackageProjectUrl>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>icon.png</PackageIcon>
@@ -18,10 +18,17 @@
     <PackageTags>RockLib Reflection Undecorate</PackageTags>
     <Version>1.0.0</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PublishRepositoryUrl>True</PublishRepositoryUrl>
+    <EmbedUntrackedSources>True</EmbedUntrackedSources>
+    <DebugType>Embedded</DebugType>
   </PropertyGroup>
 
   <PropertyGroup>
-    <DocumentationFile>bin\$(Configuration)\$(Platform)\RockLib.Reflection.Optimized.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(Platform)\$(PackageId).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,4 +36,8 @@
     <None Include="..\icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+  </ItemGroup>
+  
 </Project>
