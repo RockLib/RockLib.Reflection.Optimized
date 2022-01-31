@@ -378,6 +378,11 @@ namespace RockLib.Reflection.Optimized.Tests
         private class Foo
         {
             public int Bar;
+
+            public Foo()
+            {
+                Bar = 0;
+            }
         }
 
         private class Baz

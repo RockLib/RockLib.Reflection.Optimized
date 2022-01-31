@@ -598,6 +598,12 @@ namespace RockLib.Reflection.Optimized.Tests
         {
             public int Bar;
             public readonly int Grault;
+
+            public Foo()
+            {
+                Bar = 0;
+                Grault = 0;
+            }
         }
 
         private class Fred
@@ -607,7 +613,14 @@ namespace RockLib.Reflection.Optimized.Tests
         private class Corge
         {
             public static int Bar;
+#pragma warning disable CS0649 // This is only used to check that a readonly static setter can't be created.  Other rules trigger by fixing this.
             public readonly static int Grault;
+#pragma warning restore CS0649
+
+            public Corge()
+            {
+                Bar = 0;
+            }
         }
     }
 }
