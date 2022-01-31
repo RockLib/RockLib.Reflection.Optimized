@@ -714,6 +714,7 @@ namespace RockLib.Reflection.Optimized.Tests
             beforeAction.Should().NotBeSameAs(afterAction);
         }
 
+#pragma warning disable CA1812 // Used with reflection to test the extensions
         private class Foo
         {
             public int Bar { get; set; }
@@ -728,6 +729,7 @@ namespace RockLib.Reflection.Optimized.Tests
         private class Fred
         {
         }
+#pragma warning restore CA1812
 
         private class Corge
         {
