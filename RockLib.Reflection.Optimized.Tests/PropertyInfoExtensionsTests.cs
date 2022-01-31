@@ -714,7 +714,7 @@ namespace RockLib.Reflection.Optimized.Tests
             beforeAction.Should().NotBeSameAs(afterAction);
         }
 
-        public class Foo
+        private class Foo
         {
             public int Bar { get; set; }
             public int Baz { set { } }
@@ -723,11 +723,11 @@ namespace RockLib.Reflection.Optimized.Tests
             public int Garply { get; private set; }
         }
 
-        public class Fred
+        private class Fred
         {
         }
 
-        public class Corge
+        private class Corge
         {
             public static int Bar { get; set; }
             public static int Baz { set { } }

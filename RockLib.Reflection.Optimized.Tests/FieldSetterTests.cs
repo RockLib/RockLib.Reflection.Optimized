@@ -375,12 +375,12 @@ namespace RockLib.Reflection.Optimized.Tests
                 throw new XunitException("GC was not able to commit the required amount of memory and the garbage collector was not able to enter no GC region latency mode.");
         }
 
-        public class Foo
+        private class Foo
         {
             public int Bar;
         }
 
-        public class Baz
+        private class Baz
         {
             public static int Qux = -1;
         }

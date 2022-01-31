@@ -548,29 +548,29 @@ namespace RockLib.Reflection.Optimized.Tests
                 throw new XunitException("GC was not able to commit the required amount of memory and the garbage collector was not able to enter no GC region latency mode.");
         }
 
-        public class Foo
+        private class Foo
         {
             public Foo(string bar) => Bar = bar;
             public string Bar;
         }
 
-        public class Bar
+        private class Bar
         {
             public Baz Baz;
         }
 
-        public interface IBaz
+        private interface IBaz
         {
             int Qux { get; }
         }
 
-        public struct Baz : IBaz
+        private struct Baz : IBaz
         {
             public Baz(int qux) => Qux = qux;
             public int Qux { get; }
         }
 
-        public class Garply
+        private class Garply
         {
             private Garply() {}
             public static string Bar = "abc";
