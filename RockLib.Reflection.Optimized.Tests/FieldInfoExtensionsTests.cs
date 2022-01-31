@@ -597,7 +597,7 @@ namespace RockLib.Reflection.Optimized.Tests
         private class Foo
         {
             public int Bar;
-            public readonly int Grault = 0;
+            public readonly int Grault;
         }
 
         private class Fred
@@ -607,7 +607,7 @@ namespace RockLib.Reflection.Optimized.Tests
         private class Corge
         {
             public static int Bar;
-            public readonly static int Grault = 0;
+            public readonly static int Grault;
         }
     }
 }
