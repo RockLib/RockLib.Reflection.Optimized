@@ -717,9 +717,11 @@ namespace RockLib.Reflection.Optimized.Tests
         private class Foo
         {
             public int Bar { get; set; }
+#pragma warning disable CA1822 // Needed to check that CreateGetter throws with no get specified
             public int Baz { set { } }
+#pragma warning restore CA1822
             public int Qux { private get; set; }
-            public int Grault => 0;
+            public int Grault => Bar;
             public int Garply { get; private set; }
         }
 
