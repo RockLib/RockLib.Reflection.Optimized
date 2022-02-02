@@ -19,7 +19,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>A function that gets the property value.</returns>
         public static Func<object, object> CreateGetter(this PropertyInfo property)
         {
-            if (property == null)
+            if (property is null)
                 throw new ArgumentNullException(nameof(property));
             if (!property.CanRead || !property.GetMethod.IsPublic)
                 throw new ArgumentException("Property must have public getter.", nameof(property));
@@ -42,7 +42,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>A function that gets the property value.</returns>
         public static Func<object, TPropertyType> CreateGetter<TPropertyType>(this PropertyInfo property)
         {
-            if (property == null)
+            if (property is null)
                 throw new ArgumentNullException(nameof(property));
             if (!typeof(TPropertyType).IsAssignableFrom(property.PropertyType))
                 throw new ArgumentException("TPropertyType must be assignable from property.PropertyType", nameof(property));
@@ -72,7 +72,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>A function that gets the property value.</returns>
         public static Func<TDeclaringType, TPropertyType> CreateGetter<TDeclaringType, TPropertyType>(this PropertyInfo property)
         {
-            if (property == null)
+            if (property is null)
                 throw new ArgumentNullException(nameof(property));
             if (!property.DeclaringType.IsAssignableFrom(typeof(TDeclaringType)))
                 throw new ArgumentException("property.DeclaringType must be assignable from TDeclaringType", nameof(property));
@@ -96,7 +96,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>An action that sets the property value.</returns>
         public static Action<object, object> CreateSetter(this PropertyInfo property)
         {
-            if (property == null)
+            if (property is null)
                 throw new ArgumentNullException(nameof(property));
             if (!property.CanWrite || !property.SetMethod.IsPublic)
                 throw new ArgumentException("property must have public setter", nameof(property));
@@ -120,7 +120,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>An action that sets the property value.</returns>
         public static Action<object, TPropertyType> CreateSetter<TPropertyType>(this PropertyInfo property)
         {
-            if (property == null)
+            if (property is null)
                 throw new ArgumentNullException(nameof(property));
             if (!property.PropertyType.IsAssignableFrom(typeof(TPropertyType)))
                 throw new ArgumentException("property.PropertyType must be assignable from TPropertyType", nameof(property));
@@ -151,7 +151,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>An action that sets the property value.</returns>
         public static Action<TDeclaringType, TPropertyType> CreateSetter<TDeclaringType, TPropertyType>(this PropertyInfo property)
         {
-            if (property == null)
+            if (property is null)
                 throw new ArgumentNullException(nameof(property));
             if (!property.PropertyType.IsAssignableFrom(typeof(TPropertyType)))
                 throw new ArgumentException("property.PropertyType must be assignable from TPropertyType", nameof(property));
@@ -172,7 +172,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>A function that gets the static property value.</returns>
         public static Func<object> CreateStaticGetter(this PropertyInfo property)
         {
-            if (property == null)
+            if (property is null)
                 throw new ArgumentNullException(nameof(property));
             if (!property.CanRead || !property.GetMethod.IsPublic)
                 throw new ArgumentException("Property must have public getter.", nameof(property));
@@ -195,7 +195,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>A function that gets the static property value.</returns>
         public static Func<TPropertyType> CreateStaticGetter<TPropertyType>(this PropertyInfo property)
         {
-            if (property == null)
+            if (property is null)
                 throw new ArgumentNullException(nameof(property));
             if (!typeof(TPropertyType).IsAssignableFrom(property.PropertyType))
                 throw new ArgumentException("TPropertyType must be assignable from property.PropertyType", nameof(property));
@@ -217,7 +217,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>An action that sets the static property value.</returns>
         public static Action<object> CreateStaticSetter(this PropertyInfo property)
         {
-            if (property == null)
+            if (property is null)
                 throw new ArgumentNullException(nameof(property));
             if (!property.CanWrite || !property.SetMethod.IsPublic)
                 throw new ArgumentException("property must have public setter", nameof(property));
@@ -241,7 +241,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>An action that sets the static property value.</returns>
         public static Action<TPropertyType> CreateStaticSetter<TPropertyType>(this PropertyInfo property)
         {
-            if (property == null)
+            if (property is null)
                 throw new ArgumentNullException(nameof(property));
             if (!property.PropertyType.IsAssignableFrom(typeof(TPropertyType)))
                 throw new ArgumentException("property.PropertyType must be assignable from TPropertyType", nameof(property));

@@ -19,7 +19,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>A function that gets the field value.</returns>
         public static Func<object, object> CreateGetter(this FieldInfo field)
         {
-            if (field == null)
+            if (field is null)
                 throw new ArgumentNullException(nameof(field));
 
             var getter = new FieldGetter(field);
@@ -40,7 +40,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>A function that gets the field value.</returns>
         public static Func<object, TFieldType> CreateGetter<TFieldType>(this FieldInfo field)
         {
-            if (field == null)
+            if (field is null)
                 throw new ArgumentNullException(nameof(field));
             if (!typeof(TFieldType).IsAssignableFrom(field.FieldType))
                 throw new ArgumentException("TFieldType must be assignable from field.FieldType", nameof(field));
@@ -68,7 +68,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>A function that gets the field value.</returns>
         public static Func<TDeclaringType, TFieldType> CreateGetter<TDeclaringType, TFieldType>(this FieldInfo field)
         {
-            if (field == null)
+            if (field is null)
                 throw new ArgumentNullException(nameof(field));
             if (!field.DeclaringType.IsAssignableFrom(typeof(TDeclaringType)))
                 throw new ArgumentException("field.DeclaringType must be assignable from TDeclaringType", nameof(field));
@@ -90,7 +90,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>An action that sets the field value.</returns>
         public static Action<object, object> CreateSetter(this FieldInfo field)
         {
-            if (field == null)
+            if (field is null)
                 throw new ArgumentNullException(nameof(field));
             if (field.IsInitOnly)
                 throw new ArgumentException("field cannot be readonly", nameof(field));
@@ -114,7 +114,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>An action that sets the field value.</returns>
         public static Action<object, TFieldType> CreateSetter<TFieldType>(this FieldInfo field)
         {
-            if (field == null)
+            if (field is null)
                 throw new ArgumentNullException(nameof(field));
             if (!field.FieldType.IsAssignableFrom(typeof(TFieldType)))
                 throw new ArgumentException("field.FieldType must be assignable from TFieldType", nameof(field));
@@ -145,7 +145,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>An action that sets the field value.</returns>
         public static Action<TDeclaringType, TFieldType> CreateSetter<TDeclaringType, TFieldType>(this FieldInfo field)
         {
-            if (field == null)
+            if (field is null)
                 throw new ArgumentNullException(nameof(field));
             if (!field.FieldType.IsAssignableFrom(typeof(TFieldType)))
                 throw new ArgumentException("field.FieldType must be assignable from TFieldType", nameof(field));
@@ -166,7 +166,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>A function that gets the static field value.</returns>
         public static Func<object> CreateStaticGetter(this FieldInfo field)
         {
-            if (field == null)
+            if (field is null)
                 throw new ArgumentNullException(nameof(field));
             if (!field.IsStatic)
                 throw new ArgumentException("Field must be static.", nameof(field));
@@ -187,7 +187,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>A function that gets the static field value.</returns>
         public static Func<TFieldType> CreateStaticGetter<TFieldType>(this FieldInfo field)
         {
-            if (field == null)
+            if (field is null)
                 throw new ArgumentNullException(nameof(field));
             if (!typeof(TFieldType).IsAssignableFrom(field.FieldType))
                 throw new ArgumentException("TFieldType must be assignable from field.FieldType", nameof(field));
@@ -207,7 +207,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>An action that sets the static field value.</returns>
         public static Action<object> CreateStaticSetter(this FieldInfo field)
         {
-            if (field == null)
+            if (field is null)
                 throw new ArgumentNullException(nameof(field));
             if (field.IsInitOnly)
                 throw new ArgumentException("field cannot be readonly", nameof(field));
@@ -231,7 +231,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>An action that sets the static field value.</returns>
         public static Action<TFieldType> CreateStaticSetter<TFieldType>(this FieldInfo field)
         {
-            if (field == null)
+            if (field is null)
                 throw new ArgumentNullException(nameof(field));
             if (!field.FieldType.IsAssignableFrom(typeof(TFieldType)))
                 throw new ArgumentException("field.FieldType must be assignable from TFieldType", nameof(field));
