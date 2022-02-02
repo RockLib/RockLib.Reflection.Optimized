@@ -3,7 +3,6 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using Xunit;
-using Xunit.Sdk;
 
 namespace RockLib.Reflection.Optimized.Tests
 {
@@ -12,7 +11,6 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void FieldGetterWorks()
         {
-            var gc = new GCNoRegion(4194304);
 
             var foo = new Foo("abc");
             var field = typeof(Foo).GetField(nameof(Foo.Bar));
@@ -23,7 +21,7 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.Func.Method.Name.Should().Be(nameof(field.GetValue));
             getter.Func.Method.DeclaringType.Should().BeAssignableTo(typeof(FieldInfo));
 
-            try
+            using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
                 object reflectionValue = getter.GetValue(foo);
@@ -42,18 +40,11 @@ namespace RockLib.Reflection.Optimized.Tests
                 optimizedValue.Should().Be(reflectionValue);
                 optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            finally
-            {
-                gc.Dispose();
-            }
-
         }
 
         [Fact]
         public void FieldGetter1Works()
         {
-            var gc = new GCNoRegion(4194304);
-
             var foo = new Foo("abc");
             var field = typeof(Foo).GetField(nameof(Foo.Bar));
 
@@ -63,7 +54,7 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
             getter.Func.Method.DeclaringType.Should().Be(typeof(FieldGetter<string>));
 
-            try
+            using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
                 string reflectionValue = getter.GetValue(foo);
@@ -82,17 +73,11 @@ namespace RockLib.Reflection.Optimized.Tests
                 optimizedValue.Should().Be(reflectionValue);
                 optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            finally
-            {
-                gc.Dispose();
-            }
         }
 
         [Fact]
         public void FieldGetter2Works()
         {
-            var gc = new GCNoRegion(4194304);
-
             var foo = new Foo("abc");
             var field = typeof(Foo).GetField(nameof(Foo.Bar));
 
@@ -102,7 +87,7 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
             getter.Func.Method.DeclaringType.Should().Be(typeof(FieldGetter<Foo, string>));
 
-            try
+            using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
                 string reflectionValue = getter.GetValue(foo);
@@ -121,17 +106,11 @@ namespace RockLib.Reflection.Optimized.Tests
                 optimizedValue.Should().Be(reflectionValue);
                 optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            finally
-            {
-                gc.Dispose();
-            }
         }
 
         [Fact]
         public void FieldGetterWorksWithBoxing()
         {
-            var gc = new GCNoRegion(4194304);
-
             var bar = new Bar { Baz = new Baz(123) };
             var field = typeof(Bar).GetField(nameof(Bar.Baz));
 
@@ -141,7 +120,7 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.Func.Method.Name.Should().Be(nameof(field.GetValue));
             getter.Func.Method.DeclaringType.Should().BeAssignableTo(typeof(FieldInfo));
 
-            try
+            using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
                 object reflectionValue = getter.GetValue(bar);
@@ -160,17 +139,11 @@ namespace RockLib.Reflection.Optimized.Tests
                 optimizedValue.Should().Be(reflectionValue);
                 optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            finally
-            {
-                gc.Dispose();
-            }
         }
 
         [Fact]
         public void FieldGetter1WorksWithBoxing()
         {
-            var gc = new GCNoRegion(4194304);
-
             var bar = new Bar { Baz = new Baz(123) };
             var field = typeof(Bar).GetField(nameof(Bar.Baz));
 
@@ -180,7 +153,7 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
             getter.Func.Method.DeclaringType.Should().Be(typeof(FieldGetter<IBaz>));
 
-            try
+            using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
                 IBaz reflectionValue = getter.GetValue(bar);
@@ -199,17 +172,11 @@ namespace RockLib.Reflection.Optimized.Tests
                 optimizedValue.Should().Be(reflectionValue);
                 optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            finally
-            {
-                gc.Dispose();
-            }
         }
 
         [Fact]
         public void FieldGetter2WorksWithBoxing()
         {
-            var gc = new GCNoRegion(4194304);
-
             var bar = new Bar { Baz = new Baz(123) };
             var field = typeof(Bar).GetField(nameof(Bar.Baz));
 
@@ -219,7 +186,7 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
             getter.Func.Method.DeclaringType.Should().Be(typeof(FieldGetter<Bar, IBaz>));
 
-            try
+            using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
                 IBaz reflectionValue = getter.GetValue(bar);
@@ -238,17 +205,11 @@ namespace RockLib.Reflection.Optimized.Tests
                 optimizedValue.Should().Be(reflectionValue);
                 optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            finally
-            {
-                gc.Dispose();
-            }
         }
 
         [Fact]
         public void FieldGetterWorksWithStatic()
         {
-            var gc = new GCNoRegion(4194304);
-
             var field = typeof(Garply).GetField(nameof(Garply.Bar));
 
             var getter = new FieldGetter(field);
@@ -257,7 +218,7 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.Func.Method.Name.Should().Be(nameof(field.GetValue));
             getter.Func.Method.DeclaringType.Should().BeAssignableTo(typeof(FieldInfo));
 
-            try
+            using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
                 object reflectionValue = getter.GetValue(null);
@@ -276,17 +237,11 @@ namespace RockLib.Reflection.Optimized.Tests
                 optimizedValue.Should().Be(reflectionValue);
                 optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            finally
-            {
-                gc.Dispose();
-            }
         }
 
         [Fact]
         public void FieldGetter1WorksWithStatic()
         {
-            var gc = new GCNoRegion(4194304);
-
             var field = typeof(Garply).GetField(nameof(Garply.Bar));
 
             var getter = new FieldGetter<string>(field);
@@ -295,7 +250,7 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
             getter.Func.Method.DeclaringType.Should().Be(typeof(FieldGetter<string>));
 
-            try
+            using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
                 string reflectionValue = getter.GetValue(null);
@@ -314,17 +269,11 @@ namespace RockLib.Reflection.Optimized.Tests
                 optimizedValue.Should().Be(reflectionValue);
                 optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            finally
-            {
-                gc.Dispose();
-            }
         }
 
         [Fact]
         public void FieldGetter2WorksWithStatic()
         {
-            var gc = new GCNoRegion(4194304);
-
             var field = typeof(Garply).GetField(nameof(Garply.Bar));
 
             var getter = new FieldGetter<Garply, string>(field);
@@ -333,7 +282,7 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
             getter.Func.Method.DeclaringType.Should().Be(typeof(FieldGetter<Garply, string>));
 
-            try
+            using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
                 string reflectionValue = getter.GetValue(null);
@@ -352,17 +301,11 @@ namespace RockLib.Reflection.Optimized.Tests
                 optimizedValue.Should().Be(reflectionValue);
                 optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            finally
-            {
-                gc.Dispose();
-            }
         }
 
         [Fact]
         public void StaticFieldGetterWorks()
         {
-            var gc = new GCNoRegion(4194304);
-
             var field = typeof(Garply).GetField(nameof(Garply.Bar));
 
             var getter = new StaticFieldGetter(field);
@@ -371,7 +314,7 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
             getter.Func.Method.DeclaringType.Should().Be(typeof(StaticFieldGetter));
 
-            try
+            using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
                 object reflectionValue = getter.GetValue();
@@ -390,17 +333,11 @@ namespace RockLib.Reflection.Optimized.Tests
                 optimizedValue.Should().Be(reflectionValue);
                 optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            finally
-            {
-                gc.Dispose();
-            }
         }
 
         [Fact]
         public void StaticFieldGetter1Works()
         {
-            var gc = new GCNoRegion(4194304);
-
             var field = typeof(Garply).GetField(nameof(Garply.Bar));
 
             var getter = new StaticFieldGetter<string>(field);
@@ -409,7 +346,7 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
             getter.Func.Method.DeclaringType.Should().Be(typeof(StaticFieldGetter<string>));
 
-            try
+            using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
                 string reflectionValue = getter.GetValue();
@@ -428,17 +365,11 @@ namespace RockLib.Reflection.Optimized.Tests
                 optimizedValue.Should().Be(reflectionValue);
                 optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            finally
-            {
-                gc.Dispose();
-            }
         }
 
         [Fact]
         public void StaticFieldGetterWorksWithBoxing()
         {
-            var gc = new GCNoRegion(4194304);
-
             var field = typeof(Garply).GetField(nameof(Garply.Baz));
 
             var getter = new StaticFieldGetter(field);
@@ -447,7 +378,7 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
             getter.Func.Method.DeclaringType.Should().Be(typeof(StaticFieldGetter));
 
-            try
+            using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
                 object reflectionValue = getter.GetValue();
@@ -466,17 +397,11 @@ namespace RockLib.Reflection.Optimized.Tests
                 optimizedValue.Should().Be(reflectionValue);
                 optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            finally
-            {
-                gc.Dispose();
-            }
         }
 
         [Fact]
         public void StaticFieldGetter1WorksWithBoxing()
         {
-            var gc = new GCNoRegion(4194304);
-
             var field = typeof(Garply).GetField(nameof(Garply.Baz));
 
             var getter = new StaticFieldGetter<IBaz>(field);
@@ -485,7 +410,7 @@ namespace RockLib.Reflection.Optimized.Tests
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
             getter.Func.Method.DeclaringType.Should().Be(typeof(StaticFieldGetter<IBaz>));
 
-            try
+            using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
                 IBaz reflectionValue = getter.GetValue();
@@ -503,10 +428,6 @@ namespace RockLib.Reflection.Optimized.Tests
 
                 optimizedValue.Should().Be(reflectionValue);
                 optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
-            }
-            finally
-            {
-                gc.Dispose();
             }
         }
 
