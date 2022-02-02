@@ -10,7 +10,7 @@ namespace RockLib.Reflection.Optimized
         internal const string GetValueOptimized = nameof(GetValueOptimized);
 
         private readonly FieldInfo _field;
-        private Func<object, object> _func;
+        private Func<object, object?> _func;
 
         public FieldGetter(FieldInfo field)
         {
@@ -18,7 +18,7 @@ namespace RockLib.Reflection.Optimized
             _func = _field.GetValue;
         }
 
-        public object GetValue(object obj) => _func.Invoke(obj);
+        public object GetValue(object obj) => _func.Invoke(obj)!;
 
         public void SetOptimizedFunc()
         {
@@ -40,7 +40,7 @@ namespace RockLib.Reflection.Optimized
             _func = lambda.Compile();
         }
 
-        internal Func<object, object> Func => _func;
+        internal Func<object, object?> Func => _func;
     }
 
     internal class FieldGetter<TFieldType>

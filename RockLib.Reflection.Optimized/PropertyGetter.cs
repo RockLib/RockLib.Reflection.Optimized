@@ -10,7 +10,7 @@ namespace RockLib.Reflection.Optimized
         internal const string GetValueOptimized = nameof(GetValueOptimized);
 
         private readonly PropertyInfo _property;
-        private Func<object, object> _func;
+        private Func<object, object?> _func;
 
         public PropertyGetter(PropertyInfo property)
         {
@@ -18,7 +18,7 @@ namespace RockLib.Reflection.Optimized
             _func = _property.GetValue;
         }
 
-        public object GetValue(object obj) => _func.Invoke(obj);
+        public object GetValue(object obj) => _func.Invoke(obj)!;
 
         public void SetOptimizedFunc()
         {
@@ -40,7 +40,7 @@ namespace RockLib.Reflection.Optimized
             _func = lambda.Compile();
         }
 
-        internal Func<object, object> Func => _func;
+        internal Func<object, object?> Func => _func;
     }
 
     internal class PropertyGetter<TPropertyType>
