@@ -14,7 +14,7 @@ namespace RockLib.Reflection.Optimized
 
         public FieldGetter(FieldInfo field)
         {
-            _field = field;
+            _field = field ?? throw new ArgumentNullException(nameof(field));
             _func = _field.GetValue;
         }
 
@@ -27,14 +27,20 @@ namespace RockLib.Reflection.Optimized
             Expression body;
 
             if (_field.IsStatic)
+            {
                 body = Expression.Field(null, _field);
-            else
+            }
+            else if (_field.DeclaringType != null)
+            {
                 body = Expression.Field(
                     Expression.Convert(objParameter, _field.DeclaringType),
                     _field);
+            }
 
             if (_field.FieldType.IsValueType)
+            {
                 body = Expression.Convert(body, typeof(object));
+            }
 
             var lambda = Expression.Lambda<Func<object, object>>(body, GetValueOptimized, new[] { objParameter });
             _func = lambda.Compile();
@@ -50,7 +56,7 @@ namespace RockLib.Reflection.Optimized
 
         public FieldGetter(FieldInfo field)
         {
-            _field = field;
+            _field = field ?? throw new ArgumentNullException(nameof(field));
             _func = GetValueReflection;
         }
 
@@ -63,14 +69,20 @@ namespace RockLib.Reflection.Optimized
             Expression body;
 
             if (_field.IsStatic)
+            {
                 body = Expression.Field(null, _field);
-            else
+            }
+            else if (_field.DeclaringType != null)
+            {
                 body = Expression.Field(
                     Expression.Convert(objParameter, _field.DeclaringType),
                     _field);
+            }
 
             if (_field.FieldType.IsValueType && !typeof(TFieldType).IsValueType)
+            {
                 body = Expression.Convert(body, typeof(TFieldType));
+            }
 
             var lambda = Expression.Lambda<Func<object, TFieldType>>(body, FieldGetter.GetValueOptimized, new[] { objParameter });
             _func = lambda.Compile();

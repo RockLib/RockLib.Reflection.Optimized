@@ -13,7 +13,7 @@ namespace RockLib.Reflection.Optimized
 
         public FieldSetter(FieldInfo field)
         {
-            _field = field;
+            _field = field ?? throw new ArgumentNullException(nameof(field));
             _action = _field.SetValue;
         }
 
@@ -27,15 +27,19 @@ namespace RockLib.Reflection.Optimized
             Expression body;
 
             if (_field.IsStatic)
+            {
                 body = Expression.Assign(
                     Expression.Field(null, _field),
                     Expression.Convert(valueParameter, _field.FieldType));
-            else
+            }
+            else if (_field.DeclaringType != null)
+            {
                 body = Expression.Assign(
                     Expression.Field(
                         Expression.Convert(objParameter, _field.DeclaringType),
                         _field),
                     Expression.Convert(valueParameter, _field.FieldType));
+            }
 
             var lambda = Expression.Lambda<Action<object, object>>(body, SetValueOptimized, new[] { objParameter, valueParameter });
             _action = lambda.Compile();
@@ -65,15 +69,19 @@ namespace RockLib.Reflection.Optimized
             Expression body;
 
             if (_field.IsStatic)
+            {
                 body = Expression.Assign(
                     Expression.Field(null, _field),
                     valueParameter);
-            else
+            }
+            else if (_field.DeclaringType != null)
+            {
                 body = Expression.Assign(
                     Expression.Field(
                         Expression.Convert(objParameter, _field.DeclaringType),
                         _field),
                     valueParameter);
+            }
 
             var lambda = Expression.Lambda<Action<object, TFieldType>>(body, FieldSetter.SetValueOptimized, new[] { objParameter, valueParameter });
             _action = lambda.Compile();

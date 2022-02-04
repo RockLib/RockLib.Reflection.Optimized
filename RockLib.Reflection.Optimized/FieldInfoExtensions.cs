@@ -248,7 +248,7 @@ namespace RockLib.Reflection.Optimized
         #region Members for testing
 
         private static void QueueUserWorkItem<TState>(TState state, Action<TState> callback) =>
-            _queueUserWorkItem.Invoke(s => callback((TState)s), state);
+            _queueUserWorkItem.Invoke(s => callback((TState)s!), state!);
 
         internal static void SetQueueUserWorkItemAction(Action<WaitCallback, object> queueUserWorkItemAction) =>
             _queueUserWorkItem = queueUserWorkItemAction ?? ThreadPoolQueueUserWorkItem;

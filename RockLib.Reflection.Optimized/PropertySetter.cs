@@ -13,7 +13,7 @@ namespace RockLib.Reflection.Optimized
 
         public PropertySetter(PropertyInfo property)
         {
-            _property = property;
+            _property = property ?? throw new ArgumentNullException(nameof(property));
             _action = _property.SetValue;
         }
 
@@ -26,15 +26,24 @@ namespace RockLib.Reflection.Optimized
 
             Expression body;
 
+            if (_property.SetMethod is null)
+            {
+                return;
+            }
+
             if (_property.SetMethod.IsStatic)
+            {
                 body = Expression.Call(
                     _property.SetMethod,
                     Expression.Convert(valueParameter, _property.PropertyType));
-            else
-                body = Expression.Call(
-                    Expression.Convert(objParameter, _property.DeclaringType),
-                    _property.SetMethod,
-                    Expression.Convert(valueParameter, _property.PropertyType));
+            }
+            else if (_property.DeclaringType != null)
+            {
+                    body = Expression.Call(
+                        Expression.Convert(objParameter, _property.DeclaringType),
+                        _property.SetMethod,
+                        Expression.Convert(valueParameter, _property.PropertyType));
+            }
 
             var lambda = Expression.Lambda<Action<object, object>>(body, SetValueOptimized, new[] { objParameter, valueParameter });
             _action = lambda.Compile();
@@ -50,7 +59,7 @@ namespace RockLib.Reflection.Optimized
 
         public PropertySetter(PropertyInfo property)
         {
-            _property = property;
+            _property = property ?? throw new ArgumentNullException(nameof(property));
             _action = SetValueReflection;
         }
 
@@ -63,15 +72,24 @@ namespace RockLib.Reflection.Optimized
 
             Expression body;
 
+            if (_property.SetMethod is null)
+            {
+                return;
+            }
+
             if (_property.SetMethod.IsStatic)
+            {
                 body = Expression.Call(
                     _property.SetMethod,
                     valueParameter);
-            else
-                body = Expression.Call(
-                    Expression.Convert(objParameter, _property.DeclaringType),
-                    _property.SetMethod,
-                    valueParameter);
+            }
+            else if (_property.DeclaringType != null)
+            {
+                    body = Expression.Call(
+                        Expression.Convert(objParameter, _property.DeclaringType),
+                        _property.SetMethod,
+                        valueParameter);
+            }
 
             var lambda = Expression.Lambda<Action<object, TPropertyType>>(body, PropertySetter.SetValueOptimized, new[] { objParameter, valueParameter });
             _action = lambda.Compile();
@@ -142,6 +160,10 @@ namespace RockLib.Reflection.Optimized
         {
             var valueParameter = Expression.Parameter(typeof(object), "value");
 
+            if (_property.SetMethod is null)
+            {
+                return;
+            }
             Expression body = Expression.Call(
                 _property.SetMethod,
                 Expression.Convert(valueParameter, _property.PropertyType));
@@ -163,7 +185,7 @@ namespace RockLib.Reflection.Optimized
 
         public StaticPropertySetter(PropertyInfo property)
         {
-            _property = property;
+            _property = property ?? throw new ArgumentNullException(nameof(property));
             _action = SetValueReflection;
         }
 
@@ -173,6 +195,10 @@ namespace RockLib.Reflection.Optimized
         {
             var valueParameter = Expression.Parameter(typeof(TPropertyType), "value");
 
+            if (_property.SetMethod is null)
+            {
+                return;
+            }
             Expression body = Expression.Call(
                 _property.SetMethod,
                 valueParameter);

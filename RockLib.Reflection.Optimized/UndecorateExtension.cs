@@ -59,7 +59,7 @@ namespace RockLib.Reflection.Optimized
 
         private static IEnumerable<FieldInfo> GetAllFields(Type type)
         {
-            if (type is null)
+            if (type is null || type.BaseType is null)
                 return Enumerable.Empty<FieldInfo>();
 
             return type.GetFields(Public | NonPublic | Instance | DeclaredOnly).Concat(GetAllFields(type.BaseType));
