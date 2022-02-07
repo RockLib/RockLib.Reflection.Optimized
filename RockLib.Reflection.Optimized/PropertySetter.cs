@@ -24,7 +24,7 @@ namespace RockLib.Reflection.Optimized
             var objParameter = Expression.Parameter(typeof(object), "obj");
             var valueParameter = Expression.Parameter(typeof(object), "value");
 
-            Expression body;
+            Expression body = null!;
 
             if (_property.SetMethod is null)
             {
@@ -70,7 +70,7 @@ namespace RockLib.Reflection.Optimized
             var objParameter = Expression.Parameter(typeof(object), "obj");
             var valueParameter = Expression.Parameter(typeof(TPropertyType), "value");
 
-            Expression body;
+            Expression body = null!;
 
             if (_property.SetMethod is null)
             {

@@ -24,7 +24,7 @@ namespace RockLib.Reflection.Optimized
             var objParameter = Expression.Parameter(typeof(object), "obj");
             var valueParameter = Expression.Parameter(typeof(object), "value");
 
-            Expression body;
+            Expression body = null!;
 
             if (_field.IsStatic)
             {
@@ -66,7 +66,7 @@ namespace RockLib.Reflection.Optimized
             var objParameter = Expression.Parameter(typeof(object), "obj");
             var valueParameter = Expression.Parameter(typeof(TFieldType), "value");
 
-            Expression body;
+            Expression body = null!;
 
             if (_field.IsStatic)
             {
