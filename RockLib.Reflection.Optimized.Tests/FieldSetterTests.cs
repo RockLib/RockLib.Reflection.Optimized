@@ -131,7 +131,7 @@ namespace RockLib.Reflection.Optimized.Tests
             using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
-                setter.SetValue(null, 123);
+                setter.SetValue(null!, 123);
                 reflectionTimer.Stop();
 
                 Baz.Qux.Should().Be(123);
@@ -143,7 +143,7 @@ namespace RockLib.Reflection.Optimized.Tests
                 setter.Action.Method.DeclaringType.Should().NotBe(typeof(FieldInfo));
 
                 var optimizedTimer = Stopwatch.StartNew();
-                setter.SetValue(null, 456);
+                setter.SetValue(null!, 456);
                 optimizedTimer.Stop();
 
                 Baz.Qux.Should().Be(456);
@@ -168,7 +168,7 @@ namespace RockLib.Reflection.Optimized.Tests
             using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
-                setter.SetValue(null, 123);
+                setter.SetValue(null!, 123);
                 reflectionTimer.Stop();
 
                 Baz.Qux.Should().Be(123);
@@ -180,7 +180,7 @@ namespace RockLib.Reflection.Optimized.Tests
                 setter.Action.Method.DeclaringType.Should().NotBe(typeof(FieldSetter<int>));
 
                 var optimizedTimer = Stopwatch.StartNew();
-                setter.SetValue(null, 456);
+                setter.SetValue(null!, 456);
                 optimizedTimer.Stop();
 
                 Baz.Qux.Should().Be(456);
@@ -205,7 +205,7 @@ namespace RockLib.Reflection.Optimized.Tests
             using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
-                setter.SetValue(null, 123);
+                setter.SetValue(null!, 123);
                 reflectionTimer.Stop();
 
                 Baz.Qux.Should().Be(123);
@@ -217,7 +217,7 @@ namespace RockLib.Reflection.Optimized.Tests
                 setter.Action.Method.DeclaringType.Should().NotBe(typeof(FieldSetter<Foo, int>));
 
                 var optimizedTimer = Stopwatch.StartNew();
-                setter.SetValue(null, 456);
+                setter.SetValue(null!, 456);
                 optimizedTimer.Stop();
 
                 Baz.Qux.Should().Be(456);

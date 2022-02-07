@@ -13,14 +13,14 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateGetterThrowsIfFieldParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateGetter(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateGetter(null!));
             exception.ParamName.Should().Be("field");
         }
 
         [Fact]
         public void CreateGetter1ThrowsIfFieldParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateGetter<int>(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateGetter<int>(null!));
             exception.ParamName.Should().Be("field");
         }
 
@@ -35,7 +35,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateGetter2ThrowsIfFieldParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateGetter<Foo, int>(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateGetter<Foo, int>(null!));
             exception.ParamName.Should().Be("field");
         }
 
@@ -58,7 +58,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateSetterThrowsIfFieldParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateSetter(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateSetter(null!));
             exception.ParamName.Should().Be("field");
         }
 
@@ -73,7 +73,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateSetter1ThrowsIfFieldParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateSetter<int>(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateSetter<int>(null!));
             exception.ParamName.Should().Be("field");
         }
 
@@ -96,7 +96,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateSetter2ThrowsIfFieldParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateSetter<Foo, int>(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateSetter<Foo, int>(null!));
             exception.ParamName.Should().Be("field");
         }
 
@@ -127,7 +127,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateStaticGetterThrowsIfFieldParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateStaticGetter(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateStaticGetter(null!));
             exception.ParamName.Should().Be("field");
         }
 
@@ -142,7 +142,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateStaticGetter1ThrowsIfFieldParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateStaticGetter<int>(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateStaticGetter<int>(null!));
             exception.ParamName.Should().Be("field");
         }
 
@@ -165,7 +165,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateStaticSetterThrowsIfFieldParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateStaticSetter(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateStaticSetter(null!));
             exception.ParamName.Should().Be("field");
         }
 
@@ -188,7 +188,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateStaticSetter1ThrowsIfFieldParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateStaticSetter<int>(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => FieldInfoExtensions.CreateStaticSetter<int>(null!));
             exception.ParamName.Should().Be("field");
         }
 
@@ -220,7 +220,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetterWorks()
         {
             Func<object, object> getter;
-            var queued = (Callback: (WaitCallback)null, FieldGetter: (FieldGetter)null);
+            var queued = (Callback: (WaitCallback)null!, FieldGetter: (FieldGetter)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (FieldGetter)state);
 
@@ -232,7 +232,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                FieldInfoExtensions.SetQueueUserWorkItemAction(null);
+                FieldInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -257,7 +257,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetter1Works()
         {
             Func<object, int> getter;
-            var queued = (Callback: (WaitCallback)null, FieldGetter: (FieldGetter<int>)null);
+            var queued = (Callback: (WaitCallback)null!, FieldGetter: (FieldGetter<int>)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (FieldGetter<int>)state);
 
@@ -269,7 +269,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                FieldInfoExtensions.SetQueueUserWorkItemAction(null);
+                FieldInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -294,7 +294,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetter2Works()
         {
             Func<Foo, int> getter;
-            var queued = (Callback: (WaitCallback)null, FieldGetter: (FieldGetter<Foo, int>)null);
+            var queued = (Callback: (WaitCallback)null!, FieldGetter: (FieldGetter<Foo, int>)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (FieldGetter<Foo, int>)state);
 
@@ -306,7 +306,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                FieldInfoExtensions.SetQueueUserWorkItemAction(null);
+                FieldInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -331,7 +331,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetterWorks()
         {
             Action<object, object> setter;
-            var queued = (Callback: (WaitCallback)null, FieldSetter: (FieldSetter)null);
+            var queued = (Callback: (WaitCallback)null!, FieldSetter: (FieldSetter)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (FieldSetter)state);
 
@@ -343,7 +343,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                FieldInfoExtensions.SetQueueUserWorkItemAction(null);
+                FieldInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -368,7 +368,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter1Works()
         {
             Action<object, int> setter;
-            var queued = (Callback: (WaitCallback)null, FieldSetter: (FieldSetter<int>)null);
+            var queued = (Callback: (WaitCallback)null!, FieldSetter: (FieldSetter<int>)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (FieldSetter<int>)state);
 
@@ -380,7 +380,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                FieldInfoExtensions.SetQueueUserWorkItemAction(null);
+                FieldInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -405,7 +405,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter2Works()
         {
             Action<Foo, int> setter;
-            var queued = (Callback: (WaitCallback)null, FieldSetter: (FieldSetter<Foo, int>)null);
+            var queued = (Callback: (WaitCallback)null!, FieldSetter: (FieldSetter<Foo, int>)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (FieldSetter<Foo, int>)state);
 
@@ -417,7 +417,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                FieldInfoExtensions.SetQueueUserWorkItemAction(null);
+                FieldInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -444,7 +444,7 @@ namespace RockLib.Reflection.Optimized.Tests
             var field = typeof(Corge).GetField(nameof(Corge.Bar));
 
             Func<object> getter;
-            var queued = (Callback: (WaitCallback)null, FieldGetter: (StaticFieldGetter)null);
+            var queued = (Callback: (WaitCallback)null!, FieldGetter: (StaticFieldGetter)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (StaticFieldGetter)state);
 
@@ -456,7 +456,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                FieldInfoExtensions.SetQueueUserWorkItemAction(null);
+                FieldInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -483,7 +483,7 @@ namespace RockLib.Reflection.Optimized.Tests
             var field = typeof(Corge).GetField(nameof(Corge.Bar));
 
             Func<int> getter;
-            var queued = (Callback: (WaitCallback)null, FieldGetter: (StaticFieldGetter<int>)null);
+            var queued = (Callback: (WaitCallback)null!, FieldGetter: (StaticFieldGetter<int>)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (StaticFieldGetter<int>)state);
 
@@ -495,7 +495,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                FieldInfoExtensions.SetQueueUserWorkItemAction(null);
+                FieldInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -522,7 +522,7 @@ namespace RockLib.Reflection.Optimized.Tests
             var field = typeof(Corge).GetField(nameof(Corge.Bar));
 
             Action<object> setter;
-            var queued = (Callback: (WaitCallback)null, FieldSetter: (StaticFieldSetter)null);
+            var queued = (Callback: (WaitCallback)null!, FieldSetter: (StaticFieldSetter)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (StaticFieldSetter)state);
 
@@ -534,7 +534,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                FieldInfoExtensions.SetQueueUserWorkItemAction(null);
+                FieldInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -561,7 +561,7 @@ namespace RockLib.Reflection.Optimized.Tests
             var field = typeof(Corge).GetField(nameof(Corge.Bar));
 
             Action<int> setter;
-            var queued = (Callback: (WaitCallback)null, FieldSetter: (StaticFieldSetter<int>)null);
+            var queued = (Callback: (WaitCallback)null!, FieldSetter: (StaticFieldSetter<int>)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (StaticFieldSetter<int>)state);
 
@@ -573,7 +573,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                FieldInfoExtensions.SetQueueUserWorkItemAction(null);
+                FieldInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued

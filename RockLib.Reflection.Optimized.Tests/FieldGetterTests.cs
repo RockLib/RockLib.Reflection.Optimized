@@ -221,7 +221,7 @@ namespace RockLib.Reflection.Optimized.Tests
             using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
-                object reflectionValue = getter.GetValue(null);
+                object reflectionValue = getter.GetValue(null!);
                 reflectionTimer.Stop();
 
                 getter.SetOptimizedFunc();
@@ -231,7 +231,7 @@ namespace RockLib.Reflection.Optimized.Tests
                 getter.Func.Method.DeclaringType.Should().NotBeAssignableTo(typeof(FieldInfo));
 
                 var optimizedTimer = Stopwatch.StartNew();
-                object optimizedValue = getter.GetValue(null);
+                object optimizedValue = getter.GetValue(null!);
                 optimizedTimer.Stop();
 
                 optimizedValue.Should().Be(reflectionValue);
@@ -253,7 +253,7 @@ namespace RockLib.Reflection.Optimized.Tests
             using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
-                string reflectionValue = getter.GetValue(null);
+                string reflectionValue = getter.GetValue(null!);
                 reflectionTimer.Stop();
 
                 getter.SetOptimizedFunc();
@@ -263,7 +263,7 @@ namespace RockLib.Reflection.Optimized.Tests
                 getter.Func.Method.DeclaringType.Should().NotBe(typeof(FieldGetter<string>));
 
                 var optimizedTimer = Stopwatch.StartNew();
-                string optimizedValue = getter.GetValue(null);
+                string optimizedValue = getter.GetValue(null!);
                 optimizedTimer.Stop();
 
                 optimizedValue.Should().Be(reflectionValue);
@@ -285,7 +285,7 @@ namespace RockLib.Reflection.Optimized.Tests
             using (var gc = new GCNoRegion(4194304))
             {
                 var reflectionTimer = Stopwatch.StartNew();
-                string reflectionValue = getter.GetValue(null);
+                string reflectionValue = getter.GetValue(null!);
                 reflectionTimer.Stop();
 
                 getter.SetOptimizedFunc();
@@ -295,7 +295,7 @@ namespace RockLib.Reflection.Optimized.Tests
                 getter.Func.Method.DeclaringType.Should().NotBe(typeof(FieldGetter<Garply, string>));
 
                 var optimizedTimer = Stopwatch.StartNew();
-                string optimizedValue = getter.GetValue(null);
+                string optimizedValue = getter.GetValue(null!);
                 optimizedTimer.Stop();
 
                 optimizedValue.Should().Be(reflectionValue);

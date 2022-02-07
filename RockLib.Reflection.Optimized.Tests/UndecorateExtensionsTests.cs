@@ -33,7 +33,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CanUndecorateWithNullInnerValue()
         {
-            IFoo foo = new DecoratorFoo1(new DecoratorFoo2 { Foo = new DecoratorFoo1(null) });
+            IFoo foo = new DecoratorFoo1(new DecoratorFoo2 { Foo = new DecoratorFoo1(null!) });
 
             var undecorated = foo.Undecorate();
 

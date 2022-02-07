@@ -13,7 +13,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateGetterThrowsIfPropertyParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateGetter(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateGetter(null!));
             exception.ParamName.Should().Be("property");
         }
 
@@ -36,7 +36,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateGetter1ThrowsIfPropertyParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateGetter<int>(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateGetter<int>(null!));
             exception.ParamName.Should().Be("property");
         }
 
@@ -67,7 +67,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateGetter2ThrowsIfPropertyParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateGetter<Foo, int>(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateGetter<Foo, int>(null!));
             exception.ParamName.Should().Be("property");
         }
 
@@ -106,7 +106,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateSetterThrowsIfPropertyParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateSetter(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateSetter(null!));
             exception.ParamName.Should().Be("property");
         }
 
@@ -129,7 +129,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateSetter1ThrowsIfPropertyParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateSetter<int>(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateSetter<int>(null!));
             exception.ParamName.Should().Be("property");
         }
 
@@ -160,7 +160,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateSetter2ThrowsIfPropertyParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateSetter<Foo, int>(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateSetter<Foo, int>(null!));
             exception.ParamName.Should().Be("property");
         }
 
@@ -199,7 +199,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateStaticGetterThrowsIfPropertyParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateStaticGetter(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateStaticGetter(null!));
             exception.ParamName.Should().Be("property");
         }
 
@@ -230,7 +230,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateStaticGetter1ThrowsIfPropertyParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateStaticGetter<int>(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateStaticGetter<int>(null!));
             exception.ParamName.Should().Be("property");
         }
 
@@ -269,7 +269,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateStaticSetterThrowsIfPropertyParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateStaticSetter(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateStaticSetter(null!));
             exception.ParamName.Should().Be("property");
         }
 
@@ -300,7 +300,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CreateStaticSetter1ThrowsIfPropertyParameterIsNull()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateStaticSetter<int>(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => PropertyInfoExtensions.CreateStaticSetter<int>(null!));
             exception.ParamName.Should().Be("property");
         }
 
@@ -340,7 +340,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetterWorks()
         {
             Func<object, object> getter;
-            var queued = (Callback: (WaitCallback)null, PropertyGetter: (PropertyGetter)null);
+            var queued = (Callback: (WaitCallback)null!, PropertyGetter: (PropertyGetter)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (PropertyGetter)state);
 
@@ -352,7 +352,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                PropertyInfoExtensions.SetQueueUserWorkItemAction(null);
+                PropertyInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -377,7 +377,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetter1Works()
         {
             Func<object, int> getter;
-            var queued = (Callback: (WaitCallback)null, PropertyGetter: (PropertyGetter<int>)null);
+            var queued = (Callback: (WaitCallback)null!, PropertyGetter: (PropertyGetter<int>)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (PropertyGetter<int>)state);
 
@@ -389,7 +389,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                PropertyInfoExtensions.SetQueueUserWorkItemAction(null);
+                PropertyInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -414,7 +414,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetter2Works()
         {
             Func<Foo, int> getter;
-            var queued = (Callback: (WaitCallback)null, PropertyGetter: (PropertyGetter<Foo, int>)null);
+            var queued = (Callback: (WaitCallback)null!, PropertyGetter: (PropertyGetter<Foo, int>)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (PropertyGetter<Foo, int>)state);
 
@@ -426,7 +426,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                PropertyInfoExtensions.SetQueueUserWorkItemAction(null);
+                PropertyInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -451,7 +451,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetterWorks()
         {
             Action<object, object> setter;
-            var queued = (Callback: (WaitCallback)null, PropertySetter: (PropertySetter)null);
+            var queued = (Callback: (WaitCallback)null!, PropertySetter: (PropertySetter)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (PropertySetter)state);
 
@@ -463,7 +463,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                PropertyInfoExtensions.SetQueueUserWorkItemAction(null);
+                PropertyInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -488,7 +488,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter1Works()
         {
             Action<object, int> setter;
-            var queued = (Callback: (WaitCallback)null, PropertySetter: (PropertySetter<int>)null);
+            var queued = (Callback: (WaitCallback)null!, PropertySetter: (PropertySetter<int>)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (PropertySetter<int>)state);
 
@@ -500,7 +500,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                PropertyInfoExtensions.SetQueueUserWorkItemAction(null);
+                PropertyInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -525,7 +525,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter2Works()
         {
             Action<Foo, int> setter;
-            var queued = (Callback: (WaitCallback)null, PropertySetter: (PropertySetter<Foo, int>)null);
+            var queued = (Callback: (WaitCallback)null!, PropertySetter: (PropertySetter<Foo, int>)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (PropertySetter<Foo, int>)state);
 
@@ -537,7 +537,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                PropertyInfoExtensions.SetQueueUserWorkItemAction(null);
+                PropertyInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -564,7 +564,7 @@ namespace RockLib.Reflection.Optimized.Tests
             var property = typeof(Corge).GetProperty(nameof(Corge.Bar));
 
             Func<object> getter;
-            var queued = (Callback: (WaitCallback)null, PropertyGetter: (StaticPropertyGetter)null);
+            var queued = (Callback: (WaitCallback)null!, PropertyGetter: (StaticPropertyGetter)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (StaticPropertyGetter)state);
 
@@ -576,7 +576,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                PropertyInfoExtensions.SetQueueUserWorkItemAction(null);
+                PropertyInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -603,7 +603,7 @@ namespace RockLib.Reflection.Optimized.Tests
             var property = typeof(Corge).GetProperty(nameof(Corge.Bar));
 
             Func<int> getter;
-            var queued = (Callback: (WaitCallback)null, PropertyGetter: (StaticPropertyGetter<int>)null);
+            var queued = (Callback: (WaitCallback)null!, PropertyGetter: (StaticPropertyGetter<int>)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (StaticPropertyGetter<int>)state);
 
@@ -615,7 +615,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                PropertyInfoExtensions.SetQueueUserWorkItemAction(null);
+                PropertyInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -642,7 +642,7 @@ namespace RockLib.Reflection.Optimized.Tests
             var property = typeof(Corge).GetProperty(nameof(Corge.Bar));
 
             Action<object> setter;
-            var queued = (Callback: (WaitCallback)null, PropertySetter: (StaticPropertySetter)null);
+            var queued = (Callback: (WaitCallback)null!, PropertySetter: (StaticPropertySetter)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (StaticPropertySetter)state);
 
@@ -654,7 +654,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                PropertyInfoExtensions.SetQueueUserWorkItemAction(null);
+                PropertyInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
@@ -681,7 +681,7 @@ namespace RockLib.Reflection.Optimized.Tests
             var property = typeof(Corge).GetProperty(nameof(Corge.Bar));
 
             Action<int> setter;
-            var queued = (Callback: (WaitCallback)null, PropertySetter: (StaticPropertySetter<int>)null);
+            var queued = (Callback: (WaitCallback)null!, PropertySetter: (StaticPropertySetter<int>)null!);
 
             void queueUserWorkItem(WaitCallback callback, object state) => queued = (callback, (StaticPropertySetter<int>)state);
 
@@ -693,7 +693,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
             finally
             {
-                PropertyInfoExtensions.SetQueueUserWorkItemAction(null);
+                PropertyInfoExtensions.SetQueueUserWorkItemAction(null!);
             }
 
             // Verify that a work item was queued
