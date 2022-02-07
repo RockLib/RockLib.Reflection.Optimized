@@ -41,7 +41,7 @@ namespace RockLib.Reflection.Optimized
             while (value != null && GetUndecorateFunc(value.GetType(), typeof(T)) is UndecorateFunc undecorate)
                 value = (T)undecorate(value);
 
-            return value;
+            return value!;
         }
 
         private static UndecorateFunc GetUndecorateFunc(Type concreteType, Type interfaceType) =>
@@ -51,11 +51,11 @@ namespace RockLib.Reflection.Optimized
                     return field.CreateGetter();
 
                 // Returning a null function indicates that concreteType is not a decorator class.
-                return null;
+                return null!;
             });
 
         private static FieldInfo GetInterfaceField(Type concreteType, Type interfaceType) =>
-            GetAllFields(concreteType).FirstOrDefault(f => f.FieldType == interfaceType);
+            GetAllFields(concreteType).FirstOrDefault(f => f.FieldType == interfaceType)!;
 
         private static IEnumerable<FieldInfo> GetAllFields(Type type)
         {

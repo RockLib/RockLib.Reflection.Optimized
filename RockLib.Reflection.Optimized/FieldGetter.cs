@@ -89,7 +89,7 @@ namespace RockLib.Reflection.Optimized
         }
 
         internal TFieldType GetValueReflection(object obj) =>
-            (TFieldType)_field.GetValue(obj);
+            (TFieldType)_field.GetValue(obj)!;
 
         internal Func<object, TFieldType> Func => _func;
     }
@@ -126,7 +126,7 @@ namespace RockLib.Reflection.Optimized
         }
 
         internal TFieldType GetValueReflection(TDeclaringType obj) =>
-            (TFieldType)_field.GetValue(obj);
+            (TFieldType)_field.GetValue(obj)!;
 
         internal Func<TDeclaringType, TFieldType> Func => _func;
     }
@@ -158,7 +158,7 @@ namespace RockLib.Reflection.Optimized
         }
 
         internal object GetValueReflection() =>
-            _field.GetValue(null);
+            _field.GetValue(null)!;
 
         internal Func<object> Func => _func;
     }
@@ -188,7 +188,7 @@ namespace RockLib.Reflection.Optimized
         }
 
         internal TFieldType GetValueReflection() =>
-            (TFieldType)_field.GetValue(null);
+            (TFieldType)_field.GetValue(null)!;
 
         internal Func<TFieldType> Func => _func;
     }
