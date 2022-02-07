@@ -3,6 +3,7 @@
 *Extension methods to improve reflection performance.*
 
 ##### Table of Contents
+- [Supported Targets](#supported-targets)
 - [PropertyInfo and FieldInfo extension methods](#propertyinfo-and-fieldinfo-extension-methods)
   - [CreateGetter / CreateSetter](#creategetter--createsetter)
     - [Overloads](#overloads)
@@ -12,6 +13,13 @@
 - [Undecorate extension method](#undecorate-extension-method)
 
 ------
+
+### Supported Targets
+
+This library supports the following targets:
+  - .NET 6
+  - .NET Core 3.1
+  - .NET Framework 4.8
 
 ## PropertyInfo and FieldInfo extension methods
 

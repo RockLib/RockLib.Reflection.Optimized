@@ -33,7 +33,7 @@ namespace RockLib.Reflection.Optimized.Tests
         [Fact]
         public void CanUndecorateWithNullInnerValue()
         {
-            IFoo foo = new DecoratorFoo1(new DecoratorFoo2 { Foo = new DecoratorFoo1(null) });
+            IFoo foo = new DecoratorFoo1(new DecoratorFoo2 { Foo = new DecoratorFoo1(null!) });
 
             var undecorated = foo.Undecorate();
 
@@ -62,35 +62,40 @@ namespace RockLib.Reflection.Optimized.Tests
 
 #pragma warning disable IDE0052 // Remove unread private members
 
-        public interface IFoo
+        private interface IFoo
         {
         }
 
-        public class ConcreteFoo : IFoo
+        private class ConcreteFoo : IFoo
         {
         }
 
-        public class DecoratorFoo1 : IFoo
+        private class DecoratorFoo1 : IFoo
         {
             private readonly IFoo _foo;
 
             public DecoratorFoo1(IFoo foo) => _foo = foo;
         }
 
-        public class DecoratorFoo2 : IFoo
+        private class DecoratorFoo2 : IFoo
         {
+            public DecoratorFoo2()
+            {
+                Foo = new ConcreteFoo();
+            }
+
             public IFoo Foo { get; set; }
         }
 
-        public class NonDecoratorFoo : IFoo
+        private class NonDecoratorFoo : IFoo
         {
         }
 
-        public abstract class AbstractBar
+        private abstract class AbstractBar
         {
         }
 
-        public class ConcreteBar : AbstractBar
+        private class ConcreteBar : AbstractBar
         {
         }
 

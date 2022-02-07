@@ -10,28 +10,32 @@ namespace RockLib.Reflection.Optimized
         internal const string GetValueOptimized = nameof(GetValueOptimized);
 
         private readonly PropertyInfo _property;
-        private Func<object, object> _func;
+        private Func<object, object?> _func;
 
         public PropertyGetter(PropertyInfo property)
         {
-            _property = property;
+            _property = property ?? throw new ArgumentNullException(nameof(property));
             _func = _property.GetValue;
         }
 
-        public object GetValue(object obj) => _func.Invoke(obj);
+        public object GetValue(object obj) => _func.Invoke(obj)!;
 
         public void SetOptimizedFunc()
         {
             var objParameter = Expression.Parameter(typeof(object), "obj");
 
-            Expression body;
+            Expression body = null!;
 
-            if (_property.GetMethod.IsStatic)
+            if (_property.GetMethod!.IsStatic)
+            {
                 body = Expression.Call(_property.GetMethod);
-            else
+            }
+            else if (_property.DeclaringType is not null)
+            {
                 body = Expression.Call(
                     Expression.Convert(objParameter, _property.DeclaringType),
                     _property.GetMethod);
+            }
 
             if (_property.PropertyType.IsValueType)
                 body = Expression.Convert(body, typeof(object));
@@ -40,7 +44,7 @@ namespace RockLib.Reflection.Optimized
             _func = lambda.Compile();
         }
 
-        internal Func<object, object> Func => _func;
+        internal Func<object, object?> Func => _func;
     }
 
     internal class PropertyGetter<TPropertyType>
@@ -50,7 +54,7 @@ namespace RockLib.Reflection.Optimized
 
         public PropertyGetter(PropertyInfo property)
         {
-            _property = property;
+            _property = property ?? throw new ArgumentNullException(nameof(property));
             _func = GetValueReflection;
         }
 
@@ -60,14 +64,23 @@ namespace RockLib.Reflection.Optimized
         {
             var objParameter = Expression.Parameter(typeof(object), "obj");
 
-            Expression body;
+            Expression body = null!;
+
+            if (_property.GetMethod is null)
+            {
+                return;
+            }
 
             if (_property.GetMethod.IsStatic)
+            {
                 body = Expression.Call(_property.GetMethod);
-            else
+            }
+            else if (_property.DeclaringType is not null)
+            {
                 body = Expression.Call(
                     Expression.Convert(objParameter, _property.DeclaringType),
                     _property.GetMethod);
+            }
 
             if (_property.PropertyType.IsValueType && !typeof(TPropertyType).IsValueType)
                 body = Expression.Convert(body, typeof(TPropertyType));
@@ -77,7 +90,7 @@ namespace RockLib.Reflection.Optimized
         }
 
         internal TPropertyType GetValueReflection(object obj) =>
-            (TPropertyType)_property.GetValue(obj);
+            (TPropertyType)_property.GetValue(obj)!;
 
         internal Func<object, TPropertyType> Func => _func;
     }
@@ -101,7 +114,7 @@ namespace RockLib.Reflection.Optimized
 
             Expression body;
 
-            if (_property.GetMethod.IsStatic)
+            if (_property.GetMethod!.IsStatic)
                 body = Expression.Call(_property.GetMethod);
             else
                 body = Expression.Call(objParameter, _property.GetMethod);
@@ -114,7 +127,7 @@ namespace RockLib.Reflection.Optimized
         }
 
         internal TPropertyType GetValueReflection(TDeclaringType obj) =>
-            (TPropertyType)_property.GetValue(obj);
+            (TPropertyType)_property.GetValue(obj)!;
 
         internal Func<TDeclaringType, TPropertyType> Func => _func;
     }
@@ -128,7 +141,7 @@ namespace RockLib.Reflection.Optimized
 
         public StaticPropertyGetter(PropertyInfo property)
         {
-            _property = property;
+            _property = property ?? throw new ArgumentNullException(nameof(property));
             _func = GetValueReflection;
         }
 
@@ -136,6 +149,11 @@ namespace RockLib.Reflection.Optimized
 
         public void SetOptimizedFunc()
         {
+            if (_property.GetMethod is null)
+            {
+                return;
+            }
+
             Expression body = Expression.Call(_property.GetMethod);
 
             if (_property.PropertyType.IsValueType)
@@ -146,7 +164,7 @@ namespace RockLib.Reflection.Optimized
         }
 
         internal object GetValueReflection() =>
-            _property.GetValue(null);
+            _property.GetValue(null)!;
 
         internal Func<object> Func => _func;
     }
@@ -166,6 +184,10 @@ namespace RockLib.Reflection.Optimized
 
         public void SetOptimizedFunc()
         {
+            if (_property.GetMethod == null)
+            {
+                return;
+            }
             Expression body = Expression.Call(_property.GetMethod);
 
             if (_property.PropertyType.IsValueType && !typeof(TPropertyType).IsValueType)
@@ -176,7 +198,7 @@ namespace RockLib.Reflection.Optimized
         }
 
         internal TPropertyType GetValueReflection() =>
-            (TPropertyType)_property.GetValue(null);
+            (TPropertyType)_property.GetValue(null)!;
 
         internal Func<TPropertyType> Func => _func;
     }

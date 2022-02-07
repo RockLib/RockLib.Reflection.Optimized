@@ -8,7 +8,7 @@ namespace RockLib.Reflection.Optimized.Tests
 {
     public class FieldSetterTests
     {
-        private static readonly FieldInfo _field = typeof(Foo).GetField(nameof(Foo.Bar));
+        private static readonly FieldInfo _field = typeof(Foo).GetField(nameof(Foo.Bar))!;
 
         [Fact]
         public void FieldSetterWorks()
@@ -21,37 +21,28 @@ namespace RockLib.Reflection.Optimized.Tests
             setter.Action.Method.Name.Should().Be(nameof(_field.SetValue));
             setter.Action.Method.DeclaringType.Should().Be(typeof(FieldInfo));
 
-            if (GC.TryStartNoGCRegion(4194304, true))
+            using (var gc = new GCNoRegion(4194304))
             {
-                try
-                {
-                    var reflectionTimer = Stopwatch.StartNew();
-                    setter.SetValue(foo, 123);
-                    reflectionTimer.Stop();
+                var reflectionTimer = Stopwatch.StartNew();
+                setter.SetValue(foo, 123);
+                reflectionTimer.Stop();
 
-                    foo.Bar.Should().Be(123);
+                foo.Bar.Should().Be(123);
 
-                    setter.SetOptimizedAction();
+                setter.SetOptimizedAction();
 
-                    setter.Action.Target.Should().NotBeSameAs(_field);
-                    setter.Action.Method.Name.Should().Be(FieldSetter.SetValueOptimized);
-                    setter.Action.Method.DeclaringType.Should().NotBe(typeof(FieldInfo));
+                setter.Action.Target.Should().NotBeSameAs(_field);
+                setter.Action.Method.Name.Should().Be(FieldSetter.SetValueOptimized);
+                setter.Action.Method.DeclaringType.Should().NotBe(typeof(FieldInfo));
 
-                    var optimizedTimer = Stopwatch.StartNew();
-                    setter.SetValue(foo, 456);
-                    optimizedTimer.Stop();
+                var optimizedTimer = Stopwatch.StartNew();
+                setter.SetValue(foo, 456);
+                optimizedTimer.Stop();
 
-                    foo.Bar.Should().Be(456);
+                foo.Bar.Should().Be(456);
 
-                    optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
-                }
-                finally
-                {
-                    GC.EndNoGCRegion();
-                }
+                optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            else
-                throw new Exception("GC was not able to commit the required amount of memory and the garbage collector was not able to enter no GC region latency mode.");
         }
 
         [Fact]
@@ -65,37 +56,28 @@ namespace RockLib.Reflection.Optimized.Tests
             setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));
             setter.Action.Method.DeclaringType.Should().Be(typeof(FieldSetter<int>));
 
-            if (GC.TryStartNoGCRegion(4194304, true))
+            using (var gc = new GCNoRegion(4194304))
             {
-                try
-                {
-                    var reflectionTimer = Stopwatch.StartNew();
-                    setter.SetValue(foo, 123);
-                    reflectionTimer.Stop();
+                var reflectionTimer = Stopwatch.StartNew();
+                setter.SetValue(foo, 123);
+                reflectionTimer.Stop();
 
-                    foo.Bar.Should().Be(123);
+                foo.Bar.Should().Be(123);
 
-                    setter.SetOptimizedAction();
+                setter.SetOptimizedAction();
 
-                    setter.Action.Target.Should().NotBeSameAs(setter);
-                    setter.Action.Method.Name.Should().Be(FieldSetter.SetValueOptimized);
-                    setter.Action.Method.DeclaringType.Should().NotBe(typeof(FieldSetter<int>));
+                setter.Action.Target.Should().NotBeSameAs(setter);
+                setter.Action.Method.Name.Should().Be(FieldSetter.SetValueOptimized);
+                setter.Action.Method.DeclaringType.Should().NotBe(typeof(FieldSetter<int>));
 
-                    var optimizedTimer = Stopwatch.StartNew();
-                    setter.SetValue(foo, 456);
-                    optimizedTimer.Stop();
+                var optimizedTimer = Stopwatch.StartNew();
+                setter.SetValue(foo, 456);
+                optimizedTimer.Stop();
 
-                    foo.Bar.Should().Be(456);
+                foo.Bar.Should().Be(456);
 
-                    optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
-                }
-                finally
-                {
-                    GC.EndNoGCRegion();
-                }
+                optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            else
-                throw new Exception("GC was not able to commit the required amount of memory and the garbage collector was not able to enter no GC region latency mode.");
         }
 
         [Fact]
@@ -109,37 +91,28 @@ namespace RockLib.Reflection.Optimized.Tests
             setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));
             setter.Action.Method.DeclaringType.Should().Be(typeof(FieldSetter<Foo, int>));
 
-            if (GC.TryStartNoGCRegion(4194304, true))
+            using (var gc = new GCNoRegion(4194304))
             {
-                try
-                {
-                    var reflectionTimer = Stopwatch.StartNew();
-                    setter.SetValue(foo, 123);
-                    reflectionTimer.Stop();
+                var reflectionTimer = Stopwatch.StartNew();
+                setter.SetValue(foo, 123);
+                reflectionTimer.Stop();
 
-                    foo.Bar.Should().Be(123);
+                foo.Bar.Should().Be(123);
 
-                    setter.SetOptimizedAction();
+                setter.SetOptimizedAction();
 
-                    setter.Action.Target.Should().NotBeSameAs(setter);
-                    setter.Action.Method.Name.Should().Be(FieldSetter.SetValueOptimized);
-                    setter.Action.Method.DeclaringType.Should().NotBe(typeof(FieldSetter<Foo, int>));
+                setter.Action.Target.Should().NotBeSameAs(setter);
+                setter.Action.Method.Name.Should().Be(FieldSetter.SetValueOptimized);
+                setter.Action.Method.DeclaringType.Should().NotBe(typeof(FieldSetter<Foo, int>));
 
-                    var optimizedTimer = Stopwatch.StartNew();
-                    setter.SetValue(foo, 456);
-                    optimizedTimer.Stop();
+                var optimizedTimer = Stopwatch.StartNew();
+                setter.SetValue(foo, 456);
+                optimizedTimer.Stop();
 
-                    foo.Bar.Should().Be(456);
+                foo.Bar.Should().Be(456);
 
-                    optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
-                }
-                finally
-                {
-                    GC.EndNoGCRegion();
-                }
+                optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            else
-                throw new Exception("GC was not able to commit the required amount of memory and the garbage collector was not able to enter no GC region latency mode.");
         }
 
         [Fact]
@@ -149,45 +122,34 @@ namespace RockLib.Reflection.Optimized.Tests
 
             var field = typeof(Baz).GetField(nameof(Baz.Qux));
 
-            var setter = new FieldSetter(field);
+            var setter = new FieldSetter(field!);
 
             setter.Action.Target.Should().BeSameAs(field);
             setter.Action.Method.Name.Should().Be(nameof(field.SetValue));
             setter.Action.Method.DeclaringType.Should().Be(typeof(FieldInfo));
 
-            if (GC.TryStartNoGCRegion(4194304, true))
+            using (var gc = new GCNoRegion(4194304))
             {
-                try
-                {
-                    var reflectionTimer = Stopwatch.StartNew();
-                    setter.SetValue(null, 123);
-                    reflectionTimer.Stop();
+                var reflectionTimer = Stopwatch.StartNew();
+                setter.SetValue(null!, 123);
+                reflectionTimer.Stop();
 
-                    Baz.Qux.Should().Be(123);
+                Baz.Qux.Should().Be(123);
 
-                    setter.SetOptimizedAction();
+                setter.SetOptimizedAction();
 
-                    setter.Action.Target.Should().NotBeSameAs(field);
-                    setter.Action.Method.Name.Should().Be(FieldSetter.SetValueOptimized);
-                    setter.Action.Method.DeclaringType.Should().NotBe(typeof(FieldInfo));
+                setter.Action.Target.Should().NotBeSameAs(field);
+                setter.Action.Method.Name.Should().Be(FieldSetter.SetValueOptimized);
+                setter.Action.Method.DeclaringType.Should().NotBe(typeof(FieldInfo));
 
-                    var optimizedTimer = Stopwatch.StartNew();
-                    setter.SetValue(null, 456);
-                    optimizedTimer.Stop();
+                var optimizedTimer = Stopwatch.StartNew();
+                setter.SetValue(null!, 456);
+                optimizedTimer.Stop();
 
-                    Baz.Qux.Should().Be(456);
+                Baz.Qux.Should().Be(456);
 
-                    optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
-
-
-                }
-                finally
-                {
-                    GC.EndNoGCRegion();
-                }
+                optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            else
-                throw new Exception("GC was not able to commit the required amount of memory and the garbage collector was not able to enter no GC region latency mode.");
         }
 
         [Fact]
@@ -197,43 +159,34 @@ namespace RockLib.Reflection.Optimized.Tests
 
             var field = typeof(Baz).GetField(nameof(Baz.Qux));
 
-            var setter = new FieldSetter<int>(field);
+            var setter = new FieldSetter<int>(field!);
 
             setter.Action.Target.Should().BeSameAs(setter);
             setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));
             setter.Action.Method.DeclaringType.Should().Be(typeof(FieldSetter<int>));
 
-            if (GC.TryStartNoGCRegion(4194304, true))
+            using (var gc = new GCNoRegion(4194304))
             {
-                try
-                {
-                    var reflectionTimer = Stopwatch.StartNew();
-                    setter.SetValue(null, 123);
-                    reflectionTimer.Stop();
+                var reflectionTimer = Stopwatch.StartNew();
+                setter.SetValue(null!, 123);
+                reflectionTimer.Stop();
 
-                    Baz.Qux.Should().Be(123);
+                Baz.Qux.Should().Be(123);
 
-                    setter.SetOptimizedAction();
+                setter.SetOptimizedAction();
 
-                    setter.Action.Target.Should().NotBeSameAs(setter);
-                    setter.Action.Method.Name.Should().Be(FieldSetter.SetValueOptimized);
-                    setter.Action.Method.DeclaringType.Should().NotBe(typeof(FieldSetter<int>));
+                setter.Action.Target.Should().NotBeSameAs(setter);
+                setter.Action.Method.Name.Should().Be(FieldSetter.SetValueOptimized);
+                setter.Action.Method.DeclaringType.Should().NotBe(typeof(FieldSetter<int>));
 
-                    var optimizedTimer = Stopwatch.StartNew();
-                    setter.SetValue(null, 456);
-                    optimizedTimer.Stop();
+                var optimizedTimer = Stopwatch.StartNew();
+                setter.SetValue(null!, 456);
+                optimizedTimer.Stop();
 
-                    Baz.Qux.Should().Be(456);
+                Baz.Qux.Should().Be(456);
 
-                    optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
-                }
-                finally
-                {
-                    GC.EndNoGCRegion();
-                }
+                optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            else
-                throw new Exception("GC was not able to commit the required amount of memory and the garbage collector was not able to enter no GC region latency mode.");
         }
 
         [Fact]
@@ -243,43 +196,34 @@ namespace RockLib.Reflection.Optimized.Tests
 
             var field = typeof(Baz).GetField(nameof(Baz.Qux));
 
-            var setter = new FieldSetter<Foo, int>(field);
+            var setter = new FieldSetter<Foo, int>(field!);
 
             setter.Action.Target.Should().BeSameAs(setter);
             setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));
             setter.Action.Method.DeclaringType.Should().Be(typeof(FieldSetter<Foo, int>));
 
-            if (GC.TryStartNoGCRegion(4194304, true))
+            using (var gc = new GCNoRegion(4194304))
             {
-                try
-                {
-                    var reflectionTimer = Stopwatch.StartNew();
-                    setter.SetValue(null, 123);
-                    reflectionTimer.Stop();
+                var reflectionTimer = Stopwatch.StartNew();
+                setter.SetValue(null!, 123);
+                reflectionTimer.Stop();
 
-                    Baz.Qux.Should().Be(123);
+                Baz.Qux.Should().Be(123);
 
-                    setter.SetOptimizedAction();
+                setter.SetOptimizedAction();
 
-                    setter.Action.Target.Should().NotBeSameAs(setter);
-                    setter.Action.Method.Name.Should().Be(FieldSetter.SetValueOptimized);
-                    setter.Action.Method.DeclaringType.Should().NotBe(typeof(FieldSetter<Foo, int>));
+                setter.Action.Target.Should().NotBeSameAs(setter);
+                setter.Action.Method.Name.Should().Be(FieldSetter.SetValueOptimized);
+                setter.Action.Method.DeclaringType.Should().NotBe(typeof(FieldSetter<Foo, int>));
 
-                    var optimizedTimer = Stopwatch.StartNew();
-                    setter.SetValue(null, 456);
-                    optimizedTimer.Stop();
+                var optimizedTimer = Stopwatch.StartNew();
+                setter.SetValue(null!, 456);
+                optimizedTimer.Stop();
 
-                    Baz.Qux.Should().Be(456);
+                Baz.Qux.Should().Be(456);
 
-                    optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
-                }
-                finally
-                {
-                    GC.EndNoGCRegion();
-                }
+                optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            else
-                throw new Exception("GC was not able to commit the required amount of memory and the garbage collector was not able to enter no GC region latency mode.");
         }
 
         [Fact]
@@ -289,43 +233,34 @@ namespace RockLib.Reflection.Optimized.Tests
 
             var field = typeof(Baz).GetField(nameof(Baz.Qux));
 
-            var setter = new StaticFieldSetter(field);
+            var setter = new StaticFieldSetter(field!);
 
             setter.Action.Target.Should().BeSameAs(setter);
             setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));
             setter.Action.Method.DeclaringType.Should().Be(typeof(StaticFieldSetter));
 
-            if (GC.TryStartNoGCRegion(4194304, true))
+            using (var gc = new GCNoRegion(4194304))
             {
-                try
-                {
-                    var reflectionTimer = Stopwatch.StartNew();
-                    setter.SetValue(123);
-                    reflectionTimer.Stop();
+                var reflectionTimer = Stopwatch.StartNew();
+                setter.SetValue(123);
+                reflectionTimer.Stop();
 
-                    Baz.Qux.Should().Be(123);
+                Baz.Qux.Should().Be(123);
 
-                    setter.SetOptimizedAction();
+                setter.SetOptimizedAction();
 
-                    setter.Action.Target.Should().NotBeSameAs(setter);
-                    setter.Action.Method.Name.Should().Be(StaticFieldSetter.SetStaticValueOptimized);
-                    setter.Action.Method.DeclaringType.Should().NotBe(typeof(StaticFieldSetter));
+                setter.Action.Target.Should().NotBeSameAs(setter);
+                setter.Action.Method.Name.Should().Be(StaticFieldSetter.SetStaticValueOptimized);
+                setter.Action.Method.DeclaringType.Should().NotBe(typeof(StaticFieldSetter));
 
-                    var optimizedTimer = Stopwatch.StartNew();
-                    setter.SetValue(456);
-                    optimizedTimer.Stop();
+                var optimizedTimer = Stopwatch.StartNew();
+                setter.SetValue(456);
+                optimizedTimer.Stop();
 
-                    Baz.Qux.Should().Be(456);
+                Baz.Qux.Should().Be(456);
 
-                    optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
-                }
-                finally
-                {
-                    GC.EndNoGCRegion();
-                }
+                optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            else
-                throw new Exception("GC was not able to commit the required amount of memory and the garbage collector was not able to enter no GC region latency mode.");
         }
 
         [Fact]
@@ -335,51 +270,47 @@ namespace RockLib.Reflection.Optimized.Tests
 
             var field = typeof(Baz).GetField(nameof(Baz.Qux));
 
-            var setter = new StaticFieldSetter<int>(field);
+            var setter = new StaticFieldSetter<int>(field!);
 
             setter.Action.Target.Should().BeSameAs(setter);
             setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));
             setter.Action.Method.DeclaringType.Should().Be(typeof(StaticFieldSetter<int>));
 
-            if (GC.TryStartNoGCRegion(4194304, true))
+            using (var gc = new GCNoRegion(4194304))
             {
-                try
-                {
-                    var reflectionTimer = Stopwatch.StartNew();
-                    setter.SetValue(123);
-                    reflectionTimer.Stop();
+                var reflectionTimer = Stopwatch.StartNew();
+                setter.SetValue(123);
+                reflectionTimer.Stop();
 
-                    Baz.Qux.Should().Be(123);
+                Baz.Qux.Should().Be(123);
 
-                    setter.SetOptimizedAction();
+                setter.SetOptimizedAction();
 
-                    setter.Action.Target.Should().NotBeSameAs(setter);
-                    setter.Action.Method.Name.Should().Be(StaticFieldSetter.SetStaticValueOptimized);
-                    setter.Action.Method.DeclaringType.Should().NotBe(typeof(StaticFieldSetter<int>));
+                setter.Action.Target.Should().NotBeSameAs(setter);
+                setter.Action.Method.Name.Should().Be(StaticFieldSetter.SetStaticValueOptimized);
+                setter.Action.Method.DeclaringType.Should().NotBe(typeof(StaticFieldSetter<int>));
 
-                    var optimizedTimer = Stopwatch.StartNew();
-                    setter.SetValue(456);
-                    optimizedTimer.Stop();
+                var optimizedTimer = Stopwatch.StartNew();
+                setter.SetValue(456);
+                optimizedTimer.Stop();
 
-                    Baz.Qux.Should().Be(456);
+                Baz.Qux.Should().Be(456);
 
-                    optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
-                }
-                finally
-                {
-                    GC.EndNoGCRegion();
-                }
+                optimizedTimer.Elapsed.Should().BeLessThan(reflectionTimer.Elapsed);
             }
-            else
-                throw new Exception("GC was not able to commit the required amount of memory and the garbage collector was not able to enter no GC region latency mode.");
         }
 
-        public class Foo
+        private class Foo
         {
             public int Bar;
+
+            public Foo()
+            {
+                Bar = 0;
+            }
         }
 
-        public class Baz
+        private class Baz
         {
             public static int Qux = -1;
         }
