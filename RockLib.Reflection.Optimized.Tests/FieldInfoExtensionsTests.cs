@@ -8,7 +8,7 @@ namespace RockLib.Reflection.Optimized.Tests
 {
     public class FieldInfoExtensionsTests
     {
-        private static readonly FieldInfo _field = typeof(Foo).GetField(nameof(Foo.Bar));
+        private static readonly FieldInfo _field = typeof(Foo).GetField(nameof(Foo.Bar))!;
 
         [Fact]
         public void CreateGetterThrowsIfFieldParameterIsNull()

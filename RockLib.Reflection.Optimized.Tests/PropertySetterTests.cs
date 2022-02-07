@@ -8,7 +8,7 @@ namespace RockLib.Reflection.Optimized.Tests
 {
     public class PropertySetterTests
     {
-        private static readonly PropertyInfo _property = typeof(Foo).GetProperty(nameof(Foo.Bar));
+        private static readonly PropertyInfo _property = typeof(Foo).GetProperty(nameof(Foo.Bar))!;
 
         [Fact]
         public void PropertySetterWorks()
