@@ -79,6 +79,11 @@ namespace RockLib.Reflection.Optimized.Tests
 
         private class DecoratorFoo2 : IFoo
         {
+            public DecoratorFoo2()
+            {
+                Foo = new ConcreteFoo();
+            }
+
             public IFoo Foo { get; set; }
         }
 
