@@ -122,7 +122,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             var property = typeof(Baz).GetProperty(nameof(Baz.Qux));
 
-            var setter = new PropertySetter(property);
+            var setter = new PropertySetter(property!);
 
             setter.Action.Target.Should().BeSameAs(property);
             setter.Action.Method.Name.Should().Be(nameof(property.SetValue));
@@ -159,7 +159,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             var property = typeof(Baz).GetProperty(nameof(Baz.Qux));
 
-            var setter = new PropertySetter<int>(property);
+            var setter = new PropertySetter<int>(property!);
 
             setter.Action.Target.Should().BeSameAs(setter);
             setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));
@@ -196,7 +196,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             var property = typeof(Baz).GetProperty(nameof(Baz.Qux));
 
-            var setter = new PropertySetter<Foo, int>(property);
+            var setter = new PropertySetter<Foo, int>(property!);
 
             setter.Action.Target.Should().BeSameAs(setter);
             setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));
@@ -233,7 +233,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             var property = typeof(Baz).GetProperty(nameof(Baz.Qux));
 
-            var setter = new StaticPropertySetter(property);
+            var setter = new StaticPropertySetter(property!);
 
             setter.Action.Target.Should().BeSameAs(setter);
             setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));
@@ -270,7 +270,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             var property = typeof(Baz).GetProperty(nameof(Baz.Qux));
 
-            var setter = new StaticPropertySetter<int>(property);
+            var setter = new StaticPropertySetter<int>(property!);
 
             setter.Action.Target.Should().BeSameAs(setter);
             setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));

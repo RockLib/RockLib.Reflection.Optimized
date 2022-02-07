@@ -28,7 +28,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetter1ThrowsIfTheTypeArgumentIsNotCompatibleWithTheFieldType()
         {
             var field = typeof(Foo).GetField(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => field.CreateGetter<string>());
+            var exception = Assert.Throws<ArgumentException>(() => field!.CreateGetter<string>());
             exception.ParamName.Should().Be("field");
         }
 
@@ -43,7 +43,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetter2ThrowsIfTheFirstTypeArgumentIsNotCompatibleWithTheFieldDeclaringType()
         {
             var field = typeof(Foo).GetField(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => field.CreateGetter<Fred, int>());
+            var exception = Assert.Throws<ArgumentException>(() => field!.CreateGetter<Fred, int>());
             exception.ParamName.Should().Be("field");
         }
 
@@ -51,7 +51,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetter2ThrowsIfTheSecondTypeArgumentIsNotCompatibleWithTheFieldType()
         {
             var field = typeof(Foo).GetField(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => field.CreateGetter<Foo, string>());
+            var exception = Assert.Throws<ArgumentException>(() => field!.CreateGetter<Foo, string>());
             exception.ParamName.Should().Be("field");
         }
 
@@ -66,7 +66,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetterThrowsIfFieldParameterIsReadonly()
         {
             var field = typeof(Foo).GetField(nameof(Foo.Grault));
-            var exception = Assert.Throws<ArgumentException>(() => field.CreateSetter());
+            var exception = Assert.Throws<ArgumentException>(() => field!.CreateSetter());
             exception.ParamName.Should().Be("field");
         }
 
@@ -81,7 +81,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter1ThrowsIfTheTypeArgumentIsNotCompatibleWithTheFieldType()
         {
             var field = typeof(Foo).GetField(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => field.CreateSetter<string>());
+            var exception = Assert.Throws<ArgumentException>(() => field!.CreateSetter<string>());
             exception.ParamName.Should().Be("field");
         }
 
@@ -89,7 +89,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter1ThrowsIfFieldParameterIsReadonly()
         {
             var field = typeof(Foo).GetField(nameof(Foo.Grault));
-            var exception = Assert.Throws<ArgumentException>(() => field.CreateSetter<int>());
+            var exception = Assert.Throws<ArgumentException>(() => field!.CreateSetter<int>());
             exception.ParamName.Should().Be("field");
         }
 
@@ -104,7 +104,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter2ThrowsIfTheFirstTypeArgumentIsNotCompatibleWithTheFieldDeclaringType()
         {
             var field = typeof(Foo).GetField(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => field.CreateSetter<Fred, int>());
+            var exception = Assert.Throws<ArgumentException>(() => field!.CreateSetter<Fred, int>());
             exception.ParamName.Should().Be("field");
         }
 
@@ -112,7 +112,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter2ThrowsIfTheSecondTypeArgumentIsNotCompatibleWithTheFieldType()
         {
             var field = typeof(Foo).GetField(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => field.CreateSetter<Foo, string>());
+            var exception = Assert.Throws<ArgumentException>(() => field!.CreateSetter<Foo, string>());
             exception.ParamName.Should().Be("field");
         }
 
@@ -120,7 +120,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter2ThrowsIfFieldParameterIsReadonly()
         {
             var field = typeof(Foo).GetField(nameof(Foo.Grault));
-            var exception = Assert.Throws<ArgumentException>(() => field.CreateSetter<Foo, int>());
+            var exception = Assert.Throws<ArgumentException>(() => field!.CreateSetter<Foo, int>());
             exception.ParamName.Should().Be("field");
         }
 
@@ -135,7 +135,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticGetterThrowsIfFieldParameterIsNotStatic()
         {
             var field = typeof(Foo).GetField(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => field.CreateStaticGetter());
+            var exception = Assert.Throws<ArgumentException>(() => field!.CreateStaticGetter());
             exception.ParamName.Should().Be("field");
         }
 
@@ -150,7 +150,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticGetter1ThrowsIfTheTypeArgumentIsNotCompatibleWithTheFieldType()
         {
             var field = typeof(Corge).GetField(nameof(Corge.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => field.CreateStaticGetter<string>());
+            var exception = Assert.Throws<ArgumentException>(() => field!.CreateStaticGetter<string>());
             exception.ParamName.Should().Be("field");
         }
 
@@ -158,7 +158,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticGetter1ThrowsIfFieldParameterIsNotStatic()
         {
             var field = typeof(Foo).GetField(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => field.CreateStaticGetter<int>());
+            var exception = Assert.Throws<ArgumentException>(() => field!.CreateStaticGetter<int>());
             exception.ParamName.Should().Be("field");
         }
 
@@ -173,7 +173,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticSetterThrowsIfFieldParameterIsReadonly()
         {
             var field = typeof(Corge).GetField(nameof(Corge.Grault));
-            var exception = Assert.Throws<ArgumentException>(() => field.CreateStaticSetter());
+            var exception = Assert.Throws<ArgumentException>(() => field!.CreateStaticSetter());
             exception.ParamName.Should().Be("field");
         }
 
@@ -181,7 +181,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticSetterThrowsIfFieldParameterIsNotStatic()
         {
             var field = typeof(Foo).GetField(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => field.CreateStaticSetter());
+            var exception = Assert.Throws<ArgumentException>(() => field!.CreateStaticSetter());
             exception.ParamName.Should().Be("field");
         }
 
@@ -196,7 +196,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticSetter1ThrowsIfTheTypeArgumentIsNotCompatibleWithTheFieldType()
         {
             var field = typeof(Corge).GetField(nameof(Corge.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => field.CreateStaticSetter<string>());
+            var exception = Assert.Throws<ArgumentException>(() => field!.CreateStaticSetter<string>());
             exception.ParamName.Should().Be("field");
         }
 
@@ -204,7 +204,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticSetter1ThrowsIfFieldParameterIsReadonly()
         {
             var field = typeof(Corge).GetField(nameof(Corge.Grault));
-            var exception = Assert.Throws<ArgumentException>(() => field.CreateStaticSetter<int>());
+            var exception = Assert.Throws<ArgumentException>(() => field!.CreateStaticSetter<int>());
             exception.ParamName.Should().Be("field");
         }
 
@@ -212,7 +212,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticSetter1ThrowsIfFieldParameterIsNotStatic()
         {
             var field = typeof(Foo).GetField(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => field.CreateStaticSetter<int>());
+            var exception = Assert.Throws<ArgumentException>(() => field!.CreateStaticSetter<int>());
             exception.ParamName.Should().Be("field");
         }
 
@@ -452,7 +452,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             try
             {
-                getter = field.CreateStaticGetter();
+                getter = field!.CreateStaticGetter();
             }
             finally
             {
@@ -491,7 +491,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             try
             {
-                getter = field.CreateStaticGetter<int>();
+                getter = field!.CreateStaticGetter<int>();
             }
             finally
             {
@@ -530,7 +530,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             try
             {
-                setter = field.CreateStaticSetter();
+                setter = field!.CreateStaticSetter();
             }
             finally
             {
@@ -569,7 +569,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             try
             {
-                setter = field.CreateStaticSetter<int>();
+                setter = field!.CreateStaticSetter<int>();
             }
             finally
             {

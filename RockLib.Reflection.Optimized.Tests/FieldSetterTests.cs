@@ -122,7 +122,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             var field = typeof(Baz).GetField(nameof(Baz.Qux));
 
-            var setter = new FieldSetter(field);
+            var setter = new FieldSetter(field!);
 
             setter.Action.Target.Should().BeSameAs(field);
             setter.Action.Method.Name.Should().Be(nameof(field.SetValue));
@@ -159,7 +159,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             var field = typeof(Baz).GetField(nameof(Baz.Qux));
 
-            var setter = new FieldSetter<int>(field);
+            var setter = new FieldSetter<int>(field!);
 
             setter.Action.Target.Should().BeSameAs(setter);
             setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));
@@ -196,7 +196,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             var field = typeof(Baz).GetField(nameof(Baz.Qux));
 
-            var setter = new FieldSetter<Foo, int>(field);
+            var setter = new FieldSetter<Foo, int>(field!);
 
             setter.Action.Target.Should().BeSameAs(setter);
             setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));
@@ -233,7 +233,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             var field = typeof(Baz).GetField(nameof(Baz.Qux));
 
-            var setter = new StaticFieldSetter(field);
+            var setter = new StaticFieldSetter(field!);
 
             setter.Action.Target.Should().BeSameAs(setter);
             setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));
@@ -270,7 +270,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             var field = typeof(Baz).GetField(nameof(Baz.Qux));
 
-            var setter = new StaticFieldSetter<int>(field);
+            var setter = new StaticFieldSetter<int>(field!);
 
             setter.Action.Target.Should().BeSameAs(setter);
             setter.Action.Method.Name.Should().Be(nameof(setter.SetValueReflection));

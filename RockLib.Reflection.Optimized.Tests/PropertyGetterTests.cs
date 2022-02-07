@@ -14,7 +14,7 @@ namespace RockLib.Reflection.Optimized.Tests
             var foo = new Foo("abc");
             var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
 
-            var getter = new PropertyGetter(property);
+            var getter = new PropertyGetter(property!);
 
             getter.Func.Target.Should().BeSameAs(property);
             getter.Func.Method.Name.Should().Be(nameof(property.GetValue));
@@ -47,7 +47,7 @@ namespace RockLib.Reflection.Optimized.Tests
             var foo = new Foo("abc");
             var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
 
-            var getter = new PropertyGetter<string>(property);
+            var getter = new PropertyGetter<string>(property!);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
@@ -80,7 +80,7 @@ namespace RockLib.Reflection.Optimized.Tests
             var foo = new Foo("abc");
             var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
 
-            var getter = new PropertyGetter<Foo, string>(property);
+            var getter = new PropertyGetter<Foo, string>(property!);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
@@ -113,7 +113,7 @@ namespace RockLib.Reflection.Optimized.Tests
             var bar = new Bar { Baz = new Baz(123) };
             var property = typeof(Bar).GetProperty(nameof(Bar.Baz));
 
-            var getter = new PropertyGetter(property);
+            var getter = new PropertyGetter(property!);
 
             getter.Func.Target.Should().BeSameAs(property);
             getter.Func.Method.Name.Should().Be(nameof(property.GetValue));
@@ -146,7 +146,7 @@ namespace RockLib.Reflection.Optimized.Tests
             var bar = new Bar { Baz = new Baz(123) };
             var property = typeof(Bar).GetProperty(nameof(Bar.Baz));
 
-            var getter = new PropertyGetter<IBaz>(property);
+            var getter = new PropertyGetter<IBaz>(property!);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
@@ -179,7 +179,7 @@ namespace RockLib.Reflection.Optimized.Tests
             var bar = new Bar { Baz = new Baz(123) };
             var property = typeof(Bar).GetProperty(nameof(Bar.Baz));
 
-            var getter = new PropertyGetter<Bar, IBaz>(property);
+            var getter = new PropertyGetter<Bar, IBaz>(property!);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
@@ -211,7 +211,7 @@ namespace RockLib.Reflection.Optimized.Tests
         {
             var property = typeof(Garply).GetProperty(nameof(Garply.Bar));
 
-            var getter = new PropertyGetter(property);
+            var getter = new PropertyGetter(property: property!);
 
             getter.Func.Target.Should().BeSameAs(property);
             getter.Func.Method.Name.Should().Be(nameof(property.GetValue));
@@ -243,7 +243,7 @@ namespace RockLib.Reflection.Optimized.Tests
         {
             var property = typeof(Garply).GetProperty(nameof(Garply.Bar));
 
-            var getter = new PropertyGetter<string>(property);
+            var getter = new PropertyGetter<string>(property!);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
@@ -275,7 +275,7 @@ namespace RockLib.Reflection.Optimized.Tests
         {
             var property = typeof(Garply).GetProperty(nameof(Garply.Bar));
 
-            var getter = new PropertyGetter<Garply, string>(property);
+            var getter = new PropertyGetter<Garply, string>(property!);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
@@ -307,7 +307,7 @@ namespace RockLib.Reflection.Optimized.Tests
         {
             var property = typeof(Garply).GetProperty(nameof(Garply.Bar));
 
-            var getter = new StaticPropertyGetter(property);
+            var getter = new StaticPropertyGetter(property!);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
@@ -339,7 +339,7 @@ namespace RockLib.Reflection.Optimized.Tests
         {
             var property = typeof(Garply).GetProperty(nameof(Garply.Bar));
 
-            var getter = new StaticPropertyGetter<string>(property);
+            var getter = new StaticPropertyGetter<string>(property!);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
@@ -371,7 +371,7 @@ namespace RockLib.Reflection.Optimized.Tests
         {
             var property = typeof(Garply).GetProperty(nameof(Garply.Baz));
 
-            var getter = new StaticPropertyGetter(property);
+            var getter = new StaticPropertyGetter(property!);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));
@@ -403,7 +403,7 @@ namespace RockLib.Reflection.Optimized.Tests
         {
             var property = typeof(Garply).GetProperty(nameof(Garply.Baz));
 
-            var getter = new StaticPropertyGetter<IBaz>(property);
+            var getter = new StaticPropertyGetter<IBaz>(property!);
 
             getter.Func.Target.Should().BeSameAs(getter);
             getter.Func.Method.Name.Should().Be(nameof(getter.GetValueReflection));

@@ -21,7 +21,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetterThrowsIfPropertyParameterHasNoGetter()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Baz));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateGetter());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateGetter());
             exception.ParamName.Should().Be("property");
         }
 
@@ -29,7 +29,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetterThrowsIfPropertyParameterHasNonPublicGetter()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Qux));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateGetter());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateGetter());
             exception.ParamName.Should().Be("property");
         }
 
@@ -44,7 +44,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetter1ThrowsIfTheTypeArgumentIsNotCompatibleWithThePropertyType()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateGetter<string>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateGetter<string>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -52,7 +52,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetter1ThrowsIfPropertyParameterHasNoGetter()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Baz));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateGetter<int>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateGetter<int>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -60,7 +60,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetter1ThrowsIfPropertyParameterHasNonPublicGetter()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Qux));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateGetter<int>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateGetter<int>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -75,7 +75,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetter2ThrowsIfTheFirstTypeArgumentIsNotCompatibleWithThePropertyDeclaringType()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateGetter<Fred, int>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateGetter<Fred, int>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -83,7 +83,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetter2ThrowsIfTheSecondTypeArgumentIsNotCompatibleWithThePropertyType()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateGetter<Foo, string>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateGetter<Foo, string>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -91,7 +91,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetter2ThrowsIfPropertyParameterHasNoGetter()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Baz));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateGetter<Foo, int>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateGetter<Foo, int>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -99,7 +99,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateGetter2ThrowsIfPropertyParameterHasNonPublicGetter()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Qux));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateGetter<Foo, int>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateGetter<Foo, int>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -114,7 +114,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetterThrowsIfPropertyParameterHasNoSetter()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Grault));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateSetter());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateSetter());
             exception.ParamName.Should().Be("property");
         }
 
@@ -122,7 +122,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetterThrowsIfPropertyParameterHasNonPublicSetter()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Garply));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateSetter());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateSetter());
             exception.ParamName.Should().Be("property");
         }
 
@@ -137,7 +137,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter1ThrowsIfTheTypeArgumentIsNotCompatibleWithThePropertyType()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateSetter<string>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateSetter<string>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -145,7 +145,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter1ThrowsIfPropertyParameterHasNoSetter()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Grault));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateSetter<int>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateSetter<int>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -153,7 +153,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter1ThrowsIfPropertyParameterHasNonPublicSetter()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Garply));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateSetter<int>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateSetter<int>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -168,7 +168,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter2ThrowsIfTheFirstTypeArgumentIsNotCompatibleWithThePropertyDeclaringType()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateSetter<Fred, int>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateSetter<Fred, int>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -176,7 +176,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter2ThrowsIfTheSecondTypeArgumentIsNotCompatibleWithThePropertyType()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateSetter<Foo, string>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateSetter<Foo, string>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -184,7 +184,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter2ThrowsIfPropertyParameterHasNoSetter()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Grault));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateSetter<Foo, int>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateSetter<Foo, int>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -192,7 +192,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateSetter2ThrowsIfPropertyParameterHasNonPublicSetter()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Garply));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateSetter<Foo, int>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateSetter<Foo, int>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -207,7 +207,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticGetterThrowsIfPropertyParameterHasNoGetter()
         {
             var property = typeof(Corge).GetProperty(nameof(Corge.Baz));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticGetter());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateStaticGetter());
             exception.ParamName.Should().Be("property");
         }
 
@@ -215,7 +215,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticGetterThrowsIfPropertyParameterHasNonPublicGetter()
         {
             var property = typeof(Corge).GetProperty(nameof(Corge.Qux));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticGetter());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateStaticGetter());
             exception.ParamName.Should().Be("property");
         }
 
@@ -223,7 +223,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticGetterThrowsIfPropertyParameterIsNotStatic()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticGetter());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateStaticGetter());
             exception.ParamName.Should().Be("property");
         }
 
@@ -238,7 +238,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticGetter1ThrowsIfTheTypeArgumentIsNotCompatibleWithThePropertyType()
         {
             var property = typeof(Corge).GetProperty(nameof(Corge.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticGetter<string>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateStaticGetter<string>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -246,7 +246,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticGetter1ThrowsIfPropertyParameterHasNoGetter()
         {
             var property = typeof(Corge).GetProperty(nameof(Corge.Baz));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticGetter<int>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateStaticGetter<int>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -254,7 +254,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticGetter1ThrowsIfPropertyParameterHasNonPublicGetter()
         {
             var property = typeof(Corge).GetProperty(nameof(Corge.Qux));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticGetter<int>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateStaticGetter<int>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -262,7 +262,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticGetter1ThrowsIfPropertyParameterIsNotStatic()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticGetter<int>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateStaticGetter<int>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -277,7 +277,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticSetterThrowsIfPropertyParameterHasNoSetter()
         {
             var property = typeof(Corge).GetProperty(nameof(Corge.Grault));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticSetter());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateStaticSetter());
             exception.ParamName.Should().Be("property");
         }
 
@@ -285,7 +285,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticSetterThrowsIfPropertyParameterHasNonPublicSetter()
         {
             var property = typeof(Corge).GetProperty(nameof(Corge.Garply));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticSetter());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateStaticSetter());
             exception.ParamName.Should().Be("property");
         }
 
@@ -293,7 +293,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticSetterThrowsIfPropertyParameterIsNotStatic()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticSetter());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateStaticSetter());
             exception.ParamName.Should().Be("property");
         }
 
@@ -308,7 +308,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticSetter1ThrowsIfTheTypeArgumentIsNotCompatibleWithThePropertyType()
         {
             var property = typeof(Corge).GetProperty(nameof(Corge.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticSetter<string>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateStaticSetter<string>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -316,7 +316,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticSetter1ThrowsIfPropertyParameterHasNoSetter()
         {
             var property = typeof(Corge).GetProperty(nameof(Corge.Grault));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticSetter<int>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateStaticSetter<int>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -324,7 +324,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticSetter1ThrowsIfPropertyParameterHasNonPublicSetter()
         {
             var property = typeof(Corge).GetProperty(nameof(Corge.Garply));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticSetter<int>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateStaticSetter<int>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -332,7 +332,7 @@ namespace RockLib.Reflection.Optimized.Tests
         public void CreateStaticSetter1ThrowsIfPropertyParameterIsNotStatic()
         {
             var property = typeof(Foo).GetProperty(nameof(Foo.Bar));
-            var exception = Assert.Throws<ArgumentException>(() => property.CreateStaticSetter<int>());
+            var exception = Assert.Throws<ArgumentException>(() => property!.CreateStaticSetter<int>());
             exception.ParamName.Should().Be("property");
         }
 
@@ -572,7 +572,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             try
             {
-                getter = property.CreateStaticGetter();
+                getter = property!.CreateStaticGetter();
             }
             finally
             {
@@ -611,7 +611,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             try
             {
-                getter = property.CreateStaticGetter<int>();
+                getter = property!.CreateStaticGetter<int>();
             }
             finally
             {
@@ -650,7 +650,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             try
             {
-                setter = property.CreateStaticSetter();
+                setter = property!.CreateStaticSetter();
             }
             finally
             {
@@ -689,7 +689,7 @@ namespace RockLib.Reflection.Optimized.Tests
 
             try
             {
-                setter = property.CreateStaticSetter<int>();
+                setter = property!.CreateStaticSetter<int>();
             }
             finally
             {
