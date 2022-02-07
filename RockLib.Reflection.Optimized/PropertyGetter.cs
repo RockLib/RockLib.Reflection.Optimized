@@ -30,7 +30,7 @@ namespace RockLib.Reflection.Optimized
             {
                 body = Expression.Call(_property.GetMethod);
             }
-            else if (_property.DeclaringType != null)
+            else if (_property.DeclaringType is not null)
             {
                 body = Expression.Call(
                     Expression.Convert(objParameter, _property.DeclaringType),
@@ -75,7 +75,7 @@ namespace RockLib.Reflection.Optimized
             {
                 body = Expression.Call(_property.GetMethod);
             }
-            else if (_property.DeclaringType != null)
+            else if (_property.DeclaringType is not null)
             {
                 body = Expression.Call(
                     Expression.Convert(objParameter, _property.DeclaringType),

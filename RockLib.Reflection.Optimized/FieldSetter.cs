@@ -32,7 +32,7 @@ namespace RockLib.Reflection.Optimized
                     Expression.Field(null, _field),
                     Expression.Convert(valueParameter, _field.FieldType));
             }
-            else if (_field.DeclaringType != null)
+            else if (_field.DeclaringType is not null)
             {
                 body = Expression.Assign(
                     Expression.Field(
@@ -74,7 +74,7 @@ namespace RockLib.Reflection.Optimized
                     Expression.Field(null, _field),
                     valueParameter);
             }
-            else if (_field.DeclaringType != null)
+            else if (_field.DeclaringType is not null)
             {
                 body = Expression.Assign(
                     Expression.Field(

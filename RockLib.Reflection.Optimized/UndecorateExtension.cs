@@ -38,7 +38,7 @@ namespace RockLib.Reflection.Optimized
             if (!typeof(T).IsInterface)
                 throw new InvalidOperationException($"Generic type argument {nameof(T)} must be an interface, but was: {typeof(T).FullName}");
 
-            while (value != null && GetUndecorateFunc(value.GetType(), typeof(T)) is UndecorateFunc undecorate)
+            while (value is not null && GetUndecorateFunc(value.GetType(), typeof(T)) is UndecorateFunc undecorate)
                 value = (T)undecorate(value);
 
             return value!;
