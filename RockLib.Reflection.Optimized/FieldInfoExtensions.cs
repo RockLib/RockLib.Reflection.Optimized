@@ -68,7 +68,7 @@ namespace RockLib.Reflection.Optimized
         /// <returns>A function that gets the field value.</returns>
         public static Func<TDeclaringType, TFieldType> CreateGetter<TDeclaringType, TFieldType>(this FieldInfo field)
         {
-            if (field is null)
+            if (field is null || field.DeclaringType is null)
                 throw new ArgumentNullException(nameof(field));
             if (!field.DeclaringType.IsAssignableFrom(typeof(TDeclaringType)))
                 throw new ArgumentException("field.DeclaringType must be assignable from TDeclaringType", nameof(field));
@@ -149,7 +149,7 @@ namespace RockLib.Reflection.Optimized
                 throw new ArgumentNullException(nameof(field));
             if (!field.FieldType.IsAssignableFrom(typeof(TFieldType)))
                 throw new ArgumentException("field.FieldType must be assignable from TFieldType", nameof(field));
-            if (!field.DeclaringType.IsAssignableFrom(typeof(TDeclaringType)))
+            if (field.DeclaringType is null || !field.DeclaringType.IsAssignableFrom(typeof(TDeclaringType)))
                 throw new ArgumentException("field.DeclaringType must be assignable from TDeclaringType", nameof(field));
             if (field.IsInitOnly)
                 throw new ArgumentException("field cannot be readonly", nameof(field));

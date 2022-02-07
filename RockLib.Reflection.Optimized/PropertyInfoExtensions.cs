@@ -21,7 +21,7 @@ namespace RockLib.Reflection.Optimized
         {
             if (property is null)
                 throw new ArgumentNullException(nameof(property));
-            if (!property.CanRead || !property.GetMethod.IsPublic)
+            if (!property.CanRead || !property.GetMethod!.IsPublic)
                 throw new ArgumentException("Property must have public getter.", nameof(property));
 
             var getter = new PropertyGetter(property);
@@ -46,7 +46,7 @@ namespace RockLib.Reflection.Optimized
                 throw new ArgumentNullException(nameof(property));
             if (!typeof(TPropertyType).IsAssignableFrom(property.PropertyType))
                 throw new ArgumentException("TPropertyType must be assignable from property.PropertyType", nameof(property));
-            if (!property.CanRead || !property.GetMethod.IsPublic)
+            if (!property.CanRead || property.GetMethod is null || !property.GetMethod.IsPublic)
                 throw new ArgumentException("property must have public getter", nameof(property));
 
             var getter = new PropertyGetter<TPropertyType>(property);
@@ -74,11 +74,11 @@ namespace RockLib.Reflection.Optimized
         {
             if (property is null)
                 throw new ArgumentNullException(nameof(property));
-            if (!property.DeclaringType.IsAssignableFrom(typeof(TDeclaringType)))
+            if (property.DeclaringType is null || !property.DeclaringType.IsAssignableFrom(typeof(TDeclaringType)))
                 throw new ArgumentException("property.DeclaringType must be assignable from TDeclaringType", nameof(property));
             if (!typeof(TPropertyType).IsAssignableFrom(property.PropertyType))
                 throw new ArgumentException("TPropertyType must be assignable from property.PropertyType", nameof(property));
-            if (!property.CanRead || !property.GetMethod.IsPublic)
+            if (!property.CanRead || property.GetMethod is null || !property.GetMethod.IsPublic)
                 throw new ArgumentException("property must have public getter", nameof(property));
 
             var getter = new PropertyGetter<TDeclaringType, TPropertyType>(property);
@@ -98,7 +98,7 @@ namespace RockLib.Reflection.Optimized
         {
             if (property is null)
                 throw new ArgumentNullException(nameof(property));
-            if (!property.CanWrite || !property.SetMethod.IsPublic)
+            if (!property.CanWrite || property.SetMethod is null || !property.SetMethod.IsPublic)
                 throw new ArgumentException("property must have public setter", nameof(property));
 
             var setter = new PropertySetter(property);
@@ -124,7 +124,7 @@ namespace RockLib.Reflection.Optimized
                 throw new ArgumentNullException(nameof(property));
             if (!property.PropertyType.IsAssignableFrom(typeof(TPropertyType)))
                 throw new ArgumentException("property.PropertyType must be assignable from TPropertyType", nameof(property));
-            if (!property.CanWrite || !property.SetMethod.IsPublic)
+            if (!property.CanWrite || property.SetMethod is null || !property.SetMethod.IsPublic)
                 throw new ArgumentException("property must have public setter", nameof(property));
 
             var setter = new PropertySetter<TPropertyType>(property);
@@ -155,9 +155,9 @@ namespace RockLib.Reflection.Optimized
                 throw new ArgumentNullException(nameof(property));
             if (!property.PropertyType.IsAssignableFrom(typeof(TPropertyType)))
                 throw new ArgumentException("property.PropertyType must be assignable from TPropertyType", nameof(property));
-            if (!property.DeclaringType.IsAssignableFrom(typeof(TDeclaringType)))
+            if (property.DeclaringType is null || !property.DeclaringType.IsAssignableFrom(typeof(TDeclaringType)))
                 throw new ArgumentException("property.DeclaringType must be assignable from TDeclaringType", nameof(property));
-            if (!property.CanWrite || !property.SetMethod.IsPublic)
+            if (!property.CanWrite || property.SetMethod is null || !property.SetMethod.IsPublic)
                 throw new ArgumentException("property must have public setter", nameof(property));
 
             var setter = new PropertySetter<TDeclaringType, TPropertyType>(property);
@@ -174,7 +174,7 @@ namespace RockLib.Reflection.Optimized
         {
             if (property is null)
                 throw new ArgumentNullException(nameof(property));
-            if (!property.CanRead || !property.GetMethod.IsPublic)
+            if (!property.CanRead || property.GetMethod is null || !property.GetMethod.IsPublic)
                 throw new ArgumentException("Property must have public getter.", nameof(property));
             if (!property.GetMethod.IsStatic)
                 throw new ArgumentException("Property must be static.", nameof(property));
@@ -199,7 +199,7 @@ namespace RockLib.Reflection.Optimized
                 throw new ArgumentNullException(nameof(property));
             if (!typeof(TPropertyType).IsAssignableFrom(property.PropertyType))
                 throw new ArgumentException("TPropertyType must be assignable from property.PropertyType", nameof(property));
-            if (!property.CanRead || !property.GetMethod.IsPublic)
+            if (!property.CanRead || property.GetMethod is null || !property.GetMethod.IsPublic)
                 throw new ArgumentException("property must have public getter", nameof(property));
             if (!property.GetMethod.IsStatic)
                 throw new ArgumentException("Property must be static.", nameof(property));
@@ -219,7 +219,7 @@ namespace RockLib.Reflection.Optimized
         {
             if (property is null)
                 throw new ArgumentNullException(nameof(property));
-            if (!property.CanWrite || !property.SetMethod.IsPublic)
+            if (!property.CanWrite || property.SetMethod is null || !property.SetMethod.IsPublic)
                 throw new ArgumentException("property must have public setter", nameof(property));
             if (!property.SetMethod.IsStatic)
                 throw new ArgumentException("Property must be static.", nameof(property));
@@ -245,7 +245,7 @@ namespace RockLib.Reflection.Optimized
                 throw new ArgumentNullException(nameof(property));
             if (!property.PropertyType.IsAssignableFrom(typeof(TPropertyType)))
                 throw new ArgumentException("property.PropertyType must be assignable from TPropertyType", nameof(property));
-            if (!property.CanWrite || !property.SetMethod.IsPublic)
+            if (!property.CanWrite || property.SetMethod is null || !property.SetMethod.IsPublic)
                 throw new ArgumentException("property must have public setter", nameof(property));
             if (!property.SetMethod.IsStatic)
                 throw new ArgumentException("Property must be static.", nameof(property));

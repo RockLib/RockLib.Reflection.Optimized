@@ -121,7 +121,7 @@ namespace RockLib.Reflection.Optimized
 
             Expression body;
 
-            if (_property.SetMethod.IsStatic)
+            if (_property.SetMethod!.IsStatic)
                 body = Expression.Call(
                     _property.SetMethod,
                     valueParameter);

@@ -26,7 +26,7 @@ namespace RockLib.Reflection.Optimized
 
             Expression body;
 
-            if (_property.GetMethod.IsStatic)
+            if (_property.GetMethod!.IsStatic)
             {
                 body = Expression.Call(_property.GetMethod);
             }
@@ -114,7 +114,7 @@ namespace RockLib.Reflection.Optimized
 
             Expression body;
 
-            if (_property.GetMethod.IsStatic)
+            if (_property.GetMethod!.IsStatic)
                 body = Expression.Call(_property.GetMethod);
             else
                 body = Expression.Call(objParameter, _property.GetMethod);
