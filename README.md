@@ -1,8 +1,8 @@
-# RockLib.Reflection.Optimized [![Build status](https://ci.appveyor.com/api/projects/status/p3ovl21n6hoih61f?svg=true)](https://ci.appveyor.com/project/RockLib/rocklib-reflection-optimized) [![NuGet](https://img.shields.io/nuget/vpre/RockLib.Reflection.Optimized.svg)](https://www.nuget.org/packages/RockLib.Reflection.Optimized)
+# RockLib.Reflection.Optimized
 
 *Extension methods to improve reflection performance.*
 
-##### Table of Contents
+## Table of Contents
 - [Supported Targets](#supported-targets)
 - [PropertyInfo and FieldInfo extension methods](#propertyinfo-and-fieldinfo-extension-methods)
   - [CreateGetter / CreateSetter](#creategetter--createsetter)
@@ -14,7 +14,7 @@
 
 ------
 
-### Supported Targets
+## Supported Targets
 
 This library supports the following targets:
   - .NET 6
@@ -29,7 +29,7 @@ RockLib.Reflection.Optimized has extension methods for two types: [`System.Refle
 
 The following code snippet demonstrates usage of the `CreateGetter` and `CreateSetter` extension methods for `PropertyInfo` (usage for `FieldInfo` is identical):
 
-```c#
+```csharp
 using System.Reflection;
 using RockLib.Reflection.Optimized;
 
@@ -73,7 +73,7 @@ If a `PropertyInfo` or `FieldInfo` represents a static property or field, then t
 
 If it is known that a `PropertyInfo` or `FieldInfo` is static, then the `CreateStaticGetter` and `CreateStaticSetter` extension methods can be used, as in the following `FieldInfo` example (usage for `PropertyInfo` is identical):
 
-```c#
+```csharp
 using System.Reflection;
 using RockLib.Reflection.Optimized;
 
@@ -111,7 +111,7 @@ Similar to their non-static counterpoints, the `CreateStaticGetter` and `CreateS
 
 RockLib.Reflection.Optimized also contains an `Undecorate` extension method. This extension method checks to see if an object implementing an interface is a decorator for that interface, and if it is, unwraps it. __An object is considered a decorator if it has an instance field of the same type as the interface it implements.__ To unwrap a decorator object, the value of its interface instance field is used instead. The following example demonstrates usage of the `Undecorate` extension method:
 
-```c#
+```csharp
 void Main()
 {
     IFoo foo = new FooDecorator(new AnotherFooDecorator { Foo = new MutableFoo() });
