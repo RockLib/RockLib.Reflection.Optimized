@@ -715,7 +715,7 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
 #pragma warning disable CA1812 // Used with reflection to test the extensions
-        private class Foo
+        private sealed class Foo
         {
             public int Bar { get; set; }
 #pragma warning disable CA1822 // Needed to check that CreateGetter throws with no get specified
@@ -726,12 +726,12 @@ namespace RockLib.Reflection.Optimized.Tests
             public int Garply { get; private set; }
         }
 
-        private class Fred
+        private sealed class Fred
         {
         }
 #pragma warning restore CA1812
 
-        private class Corge
+        private static class Corge
         {
             public static int Bar { get; set; }
             public static int Baz { set { } }

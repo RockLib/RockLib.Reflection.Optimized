@@ -66,18 +66,18 @@ namespace RockLib.Reflection.Optimized.Tests
         {
         }
 
-        private class ConcreteFoo : IFoo
+        private sealed class ConcreteFoo : IFoo
         {
         }
 
-        private class DecoratorFoo1 : IFoo
+        private sealed class DecoratorFoo1 : IFoo
         {
             private readonly IFoo _foo;
 
             public DecoratorFoo1(IFoo foo) => _foo = foo;
         }
 
-        private class DecoratorFoo2 : IFoo
+        private sealed class DecoratorFoo2 : IFoo
         {
             public DecoratorFoo2()
             {
@@ -87,7 +87,7 @@ namespace RockLib.Reflection.Optimized.Tests
             public IFoo Foo { get; set; }
         }
 
-        private class NonDecoratorFoo : IFoo
+        private sealed class NonDecoratorFoo : IFoo
         {
         }
 
@@ -95,7 +95,7 @@ namespace RockLib.Reflection.Optimized.Tests
         {
         }
 
-        private class ConcreteBar : AbstractBar
+        private sealed class ConcreteBar : AbstractBar
         {
         }
 
