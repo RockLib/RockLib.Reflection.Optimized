@@ -300,7 +300,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
         }
 
-        private class Foo
+        private sealed class Foo
         {
             public int Bar;
 
@@ -310,7 +310,7 @@ namespace RockLib.Reflection.Optimized.Tests
             }
         }
 
-        private class Baz
+        private static class Baz
         {
             public static int Qux = -1;
         }

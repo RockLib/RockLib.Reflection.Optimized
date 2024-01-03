@@ -430,13 +430,13 @@ namespace RockLib.Reflection.Optimized.Tests
             }
         }
 
-        private class Foo
+        private sealed class Foo
         {
             public Foo(string bar) => Bar = bar;
             public string Bar { get; }
         }
 
-        private class Bar
+        private sealed class Bar
         {
             public Baz Baz { get; set; }
         }
@@ -452,7 +452,9 @@ namespace RockLib.Reflection.Optimized.Tests
             public int Qux { get; }
         }
 
-        private class Garply
+#pragma warning disable CA1812
+        private sealed class Garply
+#pragma warning restore CA1812
         {
             private Garply() {}
             public static string Bar => "abc";

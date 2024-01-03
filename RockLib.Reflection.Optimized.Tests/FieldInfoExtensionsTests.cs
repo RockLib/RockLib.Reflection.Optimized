@@ -595,7 +595,7 @@ namespace RockLib.Reflection.Optimized.Tests
         }
 
 #pragma warning disable CA1812 // Used with reflection to test the extensions
-        private class Foo
+        private sealed class Foo
         {
             public int Bar;
             public readonly int Grault;
@@ -607,22 +607,17 @@ namespace RockLib.Reflection.Optimized.Tests
             }
         }
 
-        private class Fred
+        private sealed class Fred
         {
         }
 #pragma warning restore CA1812
 
-        private class Corge
+        private static class Corge
         {
+#pragma warning disable CS0649
             public static int Bar;
-#pragma warning disable CS0649 // This is only used to check that a readonly static setter can't be created.  Other rules trigger by fixing this.
             public readonly static int Grault;
 #pragma warning restore CS0649
-
-            public Corge()
-            {
-                Bar = 0;
-            }
         }
     }
 }

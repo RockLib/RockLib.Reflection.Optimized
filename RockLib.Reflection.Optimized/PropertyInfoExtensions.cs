@@ -19,8 +19,12 @@ namespace RockLib.Reflection.Optimized
         /// <returns>A function that gets the property value.</returns>
         public static Func<object, object> CreateGetter(this PropertyInfo property)
         {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(property);
+#else
             if (property is null)
                 throw new ArgumentNullException(nameof(property));
+#endif
             if (!property.CanRead || !property.GetMethod!.IsPublic)
                 throw new ArgumentException("Property must have public getter.", nameof(property));
 
@@ -42,8 +46,12 @@ namespace RockLib.Reflection.Optimized
         /// <returns>A function that gets the property value.</returns>
         public static Func<object, TPropertyType> CreateGetter<TPropertyType>(this PropertyInfo property)
         {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(property);
+#else
             if (property is null)
                 throw new ArgumentNullException(nameof(property));
+#endif
             if (!typeof(TPropertyType).IsAssignableFrom(property.PropertyType))
                 throw new ArgumentException("TPropertyType must be assignable from property.PropertyType", nameof(property));
             if (!property.CanRead || property.GetMethod is null || !property.GetMethod.IsPublic)
@@ -72,10 +80,16 @@ namespace RockLib.Reflection.Optimized
         /// <returns>A function that gets the property value.</returns>
         public static Func<TDeclaringType, TPropertyType> CreateGetter<TDeclaringType, TPropertyType>(this PropertyInfo property)
         {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(property);
+#else
             if (property is null)
                 throw new ArgumentNullException(nameof(property));
+#endif
             if (property.DeclaringType is null || !property.DeclaringType.IsAssignableFrom(typeof(TDeclaringType)))
+#pragma warning disable CA2208 // Instantiate argument exceptions correctly
                 throw new ArgumentException("property.DeclaringType must be assignable from TDeclaringType", nameof(property));
+#pragma warning restore CA2208 // Instantiate argument exceptions correctly
             if (!typeof(TPropertyType).IsAssignableFrom(property.PropertyType))
                 throw new ArgumentException("TPropertyType must be assignable from property.PropertyType", nameof(property));
             if (!property.CanRead || property.GetMethod is null || !property.GetMethod.IsPublic)
@@ -96,8 +110,12 @@ namespace RockLib.Reflection.Optimized
         /// <returns>An action that sets the property value.</returns>
         public static Action<object, object> CreateSetter(this PropertyInfo property)
         {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(property);
+#else
             if (property is null)
                 throw new ArgumentNullException(nameof(property));
+#endif
             if (!property.CanWrite || property.SetMethod is null || !property.SetMethod.IsPublic)
                 throw new ArgumentException("property must have public setter", nameof(property));
 
@@ -120,10 +138,16 @@ namespace RockLib.Reflection.Optimized
         /// <returns>An action that sets the property value.</returns>
         public static Action<object, TPropertyType> CreateSetter<TPropertyType>(this PropertyInfo property)
         {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(property);
+#else
             if (property is null)
                 throw new ArgumentNullException(nameof(property));
+#endif
             if (!property.PropertyType.IsAssignableFrom(typeof(TPropertyType)))
+#pragma warning disable CA2208 // Instantiate argument exceptions correctly
                 throw new ArgumentException("property.PropertyType must be assignable from TPropertyType", nameof(property));
+#pragma warning restore CA2208 // Instantiate argument exceptions correctly
             if (!property.CanWrite || property.SetMethod is null || !property.SetMethod.IsPublic)
                 throw new ArgumentException("property must have public setter", nameof(property));
 
@@ -151,12 +175,18 @@ namespace RockLib.Reflection.Optimized
         /// <returns>An action that sets the property value.</returns>
         public static Action<TDeclaringType, TPropertyType> CreateSetter<TDeclaringType, TPropertyType>(this PropertyInfo property)
         {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(property);
+#else
             if (property is null)
                 throw new ArgumentNullException(nameof(property));
+#endif
             if (!property.PropertyType.IsAssignableFrom(typeof(TPropertyType)))
+#pragma warning disable CA2208 // Instantiate argument exceptions correctly
                 throw new ArgumentException("property.PropertyType must be assignable from TPropertyType", nameof(property));
             if (property.DeclaringType is null || !property.DeclaringType.IsAssignableFrom(typeof(TDeclaringType)))
                 throw new ArgumentException("property.DeclaringType must be assignable from TDeclaringType", nameof(property));
+#pragma warning restore CA2208 // Instantiate argument exceptions correctly
             if (!property.CanWrite || property.SetMethod is null || !property.SetMethod.IsPublic)
                 throw new ArgumentException("property must have public setter", nameof(property));
 
@@ -172,8 +202,12 @@ namespace RockLib.Reflection.Optimized
         /// <returns>A function that gets the static property value.</returns>
         public static Func<object> CreateStaticGetter(this PropertyInfo property)
         {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(property);
+#else
             if (property is null)
                 throw new ArgumentNullException(nameof(property));
+#endif
             if (!property.CanRead || property.GetMethod is null || !property.GetMethod.IsPublic)
                 throw new ArgumentException("Property must have public getter.", nameof(property));
             if (!property.GetMethod.IsStatic)
@@ -195,8 +229,12 @@ namespace RockLib.Reflection.Optimized
         /// <returns>A function that gets the static property value.</returns>
         public static Func<TPropertyType> CreateStaticGetter<TPropertyType>(this PropertyInfo property)
         {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(property);
+#else
             if (property is null)
                 throw new ArgumentNullException(nameof(property));
+#endif
             if (!typeof(TPropertyType).IsAssignableFrom(property.PropertyType))
                 throw new ArgumentException("TPropertyType must be assignable from property.PropertyType", nameof(property));
             if (!property.CanRead || property.GetMethod is null || !property.GetMethod.IsPublic)
@@ -217,8 +255,12 @@ namespace RockLib.Reflection.Optimized
         /// <returns>An action that sets the static property value.</returns>
         public static Action<object> CreateStaticSetter(this PropertyInfo property)
         {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(property);
+#else
             if (property is null)
                 throw new ArgumentNullException(nameof(property));
+#endif
             if (!property.CanWrite || property.SetMethod is null || !property.SetMethod.IsPublic)
                 throw new ArgumentException("property must have public setter", nameof(property));
             if (!property.SetMethod.IsStatic)
@@ -241,10 +283,16 @@ namespace RockLib.Reflection.Optimized
         /// <returns>An action that sets the static property value.</returns>
         public static Action<TPropertyType> CreateStaticSetter<TPropertyType>(this PropertyInfo property)
         {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(property);
+#else
             if (property is null)
                 throw new ArgumentNullException(nameof(property));
+#endif
             if (!property.PropertyType.IsAssignableFrom(typeof(TPropertyType)))
+#pragma warning disable CA2208 // Instantiate argument exceptions correctly
                 throw new ArgumentException("property.PropertyType must be assignable from TPropertyType", nameof(property));
+#pragma warning restore CA2208 // Instantiate argument exceptions correctly
             if (!property.CanWrite || property.SetMethod is null || !property.SetMethod.IsPublic)
                 throw new ArgumentException("property must have public setter", nameof(property));
             if (!property.SetMethod.IsStatic)
